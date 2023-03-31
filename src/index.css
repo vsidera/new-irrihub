@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.greenButton {
+    background-color: green;
+    color: white;
+  }
+  
