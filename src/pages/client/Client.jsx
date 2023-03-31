@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Table from "../../components/table/table"
+import Table from "../../components/table/table";
 import {
   Accordion,
   AccordionDetails,
@@ -11,7 +11,7 @@ import {
 import { Card, CardActions, CardContent, Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Switch } from "@material-ui/core";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const getMuiTheme = () =>
   createTheme({
@@ -68,7 +68,6 @@ const getMuiTheme = () =>
           },
         },
       },
-     
     },
   });
 
@@ -114,97 +113,96 @@ const Clients = () => {
 
   const actions = [
     {
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "id": 1,
-      "phone": "+1-555-555-5555",
-      "location": "Kakamega"
+      name: "John Doe",
+      email: "john.doe@example.com",
+      id: 1,
+      phone: "+1-555-555-5555",
+      location: "Kakamega",
     },
     {
-      "name": "Jane Smith",
-      "email": "jane.smith@example.com",
-      "id": 2,
-      "phone": "+1-555-555-5556",
-      "location": "Kisumu"
+      name: "Jane Smith",
+      email: "jane.smith@example.com",
+      id: 2,
+      phone: "+1-555-555-5556",
+      location: "Kisumu",
     },
     {
-      "name": "Bob Johnson",
-      "email": "bob.johnson@example.com",
-      "id": 3,
-      "phone": "+1-555-555-5557",
-      "location": "Eldoret"
+      name: "Bob Johnson",
+      email: "bob.johnson@example.com",
+      id: 3,
+      phone: "+1-555-555-5557",
+      location: "Eldoret",
     },
     {
-      "name": "Samantha Lee",
-      "email": "samantha.lee@example.com",
-      "id": 4,
-      "phone": "+1-555-555-5558",
-      "location": "Wajir"
+      name: "Samantha Lee",
+      email: "samantha.lee@example.com",
+      id: 4,
+      phone: "+1-555-555-5558",
+      location: "Wajir",
     },
     {
-      "name": "Michael Chen",
-      "email": "michael.chen@example.com",
-      "id": 5,
-      "phone": "+1-555-555-5559",
-      "location": "Lamu"
-    }
-  ]
-  
+      name: "Michael Chen",
+      email: "michael.chen@example.com",
+      id: 5,
+      phone: "+1-555-555-5559",
+      location: "Lamu",
+    },
+  ];
 
   const columns = [
     {
-     name: "name",
-     label: "NAME",
-     options: {
-      filter: true,
-      sort: false,
-     }
+      name: "name",
+      label: "NAME",
+      options: {
+        filter: true,
+        sort: false,
+      },
     },
     {
-     name: "email",
-     label: "EMAIL",
-     options: {
-      filter: true,
-      sort: false,
-     }
+      name: "email",
+      label: "EMAIL",
+      options: {
+        filter: true,
+        sort: false,
+      },
     },
     {
-     name: "phone",
-     label: "PHONE",
-     options: {
-      filter: true,
-      sort: false,
-     }
+      name: "phone",
+      label: "PHONE",
+      options: {
+        filter: true,
+        sort: false,
+      },
     },
     {
-     name: "location",
-     label: "LOCATION",
-     options: {
-      filter: true,
-      sort: false,
-     }
-    }
-   ];
+      name: "location",
+      label: "LOCATION",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
 
   const options = {
     filter: false,
-    filterType: 'textField',
-    responsive: 'standard',
+    filterType: "textField",
+    responsive: "standard",
     print: false,
     tableId: "03009226196169874",
     fixedHeader: true,
-    fontFamily: 'Ubuntu',
+    fontFamily: "Ubuntu",
     viewColumns: false,
     selectableRows: "none",
     fixedSelectColumn: true,
-    tableBodyHeight: 'auto',
-    enableNestedDataAccess: '.',
+    tableBodyHeight: "auto",
+    enableNestedDataAccess: ".",
     elevation: 0,
     count: 30,
     rowsPerPageOptions: [10, 20, 50],
     downloadOptions: {
-      separator: ',',
-      filename: 'Customers Summary.csv',
+      separator: ",",
+      filename: "Customers Summary.csv",
       filterOptions: {
         useDisplayedColumnsOnly: false, // it was true
         useDisplayedRowsOnly: false, // it was true
@@ -212,16 +210,20 @@ const Clients = () => {
     },
     downloadFile: true,
     onDownload: (buildHead, buildBody, columns, data) => {
-      let val = `${buildHead(columns)}${buildBody(data)}`.replace(/[^\x00-\x7F]/g, "").toString().trim();
+      let val = `${buildHead(columns)}${buildBody(data)}`
+        .replace(/[^\x00-\x7F]/g, "")
+        .toString()
+        .trim();
       return val;
     },
-   
+
     textLabels: {
       body: {
-        noMatch: isLoaded ? "Sorry, no matching records exist in Irrihub"
-          : <div >
-            ......
-          </div>,
+        noMatch: isLoaded ? (
+          "Sorry, no matching records exist in Irrihub"
+        ) : (
+          <div>......</div>
+        ),
         toolTip: "Sort",
       },
       pagination: {
@@ -239,9 +241,9 @@ const Clients = () => {
       },
       setFilterChipProps: () => {
         return {
-          color: 'primary',
-          variant: 'outlined',
-          className: 'testClass123',
+          color: "primary",
+          variant: "outlined",
+          className: "testClass123",
         };
       },
       viewColumns: {
@@ -253,22 +255,74 @@ const Clients = () => {
         delete: "Delete",
         deleteAria: "Delete Selected Records",
       },
-    }
-  }
+    },
+  };
 
   return (
     <div className="container mx-auto mt-12">
       <div className="flex flex-wrap -mx-4">
         <div className="w-full md:w-1/2 px-4 mb-8">
           <div className="bg-white rounded-lg shadow-xl p-6">
-            <h2 className="text-2xl font-bold mb-4">Device Details</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h2 className="text-2xl font-bold mb-4">Owner Details</h2>
+            <div className="flex items-center mb-4">
+              <div className="w-1/2 pl-4">
+                <p className="font-bold mb-2">Valves:</p>
+                <p className="flex justify-between items-center mb-2">
+                  <span>6</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+                <p className="font-bold mb-2">Pumps:</p>
+                <p className="flex justify-between items-center mb-2">
+                  <span>8</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+              </div>
+              <div className="w-1/2 pl-4">
+                <p className="font-bold mb-2">Bulbs:</p>
+                <p className="flex justify-between items-center mb-2">
+                  <span>12</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+                <p className="font-bold mb-2">Location:</p>
+                <p className="flex justify-between items-center">
+                  <span>Home</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+              </div>
+            </div>
+            {/* <hr className="border-blue-500 my-4"> */}
           </div>
         </div>
         <div className="w-full md:w-1/2 px-4 mb-8">
           <div className="bg-white rounded-lg shadow-xl p-6">
-            <h2 className="text-2xl font-bold mb-4">Device Action Logs</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h2 className="text-2xl font-bold mb-4">Owner Details</h2>
+            <div className="flex items-center mb-4">
+              <div className="w-1/2 pl-4">
+                <p className="font-bold mb-2">Valves:</p>
+                <p className="flex justify-between items-center mb-2">
+                  <span>6</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+                <p className="font-bold mb-2">Pumps:</p>
+                <p className="flex justify-between items-center mb-2">
+                  <span>8</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+              </div>
+              <div className="w-1/2 pl-4">
+                <p className="font-bold mb-2">Bulbs:</p>
+                <p className="flex justify-between items-center mb-2">
+                  <span>12</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+                <p className="font-bold mb-2">Location:</p>
+                <p className="flex justify-between items-center">
+                  <span>Home</span>
+                  <span className="text-right ml-2"> </span>
+                </p>
+              </div>
+            </div>
+            {/* <hr className="border-blue-500 my-4"> */}
           </div>
         </div>
 
@@ -277,15 +331,9 @@ const Clients = () => {
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>Action Logs</Typography>
             </AccordionSummary>
-            {/* <AccordionDetails className="w-full"> */}
-              {/* <Typography> */}
-              <ThemeProvider theme={getMuiTheme()}>
-
+            <ThemeProvider theme={getMuiTheme()}>
               <Table columns={columns} options={options} data={actions} />
-              </ThemeProvider>
-               
-              {/* </Typography> */}
-            {/* </AccordionDetails> */}
+            </ThemeProvider>
           </Accordion>
 
           <div className="bg-white rounded-lg shadow-xl p-6">
