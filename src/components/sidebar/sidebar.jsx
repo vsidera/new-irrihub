@@ -27,15 +27,16 @@ export default function Sidebar({children}) {
                 } flex flex-col h-screen p-3 bg-gray-800 shadow-2xl duration-300`}
             >
                 <div className="space-y-3">
+                      
                     <div className="flex items-center justify-between">
-                        <div className="mr-2">
+                    <div className="mr-2">
                         <img src={logoUrl} alt="Logo" />
                         </div>
                    
                         <button onClick={() => setOpen(!open)}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="w-6 h-6 text-white"
+                                className="w-5 h-5 text-white"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -55,7 +56,7 @@ export default function Sidebar({children}) {
                         <ul className="pt-2 pb-4 space-y-1 text-sm">
                             <li className="rounded-sm">
                                 <a
-                                    href={`/apps/${id}/contacts`}
+                                    href={`/profile`}
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg
@@ -74,13 +75,13 @@ export default function Sidebar({children}) {
                                     </svg>
                     
                          
-                                    <span className="text-white text-xl text-thin font-extralight ">Contacts</span>
+                                    <span className="text-white text-xl text-thin font-extralight ">Profile</span>
                  
                                 </a>
                             </li>
                             <li className="rounded-sm">
                                 <a
-                                    href={`/apps/${id}/messages`}
+                                    href={`/smarthome`}
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg
@@ -98,12 +99,12 @@ export default function Sidebar({children}) {
                                         />
                                     </svg>
                        
-                                    <span className="text-white text-xl text-thin font-extralight">Messages</span>
+                                    <span className="text-white text-xl text-thin font-extralight">Smart Home</span>
                                 </a>
                             </li>
                             <li className="rounded-sm">
                                 <a
-                                    href={`/apps/${id}/appservices`}
+                                    href={`/smartfarm`}
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg
@@ -121,13 +122,13 @@ export default function Sidebar({children}) {
                                         />
                                     </svg>
                                     <span className="text-white text-xl text-thin font-extralight">
-                                        Org Sender Ids
+                                        Smart Farm
                                     </span>
                                 </a>
                             </li>
                             <li className="rounded-sm">
                                 <a
-                                    href="#"
+                                    href="/analytics"
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg
@@ -150,7 +151,7 @@ export default function Sidebar({children}) {
                                         />
                                     </svg>
                                     <span className="text-white text-xl text-thin font-extralight">
-                                        Irrihub
+                                        Analytics
                                     </span>
                                 </a>
                             </li>
