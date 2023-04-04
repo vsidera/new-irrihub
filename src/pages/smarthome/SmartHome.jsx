@@ -33,7 +33,7 @@ const SmartFarm = () => {
   return (
     <Sidebar>
       <h1 className="text-2xl text-black mb-6">Smart Home</h1>
-      <h4 className="text-md text-gray-800 font-serif">
+      <h4 className="text-md text-blue-900 font-serif">
         {" "}
         The Smartest Home in Africa
       </h4>
@@ -56,7 +56,7 @@ const SmartFarm = () => {
               {bulbs.map((bulb) => (
                 <div
                   key={bulb.id}
-                  className="bg-gray-100 p-4 rounded-lg shadow-sm"
+                  className="bg-gray-100 p-4 rounded-lg shadow-sm mb-2"
                 >
                   <h4 className="text-lg font-normal mb-2">{bulb.name}</h4>
                   <div className="flex items-center">

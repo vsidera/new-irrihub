@@ -3,7 +3,7 @@ import { useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Backdrop } from "@mui/material";
 import { Box, CardContent, TextField } from "@mui/material";
-import { serviceCreate } from "../../actions/services/servicesAction";
+import { serviceCreate } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../utils/snackbar";
 
 const CreateDeviceModal = ({

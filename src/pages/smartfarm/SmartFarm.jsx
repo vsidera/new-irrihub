@@ -55,7 +55,7 @@ const SmartFarm = () => {
   return (
     <Sidebar>
       <h1 className="text-2xl text-black mb-6">Smart Farm</h1>
-      <h4 className="text-md text-gray-800 font-serif">
+      <h4 className="text-md text-blue-900 font-serif">
         {" "}
         The Smartest Farm in Africa
       </h4>

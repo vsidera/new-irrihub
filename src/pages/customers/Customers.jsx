@@ -6,6 +6,7 @@ import AdminSidebar from "../../components/adminSidebar/adminSidebar";
 import AddCustomerModal from "../../components/modals/add_customer";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
+import { customerList } from "../../actions/customer/customerAction";
 
 const getMuiTheme = () =>
   createTheme({
@@ -67,74 +68,67 @@ const getMuiTheme = () =>
   });
 
 const Customers = () => {
-  // const [users, setUsers] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [createModal, setCreateModal] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10)
+
+  const getCustomers = () => {
+
+    customerList({limit,page})
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setCustomers(res.data);
+         
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getCustomers();
+    setIsLoaded(true)
+
+  }, [page,limit]);
 
   const closeCreateModal = (e) => {
     e.preventDefault();
     setCreateModal(false)
   }
 
-  const customers = [
-    {
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "id": 1,
-      "phone": "+1-555-555-5555",
-      "location": "Kakamega"
-    },
-    {
-      "name": "Jane Smith",
-      "email": "jane.smith@example.com",
-      "id": 2,
-      "phone": "+1-555-555-5556",
-      "location": "Kisumu"
-    },
-    {
-      "name": "Bob Johnson",
-      "email": "bob.johnson@example.com",
-      "id": 3,
-      "phone": "+1-555-555-5557",
-      "location": "Eldoret"
-    },
-    {
-      "name": "Samantha Lee",
-      "email": "samantha.lee@example.com",
-      "id": 4,
-      "phone": "+1-555-555-5558",
-      "location": "Wajir"
-    },
-    {
-      "name": "Michael Chen",
-      "email": "michael.chen@example.com",
-      "id": 5,
-      "phone": "+1-555-555-5559",
-      "location": "Lamu"
-    }
-  ]
-  
-
   const columns = [
     {
-     name: "name",
-     label: "NAME",
+     name: "firstname",
+     label: "FIRST NAME",
      options: {
       filter: true,
       sort: false,
      }
     },
     {
-     name: "email",
-     label: "EMAIL",
+      name: "lastname",
+      label: "LAST NAME",
+      options: {
+       filter: true,
+       sort: false,
+      }
+     },
+    {
+     name: "type",
+     label: "TYPE",
      options: {
       filter: true,
       sort: false,
      }
     },
     {
-     name: "phone",
+     name: "mobile_no",
      label: "PHONE",
      options: {
       filter: true,
@@ -142,8 +136,8 @@ const Customers = () => {
      }
     },
     {
-     name: "location",
-     label: "LOCATION",
+     name: "createdat",
+     label: "CREATED",
      options: {
       filter: true,
       sort: false,

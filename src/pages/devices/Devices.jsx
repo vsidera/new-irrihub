@@ -7,6 +7,7 @@ import RegisterUserModal from "../../components/modals/register_user";
 import CreateDeviceModal from "../../components/modals/add_device";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import QueueIcon from '@mui/icons-material/Queue';
+import { deviceList } from "../../actions/device/deviceAction";
 
 const getMuiTheme = () =>
   createTheme({
@@ -68,108 +69,74 @@ const getMuiTheme = () =>
   });
 
 const Devices = () => {
-  // const [users, setUsers] = useState([]);
+  const [devices, setDevices] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [deviceModal, setDeviceModal] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10)
 
   const closeDeviceModal = (e) => {
     e.preventDefault();
     setDeviceModal(false)
   }
 
-  const devices = [
-    {
-      "name": "Device One",
-      "email": "john.doe@example.com",
-      "id": 1,
-      "phone": "+1-555-555-5555",
-      "location": "Kakamega",
-      "status": "ON"
-    },
-    {
-      "name": "Device Two",
-      "email": "jane.smith@example.com",
-      "id": 2,
-      "phone": "+1-555-555-5556",
-      "location": "Kisumu",
-      "status": "OFF"
-    },
-    {
-      "name": "Device Three",
-      "email": "bob.johnson@example.com",
-      "id": 3,
-      "phone": "+1-555-555-5557",
-      "location": "Eldoret",
-      "status": "OFF"
-    },
-    {
-      "name": "Device Four",
-      "email": "samantha.lee@example.com",
-      "id": 4,
-      "phone": "+1-555-555-5558",
-      "location": "Wajir",
-      "status": "ON"
-    },
-    {
-      "name": "Device Five",
-      "email": "michael.chen@example.com",
-      "id": 5,
-      "phone": "+1-555-555-5559",
-      "location": "Lamu",
-      "status": "OFF"
-    }
-  ]
-  
+  const getDevices = () => {
+
+    deviceList({limit,page})
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setDevices(res.data);
+         
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getDevices();
+    setIsLoaded(true)
+
+  }, [page,limit]);
 
   const columns = [
     {
       name: "id",
-      label: "SERIAL",
+      label: "ID",
       options: {
        filter: true,
        sort: false,
       }
      },
     {
-     name: "name",
-     label: "NAME",
+     name: "imei",
+     label: "IMEI",
      options: {
       filter: true,
       sort: false,
      }
     },
     {
-     name: "email",
-     label: "OWNER",
+     name: "createdat",
+     label: "CREATED AT",
      options: {
       filter: true,
       sort: false,
      }
     },
     {
-     name: "phone",
-     label: "PHONE",
+     name: "updatedat",
+     label: "UPDATED AT",
      options: {
       filter: true,
       sort: false,
      }
     },
-    {
-     name: "location",
-     label: "LOCATION",
-     options: {
-      filter: true,
-      sort: false,
-     }
-    },
-    {
-      name: "status",
-      label: "STATUS",
-      options: {
-       filter: true,
-       sort: false,
-      }
-     },
+  
    ];
 
   const options = {

@@ -2,13 +2,13 @@ import axios from 'axios';
 import apiUrl from "../../utils/apiUtils/apiUrl";
 import { authHeaders } from '../../utils/headers/headers';
 
-export function messagesAction(app_id) {
-    // const messagesUrl = apiUrl.LIST_MESSAGES;
-    const messagesUrl = `${apiUrl.LIST_MESSAGES}/${app_id}/list`;
+export function customerList(app_id) {
+
+    const customersUrl = `${apiUrl.LIST_CUSTOMERS}`;
     const config = authHeaders();
   
     return axios
-      .get(messagesUrl, config)
+      .get(customersUrl, config)
       .then((res) => {
       
         if (res.data && res.status === 200) {

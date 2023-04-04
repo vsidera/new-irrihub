@@ -1,7 +1,10 @@
 export const {REACT_APP_SUSS_URL } = process.env;
+export const {REACT_APP_IRRIHUB_URL } = process.env;
 
 export default {
-    LOGIN_URL: `${REACT_APP_SUSS_URL}/public/user/token`,
+    LOGIN_URL: `${REACT_APP_IRRIHUB_URL}/public/login`,
+    LIST_DEVICES: `${REACT_APP_IRRIHUB_URL}/api/v1/device/list`,
+    LIST_CUSTOMERS: `${REACT_APP_IRRIHUB_URL}/api/v1/customer/list`,
     LIST_CONTACTS: `${REACT_APP_SUSS_URL}/api/v1/contact`,
     CREATE_CONTACT: `${REACT_APP_SUSS_URL}/api/v1/contact`,
     CREATE_USER: `${REACT_APP_SUSS_URL}/api/v1/user/:app_id/registration`,

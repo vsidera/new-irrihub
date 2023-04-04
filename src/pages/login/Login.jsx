@@ -37,8 +37,8 @@ const Login = () => {
     e.preventDefault();
 
     const formValues = {
-      username: username,
-      password: password,
+      mobile_no: username,
+      pin: password,
     };
     loginAction(formValues)
       .then((res) => {
@@ -115,7 +115,7 @@ const Login = () => {
                   for="email"
                   class="block mb-2 text-lg font-light text-black dark:text-white text-center"
                 >
-                  Your email
+                  Mobile Number
                 </label>
                 <input
                   type="email"
@@ -133,7 +133,7 @@ const Login = () => {
                   for="password"
                   class="block mb-2 text-lg font-light text-gray-900 dark:text-white text-center"
                 >
-                  Password
+                  Pin
                 </label>
                 <input
                   type="password"

@@ -2,12 +2,12 @@ import axios from 'axios';
 import apiUrl from "../../utils/apiUtils/apiUrl";
 import { authHeaders } from '../../utils/headers/headers';
 
-export function servicesAction(formValues) {
-    const servicesUrl = `${apiUrl.LIST_SERVICES}?page=${formValues.page}&limit=${formValues.limit}`;
+export function deviceList(formValues) {
+    const devicesUrl = `${apiUrl.LIST_DEVICES}?page=${formValues.page}&limit=${formValues.limit}`;
     const config = authHeaders();
   
     return axios
-      .get(servicesUrl, config)
+      .get(devicesUrl, config)
       .then((res) => {
       
         if (res.data && res.status === 200) {

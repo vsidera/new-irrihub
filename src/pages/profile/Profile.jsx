@@ -231,7 +231,7 @@ const Profile = () => {
   return (
     <Sidebar>
       <h1 className="text-2xl text-black mb-6">Profile</h1>
-      <h4 className="text-md text-gray-800 font-serif">
+      <h4 className="text-md text-blue-900 font-serif">
         {" "}
         Details about the Device and Owner
       </h4>
@@ -241,7 +241,7 @@ const Profile = () => {
             <div className="w-full md:w-1/2 px-4 mb-4">
               <div className="rounded-lg shadow-lg p-4">
                 <div className="bg-gray-100 rounded-lg p-4">
-                  <h2 className="text-lg font-normal mb-2">DEVICE DETAILS</h2>
+                  <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
                   <div className="flex items-center mb-4">
                     <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
                       <p className="font-normal mb-2">
@@ -267,7 +267,7 @@ const Profile = () => {
             <div className="w-full md:w-1/2 px-4 mb-4">
               <div className="rounded-lg shadow-lg p-4">
                 <div className="bg-gray-100 rounded-lg p-4">
-                  <h2 className="text-lg font-normal mb-2">MORE DETAILS</h2>
+                  <h2 className=" font-normal mb-2 ml-4">MORE DETAILS</h2>
                   <div className="flex items-center mb-4">
                     <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
                       <p className="font-normal mb-2">
