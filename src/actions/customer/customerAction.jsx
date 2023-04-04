@@ -2,9 +2,9 @@ import axios from 'axios';
 import apiUrl from "../../utils/apiUtils/apiUrl";
 import { authHeaders } from '../../utils/headers/headers';
 
-export function customerList(app_id) {
+export function customerList(formValues) {
 
-    const customersUrl = `${apiUrl.LIST_CUSTOMERS}`;
+    const customersUrl = `${apiUrl.LIST_CUSTOMERS}?page=${formValues.page}&limit=${formValues.limit}`;
     const config = authHeaders();
   
     return axios

@@ -99,7 +99,7 @@ const Users = () => {
     getUsers();
     setIsLoaded(true)
 
-  }, [page,limit]);
+  }, [page,limit, registerModal]);
   
 
   const columns = [
