@@ -4,7 +4,7 @@ import Modal from "@mui/material/Modal";
 import { Backdrop } from "@mui/material";
 import { Box, CardContent, TextField } from '@mui/material';
 import SnackbarAlert from "../utils/snackbar";
-import { userCreate } from "../../actions/login/loginAction";
+import { userCreate } from "../../actions/user/userAction";
 
 const RegisterUserModal = ({
   registerModal,
@@ -18,10 +18,11 @@ const RegisterUserModal = ({
     const [isButtonClicked, setIsButtonClicked] = useState(false);
   
     const [state, setState] = React.useState({
-      email: '',
+      mobile_no: '',
       firstname: '',
       lastname: '',
-      password: ''
+      pin: '',
+      type: ''
     });
   
     const handleChange = (e) => {
@@ -36,10 +37,10 @@ const RegisterUserModal = ({
       e.preventDefault();
   
       const newUser = {
-        email: state.email,
+        mobile_no: state.mobile_no,
         firstname: state.firstname,
         lastname: state.lastname,
-        password: state.password
+        pin: state.pin
       };
   
       const res = userCreate(newUser).then((res) => {
@@ -70,7 +71,7 @@ const RegisterUserModal = ({
     left: "50%",
     transform: "translate(-40%, -20%)",
     width: 500,
-    height: 450,
+    height: 520,
     bgcolor: "#ffff",
     outline: "none",
     border: "none",
@@ -105,15 +106,22 @@ const RegisterUserModal = ({
           <br />
 
           <div style={{ display: "flex", flexDirection: "column" }}>
+          <div className="my-2">
+          
+            <select id="user-type" name="user-type" onChange={handleChange} className="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <option value="CLIENT">CLIENT</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
             <div className="my-2">
               <TextField
                 id="outlined-basic"
-                name="email"
-                label="Email"
+                name="mobile_no"
+                label="Mobile No"
                 variant="outlined"
                 className="w-full"
                 type="text"
-                value={state.email}
+                value={state.mobile_no}
                 onChange={handleChange}
               />
             </div>
@@ -144,12 +152,12 @@ const RegisterUserModal = ({
             <div className="my-2">
               <TextField
                 id="outlined-basic"
-                name="password"
-                label="Password"
+                name="pin"
+                label="Pin"
                 variant="outlined"
                 className="w-full"
                 type="password"
-                value={state.password}
+                value={state.pin}
                 onChange={handleChange}
               />
             </div>
