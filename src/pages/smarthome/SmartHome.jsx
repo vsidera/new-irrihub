@@ -15,9 +15,9 @@ const SmartFarm = () => {
 
   const [bulbs, setBulbs] = useState([
     { id: "b1", name: "Bulb 1", uuid:"b1", mode: "manual", status: "ON", sensor: "20C" },
-    { id: "b2", name: "Bulb 2", uuid:"b2", mode: "auto", status: "OFF" ,sensor: "20C"},
+    { id: "b2", name: "Bulb 2", uuid:"b2", mode: "manual", status: "OFF" ,sensor: "20C"},
     { id: "b3", name: "Bulb 3", uuid:"b3", mode: "manual", status: "OFF", sensor: "20C" },
-    { id: "b4", name: "Bulb 2", uuid:"b4", mode: "auto", status: "ON",sensor: "20C" },
+    { id: "b4", name: "Bulb 2", uuid:"b4", mode: "manual", status: "ON",sensor: "20C" },
   ]);
 
   // const handleStatusChange = (id) => (event) => {
@@ -87,9 +87,6 @@ const SmartFarm = () => {
       });
     }
   };
-
-  console.log("BULB ID IS!!!!!!",bulbs)
-  
 
 
   return (

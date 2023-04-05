@@ -53,7 +53,7 @@ const Login = () => {
           setEventTitle('LOGIN');
           setIsSnackBarAlertOpen(true);
           setTimeout(() => {
-            navigate("/apps");
+            navigate("/user-devices");
             // props.history.push('/sidebar');
           }, 1000);
         }

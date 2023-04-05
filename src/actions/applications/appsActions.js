@@ -34,7 +34,7 @@ export function appsAction(formValues) {
       });
   }
 
-  export function userApps() {
+  export function userDevices() {
     const appsUrl = `${apiUrl.USER_APPS}`;
     const config = authHeaders();
   

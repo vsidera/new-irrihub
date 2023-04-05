@@ -10,6 +10,7 @@ import SmartHome from "./pages/smarthome/SmartHome";
 import SmartFarm from "./pages/smartfarm/SmartFarm";
 import Analytics from "./pages/analytics/Analytics";
 import Profile from "./pages/profile/Profile";
+import UserDevices from "./pages/user-devices/UserDevices";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path='smarthome' element={<SmartHome/>} />
           <Route path='analytics' element={<Analytics/>} />
           <Route path='profile' element={<Profile/>} />
+          <Route path='user-devices' element={<UserDevices/>} />
   
         </Routes>
       </BrowserRouter>

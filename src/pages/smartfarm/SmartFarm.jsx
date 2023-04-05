@@ -3,30 +3,39 @@ import Sidebar from "../../components/sidebar/sidebar";
 import { Accordion, AccordionSummary, Tab, Tabs} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Switch } from "@material-ui/core";
+import { sendCommand } from "../../actions/device/deviceAction";
+import SnackbarAlert from "../../components/utils/snackbar";
 
 const SmartFarm = () => {
+
+  const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
+  const [eventType, setEventType] = useState('');
+  const [eventMessage, setEventMessage] = useState('');
+  const [eventTitle, setEventTitle] = useState('');
 
   const [activeTab, setActiveTab] = useState(0);
 
   const [pumps, setPumps] = useState( [
-    { id: 1, name: "Pump 1", mode: "manual", status: "ON", sensor: "20C" },
-    { id: 2, name: "Pump 2", mode: "auto", status: "OFF", sensor: "20C" },
-    { id: 3, name: "Pump 3", mode: "manual", status: "ON", sensor: "20C" },
+    { id: "p_s", name: "Pump 1", mode: "manual", status: "ON", sensor: "20C" },
+  
   ]);
 
   const [valves, setValves] = useState( [
-    { id: 1, name: "Valve 1", mode: "manual", status: "OFF" , sensor: "20C"},
-    { id: 2, name: "Valve 2", mode: "auto", status: "ON" , sensor: "20C"},
-    { id: 3, name: "Valve 3", mode: "manual", status: "ON" , sensor: "20C"},
-    { id: 4, name: "Valve 4", mode: "manual", status: "ON" , sensor: "20C"},
-    { id: 5, name: "Valve 5", mode: "auto", status: "ON" , sensor: "20C"},
-    { id: 6, name: "Valve 6", mode: "manual", status: "OFF" , sensor: "20C"},
-    { id: 7, name: "Valve 7", mode: "manual", status: "ON" , sensor: "20C"},
-    { id: 8, name: "Valve 8", mode: "auto", status: "OFF" , sensor: "20C"},
-    { id: 9, name: "Valve 9", mode: "manual", status: "OFF" , sensor: "20C"},
+    { id: "v1_s", name: "Valve 1", mode: "manual", status: "OFF" , sensor: "20C"},
+    { id: "v2_s", name: "Valve 2", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v3_s", name: "Valve 3", mode: "manual", status: "ON" , sensor: "20C"},
+    { id: "v4_s", name: "Valve 4", mode: "manual", status: "ON" , sensor: "20C"},
+    { id: "v5_s", name: "Valve 5", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v6_s", name: "Valve 6", mode: "manual", status: "OFF" , sensor: "20C"},
+    { id: "v7_s", name: "Valve 7", mode: "manual", status: "ON" , sensor: "20C"},
+    { id: "v8_s", name: "Valve 8", mode: "auto", status: "OFF" , sensor: "20C"},
+    { id: "v9_s", name: "Valve 9", mode: "manual", status: "OFF" , sensor: "20C"},
+    { id: "v10_s", name: "Valve 10", mode: "manual", status: "OFF" , sensor: "20C"},
   ]);
 
-  const handleStatusChange = (id) => (event) => {
+  
+
+  const handleValveStatusChange = (id) => (event) => {
     const newStatus = event.target.checked ? "ON" : "OFF";
     if (pumps.find((bulb) => bulb.id === id).status !== newStatus) {
       setPumps(
@@ -37,14 +46,63 @@ const SmartFarm = () => {
     }
   };
 
-  const handleValveStatusChange = (id) => (event) => {
+  const handleStatusChangeAndSwitchValve = (id) => (event) => {
     const newStatus = event.target.checked ? "ON" : "OFF";
-    if (valves.find((bulb) => bulb.id === id).status !== newStatus) {
+    if (valves.find((valve) => valve.id === id).status !== newStatus) {
       setValves(
         valves.map((valve) =>
           valve.id === id ? { ...valve, status: newStatus } : valve
         )
       );
+      const cmdBody = 
+      {
+        "imei": "863576044816911",
+        "command": id,
+        "value": newStatus === "ON" ? "1" : "0"
+      };
+      sendCommand(cmdBody).then((res) => {
+        if (res.status === 200) {
+          setEventType('success');
+          setEventMessage('Command Successfully Sent');
+          setEventTitle('SEND COMMAND');
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType('fail');
+          setEventMessage('COMMAND NOT SENT');
+          setEventTitle('SEND COMMAND');
+          setIsSnackBarAlertOpen(true);
+        }
+      });
+    }
+  };
+
+  const handleStatusChangeAndSwitchPump = (id) => (event) => {
+    const newStatus = event.target.checked ? "ON" : "OFF";
+    if (pumps.find((pump) => pump.id === id).status !== newStatus) {
+      setPumps(
+        pumps.map((pump) =>
+          pump.id === id ? { ...pump, status: newStatus } : pump
+        )
+      );
+      const cmdBody = 
+      {
+        "imei": "863576044816911",
+        "command": id,
+        "value": newStatus === "ON" ? "1" : "0"
+      };
+      sendCommand(cmdBody).then((res) => {
+        if (res.status === 200) {
+          setEventType('success');
+          setEventMessage('Command Successfully Sent');
+          setEventTitle('SEND COMMAND');
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType('fail');
+          setEventMessage('COMMAND NOT SENT');
+          setEventTitle('SEND COMMAND');
+          setIsSnackBarAlertOpen(true);
+        }
+      });
     }
   };
 
@@ -53,6 +111,14 @@ const SmartFarm = () => {
   };
 
   return (
+    <>
+    <SnackbarAlert
+    open={isSnackBarAlertOpen}
+    type={eventType}
+    message={eventMessage}
+    handleClose={() => setIsSnackBarAlertOpen(false)}
+    title={eventTitle}
+  />
     <Sidebar>
       <h1 className="text-2xl text-black mb-6">Smart Farm</h1>
       <h4 className="text-md text-blue-900 font-serif">
@@ -99,7 +165,7 @@ const SmartFarm = () => {
                           </p>
                           <Switch
                             checked={pump.status === "ON"}
-                            onChange={handleStatusChange(pump.id)}
+                            onChange={handleStatusChangeAndSwitchPump(pump.id)}
                             color="primary"
                             inputProps={{ "aria-label": "toggle pump status" }}
                           />
@@ -141,7 +207,7 @@ const SmartFarm = () => {
                           </p>
                           <Switch
                             checked={valve.status === "ON"}
-                            onChange={handleValveStatusChange(valve.id)}
+                            onChange={handleStatusChangeAndSwitchValve(valve.id)}
                             color="primary"
                             inputProps={{ "aria-label": "toggle valve status" }}
                           />
@@ -242,6 +308,7 @@ const SmartFarm = () => {
         )}
     </div>
     </Sidebar>
+    </>
   );
 };
 
