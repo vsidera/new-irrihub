@@ -53,7 +53,18 @@ const Login = () => {
           setEventTitle('LOGIN');
           setIsSnackBarAlertOpen(true);
           setTimeout(() => {
-            navigate("/user-devices");
+            const priviledge = localStorage.getItem('type')
+            console.log(typeof priviledge); 
+            console.log("THE PRIV IS!!!!!!","ADMIN")
+            if (priviledge === '"ADMIN"'){
+              console.log("THEY ARE EQUAL!!!!!!")
+              navigate("/devices");
+            }
+            else{
+              console.log("THEY ARE NOT EQUAL!!!!!!")
+              navigate("/profile");
+
+            }
             // props.history.push('/sidebar');
           }, 1000);
         }

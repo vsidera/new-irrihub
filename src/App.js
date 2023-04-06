@@ -18,15 +18,15 @@ function App() {
       <BrowserRouter>      
         <Routes>
           <Route path='/login' exact element={<Login/>} />
-          <Route path="client-devices/:id" element={<Home/>} />
+          <Route path="my-devices/:id" element={<Home/>} />
           <Route path='users' element={<Users/>} />
           <Route path='customers' element={<Customers/>} />
           <Route path='devices' element={<Devices/>} />
           <Route path='smartfarm' element={<SmartFarm/>} />
           <Route path='smarthome' element={<SmartHome/>} />
           <Route path='analytics' element={<Analytics/>} />
-          <Route path='profile' element={<Profile/>} />
-          <Route path='user-devices' element={<UserDevices/>} />
+          <Route path='my-devices/:id/profile' element={<Profile/>} />
+          <Route path='my-devices' element={<UserDevices/>} />
   
         </Routes>
       </BrowserRouter>
