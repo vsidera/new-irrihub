@@ -74,6 +74,8 @@ const Devices = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [deviceModal, setDeviceModal] = useState(false);
 
+  const [selectedImei, SetSelectedImei] = useState(null)
+
   const imei = 863576044816911
 
   const [page, setPage] = useState(1);
@@ -106,10 +108,12 @@ const Devices = () => {
       });
   };
 
-  const handleClick2 = (code) => {
-    // setAppId(code)
+  const handleClick2 = (imei) => {
+    SetSelectedImei(imei)
     setAttachCustomerModal(true)
   }
+
+  console.log("THE SELECTED IMEI IS!!!!", selectedImei)
 
   useEffect(() => {
     getDevices();
@@ -158,7 +162,7 @@ const Devices = () => {
        sort: false,
        customBodyRender: (tableMeta, dataIndex, rowIndex) => {
         return (
-          <button onClick={() => handleClick2(dataIndex.rowData[4])}>
+          <button onClick={() => handleClick2(dataIndex.rowData[1])}>
           <PersonAddIcon />
           </button>
         );
