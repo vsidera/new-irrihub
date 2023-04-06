@@ -9,7 +9,9 @@ export default {
     CREATE_USER: `${REACT_APP_IRRIHUB_URL}/api/v1/user/create`,
     SEND_COMMAND: `${REACT_APP_IRRIHUB_URL}/api/v1/device/sensor/command`,
     CLIENT_DEVICES: `${REACT_APP_IRRIHUB_URL}/api/v1/customer`,
-    DATA_LOGS: `${REACT_APP_IRRIHUB_URL}/api/v1/device/current/state`,
+    DATA_STATE: `${REACT_APP_IRRIHUB_URL}/api/v1/device/current/state`,
+    ATTACH_CUSTOMER: `${REACT_APP_IRRIHUB_URL}/api/v1/device`,
+    CUSTOMER_SEARCH: `${REACT_APP_IRRIHUB_URL}/api/v1/customer/search`,
 
     LIST_CONTACTS: `${REACT_APP_SUSS_URL}/api/v1/contact`,
     CREATE_CONTACT: `${REACT_APP_SUSS_URL}/api/v1/contact`,

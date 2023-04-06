@@ -13,6 +13,11 @@ export function loginAction(formValues) {
           
           localStorage.setItem('key', JSON.stringify(res.data.token));
           localStorage.setItem('loginTime', new Date().getTime());
+          localStorage.setItem('firstname', JSON.stringify(res.data.details.firstname));
+          localStorage.setItem('lastname', JSON.stringify(res.data.details.lastname));
+          localStorage.setItem('mobile_no', JSON.stringify(res.data.details.mobile_no));
+          localStorage.setItem('type', JSON.stringify(res.data.details.type));
+          localStorage.setItem('id', JSON.stringify(res.data.details.id));
         }
         return res;
       })

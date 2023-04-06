@@ -36,11 +36,11 @@ export function customerList(formValues) {
   }
 
   export function customerAttach(formValues) {
-    const attachUrl = `${apiUrl.SERVICE_ATTACH}/${formValues.appId}/service/${formValues.service_id}`;
+    const attachUrl = `${apiUrl.ATTACH_CUSTOMER}/${formValues.imei}/attach/${formValues.customer_id}`;
     const config = authHeaders();
   
     return axios
-      .post(attachUrl, formValues, config)
+      .put(attachUrl, formValues, config)
       .then((res) => {
       
         if (res.data && res.status === 200) {
@@ -68,7 +68,7 @@ export function customerList(formValues) {
   }  
 
   export function customerSearch(formValues) {
-    const searchUrl = `${apiUrl.SERVICE_SEARCH}/${formValues.app_id}/search?name=${formValues.search}`;
+    const searchUrl = `${apiUrl.CUSTOMER_SEARCH}?mobile=${formValues.search}`;
     const config = authHeaders();
   
     return axios

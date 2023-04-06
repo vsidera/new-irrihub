@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Switch } from "@material-ui/core";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
-import { deviceDataLogs } from "../../actions/device/deviceAction";
+import { deviceDataState } from "../../actions/device/deviceAction";
 
 const SmartFarm = () => {
 
@@ -63,9 +63,9 @@ const SmartFarm = () => {
   };
   
 
-  const getDataLogs = () => {
+  const getDataState = () => {
 
-    deviceDataLogs(imei)
+    deviceDataState(imei)
       .then((res) => {
         if (res.errors) {
           console.log("AN ERROR HAS OCCURED");
@@ -82,7 +82,7 @@ const SmartFarm = () => {
   };
 
   useEffect(() => {
-    getDataLogs();
+    getDataState();
     setIsLoaded(true)
 
   }, []);

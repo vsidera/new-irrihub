@@ -34,8 +34,8 @@ export function deviceList(formValues) {
       });
   }
 
-  export function deviceDataLogs(imei) {
-    const logsUrl = `${apiUrl.DATA_LOGS}/${imei}`;
+  export function deviceDataState(imei) {
+    const logsUrl = `${apiUrl.DATA_STATE}/${imei}`;
     const config = authHeaders();
   
     return axios

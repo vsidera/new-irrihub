@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../../components/table/table";
 import {
   Accordion,
@@ -13,6 +13,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Switch } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Sidebar from "../../components/sidebar/sidebar";
+import { deviceDataState } from "../../actions/device/deviceAction";
 
 const getMuiTheme = () =>
   createTheme({
@@ -77,9 +78,45 @@ const Profile = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const firstname = JSON.parse(localStorage.getItem('firstname'));
+  const lastname = JSON.parse(localStorage.getItem('lastname'));
+  const type = JSON.parse(localStorage.getItem('type'));
+  const mobile_no = JSON.parse(localStorage.getItem('mobile_no'));
+  const id = JSON.parse(localStorage.getItem('id'));
+
+   // const imei = params.id
+   const imei = 863576044816911
+
+  const [data, setData] = useState(false);
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
+
+  const getDataState = () => {
+
+    deviceDataState(imei)
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+
+          setData(res.data);
+  
+         
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getDataState();
+    setIsLoaded(true)
+
+  }, []);
+
 
   const actions = [
     {
@@ -241,22 +278,22 @@ const Profile = () => {
             <div className="w-full md:w-1/2 px-4 mb-4">
               <div className="rounded-lg shadow-lg p-4">
                 <div className="bg-gray-100 rounded-lg p-4">
-                  <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
+                  <h2 className=" font-normal mb-2 ml-4">PROFILE DETAILS</h2>
                   <div className="flex items-center mb-4">
                     <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
                       <p className="font-normal mb-2">
-                        IMEI: <span className="text-gray-700 ml-2">111226</span>
+                        NAME: <span className="text-gray-700 ml-2">{firstname}{` `}{lastname}</span>
                       </p>
                       <p className="font-normal mb-2">
-                        NAME: <span className="text-gray-700 ml-2">Device 1</span>
+                        PHONE: <span className="text-gray-700 ml-2">{mobile_no}</span>
                       </p>
                     </div>
                     <div className="w-1/2 pl-4">
                       <p className="font-normal mb-2">
-                        OWNER: <span className="text-gray-700 ml-4">Victor Siderra</span>
+                        TYPE: <span className="text-gray-700 ml-4">{type}</span>
                       </p>
                       <p className="font-normal mb-2">
-                        LOCATION: <span className="text-gray-700 ml-4">Wajir</span>
+                        ID: <span className="text-gray-700 ml-4">{id}</span>
                       </p>
                     </div>
                   </div>
@@ -267,11 +304,11 @@ const Profile = () => {
             <div className="w-full md:w-1/2 px-4 mb-4">
               <div className="rounded-lg shadow-lg p-4">
                 <div className="bg-gray-100 rounded-lg p-4">
-                  <h2 className=" font-normal mb-2 ml-4">MORE DETAILS</h2>
+                  <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
                   <div className="flex items-center mb-4">
                     <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
                       <p className="font-normal mb-2">
-                        VALVES: <span className="text-gray-700 ml-2">6</span>
+                        IMEI: <span className="text-gray-700 ml-2">{imei}</span>
                       </p>
                       <p className="font-normal mb-2">
                         PUMPS: <span className="text-gray-700 ml-2">8</span>

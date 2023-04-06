@@ -27,13 +27,14 @@ const AttachCustomerModal = ({
   const loadOptions = (inputValue, callback) => {
     customerSearch({ imei, search: inputValue })
       .then((res) => {
+        console.log("DATA IS!!!!!", res.data)
         if (res.errors) {
           console.log("AN ERROR HAS OCCURED");
           callback([], new Error("An error occurred"));
         } else {
-          const options = res.data.map((service) => ({
-            value: service.ID,
-            label: service.sender,
+          const options = res.data.map((customer) => ({
+            value: customer.id,
+            label: customer.mobile_no,
           }));
 
           if (options.length === 0) {
@@ -72,6 +73,7 @@ const AttachCustomerModal = ({
     e.preventDefault();
 
     const customer_id = selectedValue.value;
+
 
     const res = customerAttach({ customer_id, imei }).then((res) => {
       if (res.status === 200) {
