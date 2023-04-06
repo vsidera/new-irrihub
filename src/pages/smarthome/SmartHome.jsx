@@ -31,7 +31,7 @@ const SmartFarm = () => {
   const handleStatusChangeAndSwitch = (subtopic) => (event) => {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? "ON" : "OFF";
-    const newValue = isChecked ? 1 : 0;
+    const newValue = isChecked ? "1" : "0";
     const bulb = bulbs.find((bulb) => bulb.subtopic === subtopic);
   
     if (bulb.value !== newValue) {
