@@ -4,7 +4,7 @@ import AdminSidebar from "../../components/adminSidebar/adminSidebar";
 
 const Home = () => {
   return (
-    <AdminSidebar>
+    <Sidebar>
     <div className="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3 mt-8">
                     <div className="w-full px-4 py-5 bg-white rounded-lg shadow-xl">
                         <div className="text-sm font-medium text-gray-500 truncate">
@@ -31,7 +31,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-    </AdminSidebar>
+    </Sidebar>
   );
 };
 

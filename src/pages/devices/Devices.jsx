@@ -5,9 +5,10 @@ import Table from "../../components/table/table"
 import AdminSidebar from "../../components/adminSidebar/adminSidebar";
 import RegisterUserModal from "../../components/modals/register_user";
 import CreateDeviceModal from "../../components/modals/add_device";
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import QueueIcon from '@mui/icons-material/Queue';
 import { deviceList } from "../../actions/device/deviceAction";
+import AttachCustomerModal from "../../components/modals/attach_customer";
 
 const getMuiTheme = () =>
   createTheme({
@@ -75,10 +76,16 @@ const Devices = () => {
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10)
+  const [attachCustomerModal, setAttachCustomerModal] = useState(false);
 
   const closeDeviceModal = (e) => {
     e.preventDefault();
     setDeviceModal(false)
+  }
+
+  const closeAttachUserModal = (e) => {
+    e.preventDefault();
+    setAttachCustomerModal(false)
   }
 
   const getDevices = () => {
@@ -96,6 +103,11 @@ const Devices = () => {
         console.log(err);
       });
   };
+
+  const handleClick2 = (code) => {
+    // setAppId(code)
+    setAttachCustomerModal(true)
+  }
 
   useEffect(() => {
     getDevices();
@@ -136,6 +148,21 @@ const Devices = () => {
       sort: false,
      }
     },
+    {
+      name: "",
+      label: "Attach User",
+      options: {
+       filter: true,
+       sort: false,
+       customBodyRender: (tableMeta, dataIndex, rowIndex) => {
+        return (
+          <button onClick={() => handleClick2(dataIndex.rowData[4])}>
+          <PersonAddIcon />
+          </button>
+        );
+      }
+      }
+     },
   
    ];
 
@@ -211,6 +238,7 @@ const Devices = () => {
 
   return (
     <AdminSidebar>
+    <AttachCustomerModal attachCustomerModal={attachCustomerModal} closeAttachCustomerModal={closeAttachUserModal}/>
     <CreateDeviceModal deviceModal={deviceModal} closeDeviceModal={closeDeviceModal}/>
     <h1 className="text-2xl text-black mb-6">Devices</h1>
     <h4 className="text-md text-gray-800 font-serif">A list of all the devices </h4>

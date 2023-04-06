@@ -35,6 +35,70 @@ export function customerList(formValues) {
       });
   }
 
+  export function customerAttach(formValues) {
+    const attachUrl = `${apiUrl.SERVICE_ATTACH}/${formValues.appId}/service/${formValues.service_id}`;
+    const config = authHeaders();
+  
+    return axios
+      .post(attachUrl, formValues, config)
+      .then((res) => {
+      
+        if (res.data && res.status === 200) {
+
+            console.log("THE RESPONSE IS !!!!!!!",res)
+          
+        }
+        return res;
+      })
+      .catch((error) => {
+        if (error.response) {
+        
+          return {
+            errors: {
+              _error: 'The user could not be created.',
+            },
+          };
+        }   
+        return {
+          errors: {
+            _error: 'Network error. Please try again.',
+          },
+        };
+      });
+  }  
+
+  export function customerSearch(formValues) {
+    const searchUrl = `${apiUrl.SERVICE_SEARCH}/${formValues.app_id}/search?name=${formValues.search}`;
+    const config = authHeaders();
+  
+    return axios
+      .get(searchUrl, config)
+      .then((res) => {
+      
+        if (res.data && res.status === 200) {
+
+            console.log("THE RESPONSE IS !!!!!!!",res)
+          
+        }
+        return res;
+      })
+      .catch((error) => {
+        if (error.response) {
+        
+          return {
+            errors: {
+              _error: 'The user could not be created.',
+            },
+          };
+        }   
+        return {
+          errors: {
+            _error: 'Network error. Please try again.',
+          },
+        };
+      });
+  }  
+
 
   export function broadcastMessages(formValues) {
     const broadcastUrl = apiUrl.BROADCAST_MESSAGE;

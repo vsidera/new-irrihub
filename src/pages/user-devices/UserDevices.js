@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 
-import { userDevices } from "../../actions/applications/appsActions";
 import AppsCard from "../../components/appsCard/appsCard";
+import { userDevices } from "../../actions/device/deviceAction";
 
 const UserDevices = () => {
-  const [userDevices, setUserDevices] = useState([]);
+  const [clientDevices, setUserDevices] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const userId = 2
+
   const getUserDevices = () => {
-    userDevices()
+    userDevices({userId})
       .then((res) => {
         if (res.errors) {
           console.log("AN ERROR HAS OCCURED");
@@ -38,9 +40,9 @@ const UserDevices = () => {
      <h4 className="text-lg text-primary flex justify-center mb-6 font-serif">
         Select a Device
       </h4>
-    {apps.map((app, index) => (
+    {clientDevices.map((app, index) => (
       <Link
-        to={`/apps/${app.code}`}
+        to={`/client-devices/${app.imei}`}
         key={index}
         className="bg-white rounded-lg shadow-md p-4 m-2 w-2/4 h-24 flex flex-col justify-center items-center"
       >

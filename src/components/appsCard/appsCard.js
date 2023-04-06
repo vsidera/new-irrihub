@@ -14,13 +14,13 @@ const useStyles = makeStyles({
   },
 });
 
-function AppsCard({ name, email, createdat }) {
+function AppsCard({ imei }) {
   const classes = useStyles();
 
   return (
 
       <div>
-      <h2 className="text-lg text-blue-800">{name}</h2>
+      <h2 className="text-lg text-blue-800">{imei}</h2>
       </div>
 
   );

@@ -4,16 +4,15 @@ import Modal from "@mui/material/Modal";
 import { Box, CardContent, TextField, TextareaAutosize } from "@mui/material";
 import AsyncSelect from "react-select/async";
 import {
-  serviceAttach,
-  serviceSearch,
-} from "../../actions/services/servicesAction";
+  customerAttach,
+  customerSearch,
+} from "../../actions/customer/customerAction";
 import SnackbarAlert from "../utils/snackbar";
 
-const AttachServiceModal = ({
-  attachServiceModal,
-  closeAttachServiceModal,
-  app_id,
-  appId,
+const AttachCustomerModal = ({
+  attachCustomerModal,
+  closeAttachCustomerModal,
+  imei,
 }) => {
   const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
   const [eventType, setEventType] = useState("");
@@ -26,7 +25,7 @@ const AttachServiceModal = ({
   const [selectedValue, setSelectedValue] = useState(null);
 
   const loadOptions = (inputValue, callback) => {
-    serviceSearch({ app_id, search: inputValue })
+    customerSearch({ imei, search: inputValue })
       .then((res) => {
         if (res.errors) {
           console.log("AN ERROR HAS OCCURED");
@@ -72,18 +71,18 @@ const AttachServiceModal = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const service_id = selectedValue.value;
+    const customer_id = selectedValue.value;
 
-    const res = serviceAttach({ service_id, app_id }).then((res) => {
+    const res = customerAttach({ customer_id, imei }).then((res) => {
       if (res.status === 200) {
         setEventType("success");
-        setEventMessage("Service Successfully Attached");
-        setEventTitle("SERVICE ATTACH");
+        setEventMessage("Customer Successfully Attached");
+        setEventTitle("CUSTOMER ATTACH");
         setIsSnackBarAlertOpen(true);
       } else {
         setEventType("fail");
-        setEventMessage("Service NOT Attached");
-        setEventTitle("SERVICE ATTACH");
+        setEventMessage("Customer NOT Attached");
+        setEventTitle("CUSTOMER ATTACH");
         setIsSnackBarAlertOpen(true);
       }
     });
@@ -131,16 +130,16 @@ const AttachServiceModal = ({
         title={eventTitle}
       />
       <Modal
-        open={attachServiceModal}
+        open={attachCustomerModal}
         sx={{ border: "none", boxShadow: "none" }}
-        onClose={closeAttachServiceModal}
+        onClose={closeAttachCustomerModal}
       >
         <div>
           <Box sx={style}>
             <CardContent style={{ width: "60%" }}>
               <div className="text-center content-center w-full">
                 <p className="text-xl content-center items center">
-                  ATTACH SERVICE
+                  ATTACH CUSTOMER
                 </p>
 
                 <br />
@@ -181,4 +180,4 @@ const AttachServiceModal = ({
   );
 };
 
-export default AttachServiceModal;
+export default AttachCustomerModal;

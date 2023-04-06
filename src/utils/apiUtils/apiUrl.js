@@ -8,6 +8,9 @@ export default {
     LIST_USERS: `${REACT_APP_IRRIHUB_URL}/api/v1/user/list`,
     CREATE_USER: `${REACT_APP_IRRIHUB_URL}/api/v1/user/create`,
     SEND_COMMAND: `${REACT_APP_IRRIHUB_URL}/api/v1/device/sensor/command`,
+    CLIENT_DEVICES: `${REACT_APP_IRRIHUB_URL}/api/v1/customer`,
+    DATA_LOGS: `${REACT_APP_IRRIHUB_URL}/api/v1/device/current/state`,
+
     LIST_CONTACTS: `${REACT_APP_SUSS_URL}/api/v1/contact`,
     CREATE_CONTACT: `${REACT_APP_SUSS_URL}/api/v1/contact`,
     

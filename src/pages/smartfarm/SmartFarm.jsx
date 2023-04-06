@@ -5,8 +5,17 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Switch } from "@material-ui/core";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
+import { deviceDataLogs } from "../../actions/device/deviceAction";
+import {useParams} from 'react-router-dom';
 
 const SmartFarm = () => {
+
+  const params = useParams();
+
+  // const imei = params.id
+  const imei = 863576044816911
+
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
   const [eventType, setEventType] = useState('');
@@ -15,6 +24,8 @@ const SmartFarm = () => {
 
   const [activeTab, setActiveTab] = useState(0);
 
+  const [dataLogs, setDataLogs] = useState([])
+
   const [pumps, setPumps] = useState( [
     { id: "p_s", name: "Pump 1", mode: "manual", status: "ON", sensor: "20C" },
   
@@ -22,16 +33,54 @@ const SmartFarm = () => {
 
   const [valves, setValves] = useState( [
     { id: "v1_s", name: "Valve 1", mode: "manual", status: "OFF" , sensor: "20C"},
-    { id: "v2_s", name: "Valve 2", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v2_s", name: "Valve 2", mode: "manual", status: "ON" , sensor: "20C"},
     { id: "v3_s", name: "Valve 3", mode: "manual", status: "ON" , sensor: "20C"},
     { id: "v4_s", name: "Valve 4", mode: "manual", status: "ON" , sensor: "20C"},
-    { id: "v5_s", name: "Valve 5", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v5_s", name: "Valve 5", mode: "manual", status: "ON" , sensor: "20C"},
     { id: "v6_s", name: "Valve 6", mode: "manual", status: "OFF" , sensor: "20C"},
     { id: "v7_s", name: "Valve 7", mode: "manual", status: "ON" , sensor: "20C"},
-    { id: "v8_s", name: "Valve 8", mode: "auto", status: "OFF" , sensor: "20C"},
+    { id: "v8_s", name: "Valve 8", mode: "manual", status: "OFF" , sensor: "20C"},
     { id: "v9_s", name: "Valve 9", mode: "manual", status: "OFF" , sensor: "20C"},
     { id: "v10_s", name: "Valve 10", mode: "manual", status: "OFF" , sensor: "20C"},
   ]);
+
+  const [valvesAuto, setValvesAuto] = useState( [
+    { id: "v1_l", name: "Valve 1", mode: "auto", status: "OFF" , sensor: "20C"},
+    { id: "v2_l", name: "Valve 2", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v3_l", name: "Valve 3", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v4_l", name: "Valve 4", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v5_l", name: "Valve 5", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v6_l", name: "Valve 6", mode: "auto", status: "OFF" , sensor: "20C"},
+    { id: "v7_l", name: "Valve 7", mode: "auto", status: "ON" , sensor: "20C"},
+    { id: "v8_l", name: "Valve 8", mode: "auto", status: "OFF" , sensor: "20C"},
+    { id: "v9_l", name: "Valve 9", mode: "auto", status: "OFF" , sensor: "20C"},
+    { id: "v10_l", name: "Valve 10", mode: "auto", status: "OFF" , sensor: "20C"},
+  ]);
+
+
+  const getDataLogs = () => {
+
+    deviceDataLogs(imei)
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setDataLogs(res.data);
+         
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getDataLogs();
+    setIsLoaded(true)
+
+  }, []);
+
+
 
   
 
@@ -273,7 +322,7 @@ const SmartFarm = () => {
         <span className="text-lg font-medium"> VALVES</span>
         </AccordionSummary>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
-                  {valves.map((valve) => (
+                  {valvesAuto.map((valve) => (
                     <div key={valve.id} className="bg-gray-100 p-4 rounded-lg">
                       <h4 className="text-lg font-normal mb-2">{valve.name}</h4>
                       <div className="flex items-center">

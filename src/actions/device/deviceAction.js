@@ -34,6 +34,70 @@ export function deviceList(formValues) {
       });
   }
 
+  export function deviceDataLogs(imei) {
+    const logsUrl = `${apiUrl.DATA_LOGS}/${imei}`;
+    const config = authHeaders();
+  
+    return axios
+      .get(logsUrl, config)
+      .then((res) => {
+      
+        if (res.data && res.status === 200) {
+
+            console.log("THE RESPONSE IS !!!!!!!",res)
+          
+        }
+        return res;
+      })
+      .catch((error) => {
+        if (error.response) {
+        
+          return {
+            errors: {
+              _error: 'The contacts could not be returned.',
+            },
+          };
+        }   
+        return {
+          errors: {
+            _error: 'Network error. Please try again.',
+          },
+        };
+      });
+  }
+
+  export function userDevices(formValues) {
+    const clientDevicesUrl = `${apiUrl.CLIENT_DEVICES}/${formValues.userId}/device/list`;
+    const config = authHeaders();
+  
+    return axios
+      .get(clientDevicesUrl, config)
+      .then((res) => {
+      
+        if (res.data && res.status === 200) {
+
+            console.log("THE RESPONSE IS !!!!!!!",res)
+          
+        }
+        return res;
+      })
+      .catch((error) => {
+        if (error.response) {
+        
+          return {
+            errors: {
+              _error: 'The contacts could not be returned.',
+            },
+          };
+        }   
+        return {
+          errors: {
+            _error: 'Network error. Please try again.',
+          },
+        };
+      });
+  }
+
   export function sendCommand(formValues) {
     const sendCommandUrl = apiUrl.SEND_COMMAND;
     const config = authHeaders();
