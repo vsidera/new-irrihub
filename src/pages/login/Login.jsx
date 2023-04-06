@@ -62,7 +62,7 @@ const Login = () => {
             }
             else{
               console.log("THEY ARE NOT EQUAL!!!!!!")
-              navigate("/profile");
+              navigate("/my-devices");
 
             }
             // props.history.push('/sidebar');

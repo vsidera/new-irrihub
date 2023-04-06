@@ -56,7 +56,7 @@ export default function Sidebar({children}) {
                         <ul className="pt-2 pb-4 space-y-1 text-sm">
                             <li className="rounded-sm">
                                 <a
-                                    href={`${id}/profile`}
+                                    href={`/${id}/profile`}
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg
@@ -81,7 +81,7 @@ export default function Sidebar({children}) {
                             </li>
                             <li className="rounded-sm">
                                 <a
-                                    href={`${id}/smarthome`}
+                                    href={`/${id}/smarthome`}
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg
@@ -104,7 +104,7 @@ export default function Sidebar({children}) {
                             </li>
                             <li className="rounded-sm">
                                 <a
-                                    href={`${id}/smartfarm`}
+                                    href={`/${id}/smartfarm`}
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg
@@ -128,7 +128,7 @@ export default function Sidebar({children}) {
                             </li>
                             <li className="rounded-sm">
                                 <a
-                                    href={`${id}/analytics`}
+                                    href={`/${id}/analytics`}
                                     className="flex items-center p-2 space-x-3 rounded-md"
                                 >
                                     <svg

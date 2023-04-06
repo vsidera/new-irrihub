@@ -42,7 +42,7 @@ const UserDevices = () => {
       </h4>
     {clientDevices.map((app, index) => (
       <Link
-        to={`/my-devices/${app.imei}`}
+        to={`/${app.imei}/profile`}
         key={index}
         className="bg-white rounded-lg shadow-md p-4 m-2 w-2/4 h-24 flex flex-col justify-center items-center"
       >
