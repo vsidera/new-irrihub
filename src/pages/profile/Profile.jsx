@@ -14,6 +14,7 @@ import { Switch } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Sidebar from "../../components/sidebar/sidebar";
 import { deviceDataState, deviceDataLogs } from "../../actions/device/deviceAction";
+import { useParams } from "react-router-dom";
 
 const getMuiTheme = () =>
   createTheme({
@@ -74,6 +75,8 @@ const getMuiTheme = () =>
   });
 
 const Profile = () => {
+
+  const params = useParams();
   const [activeTab, setActiveTab] = useState(0);
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -84,8 +87,7 @@ const Profile = () => {
   const mobile_no = JSON.parse(localStorage.getItem('mobile_no'));
   const id = JSON.parse(localStorage.getItem('id'));
 
-   // const imei = params.id
-   const imei = 863576044816911
+   const imei = params.id
 
   const [dataLogs, setDataLogs] = useState([]);
 

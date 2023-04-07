@@ -6,10 +6,14 @@ import { Switch } from "@material-ui/core";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
 import { deviceDataState } from "../../actions/device/deviceAction";
+import {useParams} from 'react-router-dom';
 
 const SmartFarm = () => {
 
-  const imei = 863576044816911
+
+  const params = useParams();
+
+  const imei = params.id
 
   const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
   const [eventType, setEventType] = useState('');
@@ -40,7 +44,7 @@ const SmartFarm = () => {
       );
   
       const cmdBody = {
-        imei: "863576044816911",
+        imei: imei,
         command: subtopic,
         value: newValue.toString(),
       };

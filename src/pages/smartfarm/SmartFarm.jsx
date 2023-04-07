@@ -13,7 +13,7 @@ const SmartFarm = () => {
   const params = useParams();
 
   const imei = params.id
-  // const imei = 863576044816911
+  
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -119,7 +119,7 @@ const SmartFarm = () => {
       );
   
       const cmdBody = {
-        imei: "863576044816911",
+        imei: imei,
         command: subtopic,
         value: newValue.toString(),
       };
@@ -153,7 +153,7 @@ const SmartFarm = () => {
       );
   
       const cmdBody = {
-        imei: "863576044816911",
+        imei: imei,
         command: subtopic,
         value: newValue.toString(),
       };
@@ -187,7 +187,7 @@ const SmartFarm = () => {
       );
   
       const cmdBody = {
-        imei: "863576044816911",
+        imei: imei,
         command: subtopic,
         value: newValue.toString(),
       };
