@@ -10,6 +10,7 @@ export default {
     SEND_COMMAND: `${REACT_APP_IRRIHUB_URL}/api/v1/device/sensor/command`,
     CLIENT_DEVICES: `${REACT_APP_IRRIHUB_URL}/api/v1/customer`,
     DATA_STATE: `${REACT_APP_IRRIHUB_URL}/api/v1/device/current/state`,
+    DATA_LOGS: `${REACT_APP_IRRIHUB_URL}/api/v1/device/data/logs`,
     ATTACH_CUSTOMER: `${REACT_APP_IRRIHUB_URL}/api/v1/device`,
     CUSTOMER_SEARCH: `${REACT_APP_IRRIHUB_URL}/api/v1/customer/search`,
 

@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Switch } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Sidebar from "../../components/sidebar/sidebar";
-import { deviceDataState } from "../../actions/device/deviceAction";
+import { deviceDataState, deviceDataLogs } from "../../actions/device/deviceAction";
 
 const getMuiTheme = () =>
   createTheme({
@@ -87,7 +87,9 @@ const Profile = () => {
    // const imei = params.id
    const imei = 863576044816911
 
-  const [data, setData] = useState(false);
+  const [dataLogs, setDataLogs] = useState([]);
+
+  const [dataState, setDataState] = useState([]);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -101,7 +103,25 @@ const Profile = () => {
           console.log("AN ERROR HAS OCCURED");
         } else {
 
-          setData(res.data);
+          setDataState(res.data);
+  
+         
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getDataLogs = () => {
+
+    deviceDataLogs(imei)
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+
+          setDataLogs(res.data);
   
          
         }
@@ -113,60 +133,22 @@ const Profile = () => {
 
   useEffect(() => {
     getDataState();
+    getDataLogs();
     setIsLoaded(true)
 
   }, []);
 
-
-  const actions = [
-    {
-      name: "John Doe",
-      imei: "111111",
-      id: 1,
-      action: "Switched On",
-      location: "Kakamega",
-    },
-    {
-      name: "Jane Smith",
-      imei: "22222222",
-      id: 2,
-      action: "Switched Off",
-      location: "Kisumu",
-    },
-    {
-      name: "Bob Johnson",
-      imei: "33333333",
-      id: 3,
-      action: "Deactivated",
-      location: "Eldoret",
-    },
-    {
-      name: "Samantha Lee",
-      imei: "44444444",
-      id: 4,
-      action: "Switched On",
-      location: "Wajir",
-    },
-    {
-      name: "Michael Chen",
-      imei: "55555555",
-      id: 5,
-      action: "Switched Off",
-      location: "Lamu",
-    },
-  ];
-
   const columns = [
     {
-      name: "name",
-      label: "OWNER",
+      name: "id",
+      label: "ID",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "imei",
+      name: "device_imei",
       label: "IMEI",
       options: {
         filter: true,
@@ -174,16 +156,24 @@ const Profile = () => {
       },
     },
     {
-      name: "location",
-      label: "LOCATION",
+      name: "subtopic",
+      label: "SUB TOPIC",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "action",
-      label: "ACTION",
+      name: "value",
+      label: "STATUS",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "createdat",
+      label: "CREATED",
       options: {
         filter: true,
         sort: false,
@@ -330,8 +320,8 @@ const Profile = () => {
             <div className="w-full px-4">
               <div className="bg-white rounded-lg shadow-xl p-6">
                 <Tabs value={activeTab} onChange={handleTabChange}>
-                  <Tab label="Device Action Logs" />
-                  <Tab label="Device Details Logs" />
+                  <Tab label="Device Data Logs" />
+                  <Tab label="Device Current State" />
                 </Tabs>
                 {activeTab === 0 && (
                   <div>
@@ -339,7 +329,7 @@ const Profile = () => {
                       <Table
                         columns={columns}
                         options={options}
-                        data={actions}
+                        data={dataLogs}
                       />
                     </ThemeProvider>
                   </div>
@@ -350,7 +340,7 @@ const Profile = () => {
                       <Table
                         columns={columns}
                         options={options}
-                        data={actions}
+                        data={dataState}
                       />
                     </ThemeProvider>
                   </div>

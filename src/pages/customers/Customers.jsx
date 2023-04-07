@@ -237,7 +237,7 @@ const Customers = () => {
     <AddCustomerModal createModal={createModal} closeCreateModal={closeCreateModal} />
     <h1 className="text-2xl text-black mb-6">Customers</h1>
     <h4 className="text-md text-gray-800 font-serif">A list of all the customers </h4>
-    <div className="flex justify-end">
+    {/* <div className="flex justify-end">
         <button
           type="button"
           className="text-white w-40 bg-blue-900 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 mt-4 flex items-center mr-2"
@@ -246,7 +246,7 @@ const Customers = () => {
           <PersonAddAlt1Icon />
           <p className="ml-4">Add Customer</p>
         </button>
-      </div>
+      </div> */}
     <div className="mt-4">
       <ThemeProvider theme={getMuiTheme()}>
 

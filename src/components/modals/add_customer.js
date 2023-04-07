@@ -147,7 +147,7 @@ const AddCustomerModal = ({
             <div className="my-2">
               <TextField
                 id="outlined-basic"
-                name="lastname"
+                name="location"
                 label="Location"
                 variant="outlined"
                 className="w-full"

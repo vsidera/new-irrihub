@@ -19,13 +19,13 @@ const SmartFarm = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [bulbs, setBulbs] = useState([
-    { id: "b1", name: "Bulb 1", uuid:"b1", mode: "manual", status: "", sensor: "20C", subtopic: "", value: "" , device_imei: ""},
-    { id: "b2", name: "Bulb 2", uuid:"b2", mode: "manual", status: "" ,sensor: "20C", subtopic: "", value:"",  device_imei: ""},
-    { id: "b3", name: "Bulb 3", uuid:"b3", mode: "manual", status: "", sensor: "20C", subtopic: "" , value: "",  device_imei: ""},
-    { id: "b4", name: "Bulb 4", uuid:"b4", mode: "manual", status: "",sensor: "20C", subtopic: "", value: "",  device_imei: "" },
+    // { id: "b1", name: "Bulb 1", uuid:"b1", mode: "manual", status: "", sensor: "20C", subtopic: "", value: "" , device_imei: ""},
+    // { id: "b2", name: "Bulb 2", uuid:"b2", mode: "manual", status: "" ,sensor: "20C", subtopic: "", value:"",  device_imei: ""},
+    // { id: "b3", name: "Bulb 3", uuid:"b3", mode: "manual", status: "", sensor: "20C", subtopic: "" , value: "",  device_imei: ""},
+    // { id: "b4", name: "Bulb 4", uuid:"b4", mode: "manual", status: "",sensor: "20C", subtopic: "", value: "",  device_imei: "" },
   ]);
 
-  console.log("SUBTOPICS IS!!!!!!!!", bulbs[0].value)
+  // console.log("SUBTOPICS IS!!!!!!!!", bulbs[0].value)
 
 
   const handleStatusChangeAndSwitch = (subtopic) => (event) => {
@@ -125,7 +125,7 @@ const SmartFarm = () => {
                   <h4 className="text-lg font-normal mb-2">{bulb.device_imei}</h4>
                   <div className="flex items-center">
                     <p className="mr-4">
-                      ID: <span className="font-medium">{bulb.id}</span>
+                      SUB TOPIC: <span className="font-medium">{bulb.subtopic}</span>
                     </p>
                     <div className="flex items-center">
                       <p className="mr-4">

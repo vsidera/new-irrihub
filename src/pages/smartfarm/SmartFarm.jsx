@@ -12,8 +12,8 @@ const SmartFarm = () => {
 
   const params = useParams();
 
-  // const imei = params.id
-  const imei = 863576044816911
+  const imei = params.id
+  // const imei = 863576044816911
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -25,9 +25,11 @@ const SmartFarm = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const [pumps, setPumps] = useState( [
-    { id: "p_s", name: "Pump 1", mode: "manual", status: "ON", sensor: "20C" },
+    // { id: "p_s", name: "Pump 1", mode: "manual", status: "ON", sensor: "20C" },
   
   ]);
+
+  const [pumpsAuto, setPumpsAuto] = useState([])
 
   const [valves, setValves] = useState(
      [
@@ -69,9 +71,12 @@ const SmartFarm = () => {
         } else {
           const valvesManual = res.data.filter(obj => ['v1_s', 'v2_s', 'v3_s', 'v4_s','v5_s','v6_s','v7_s','v8_s','v9_s','v10_s',].includes(obj.subtopic));
           const valvesAuto = res.data.filter(obj => ['v1_l', 'v2_l', 'v3_l', 'v4_l','v5_l','v6_l','v7_l','v8_l','v9_l','v10_l',].includes(obj.subtopic));
-          const pump = res.data.filter(obj => ['p_s'].includes(obj.subtopic));
+          const pumps = res.data.filter(obj => ['p_s'].includes(obj.subtopic));
+          const pumpsAuto = res.data.filter(obj => ['p_m'].includes(obj.subtopic));
           setValves(valvesManual);
           setValvesAuto(valvesAuto)
+          setPumps(pumps)
+          setPumpsAuto(pumpsAuto)
         }
       })
       .catch((err) => {
@@ -134,35 +139,75 @@ const SmartFarm = () => {
     }
   };
 
-  const handleStatusChangeAndSwitchPump = (id) => (event) => {
-    const newStatus = event.target.checked ? "ON" : "OFF";
-    if (pumps.find((pump) => pump.id === id).status !== newStatus) {
+  const handleStatusChangeAndSwitchPump = (subtopic) => (event) => {
+    const isChecked = event.target.checked;
+    const newStatus = isChecked ? "ON" : "OFF";
+    const newValue = isChecked ? "1" : "0";
+    const pump = pumps.find((pump) => pump.subtopic === subtopic);
+  
+    if (pump.value !== newValue) {
       setPumps(
-        pumps.map((pump) =>
-          pump.id === id ? { ...pump, status: newStatus } : pump
-        )
+        pumps.map((b) => (b.subtopic === subtopic ? { ...b, value: newValue } : b))
       );
-      const cmdBody = 
-      {
-        "imei": "863576044816911",
-        "command": id,
-        "value": newStatus === "ON" ? "1" : "0"
+  
+      const cmdBody = {
+        imei: "863576044816911",
+        command: subtopic,
+        value: newValue.toString(),
       };
-      sendCommand(cmdBody).then((res) => {
-        if (res.status === 200) {
-          setEventType('success');
-          setEventMessage('Command Successfully Sent');
-          setEventTitle('SEND COMMAND');
-          setIsSnackBarAlertOpen(true);
-        } else {
-          setEventType('fail');
-          setEventMessage('COMMAND NOT SENT');
-          setEventTitle('SEND COMMAND');
-          setIsSnackBarAlertOpen(true);
-        }
-      });
+      sendCommand(cmdBody)
+        .then((res) => {
+          if (res.status === 200) {
+            setEventType("success");
+            setEventMessage("Command Successfully Sent");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          } else {
+            setEventType("fail");
+            setEventMessage("COMMAND NOT SENT");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          }
+        })
+        .catch((err) => console.error(err));
     }
   };
+
+  const handleStatusChangeAndSwitchPumpAuto = (subtopic) => (event) => {
+    const isChecked = event.target.checked;
+    const newStatus = isChecked ? "ON" : "OFF";
+    const newValue = isChecked ? "1" : "0";
+    const pump = pumpsAuto.find((pump) => pump.subtopic === subtopic);
+  
+    if (pump.value !== newValue) {
+      setPumpsAuto(
+        pumpsAuto.map((b) => (b.subtopic === subtopic ? { ...b, value: newValue } : b))
+      );
+  
+      const cmdBody = {
+        imei: "863576044816911",
+        command: subtopic,
+        value: newValue.toString(),
+      };
+      sendCommand(cmdBody)
+        .then((res) => {
+          if (res.status === 200) {
+            setEventType("success");
+            setEventMessage("Command Successfully Sent");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          } else {
+            setEventType("fail");
+            setEventMessage("COMMAND NOT SENT");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
+
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -203,31 +248,37 @@ const SmartFarm = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
                   {pumps.map((pump) => (
                     <div key={pump.id} className="bg-gray-100 p-4 rounded-lg">
-                      <h4 className="text-lg font-normal mb-2">{pump.name}</h4>
+                      <h4 className="text-lg font-normal mb-2">{pump.device_imei}</h4>
                       <div className="flex items-center">
                         <p className="mr-4">
-                          Mode: <span className="font-medium">{pump.mode}</span>
+                          Subtopic: <span className="font-medium">{pump.subtopic}</span>
                         </p>
                         <div className="flex items-center">
-                          <p className="mr-4">
-                            Status:{" "}
-                            <span
-                              className={
-                                pump.status === "ON"
-                                  ? "text-green-500 font-medium"
-                                  : "text-red-500 font-bold"
-                              }
-                            >
-                              {pump.status}
-                            </span>
-                          </p>
-                          <Switch
-                            checked={pump.status === "ON"}
-                            onChange={handleStatusChangeAndSwitchPump(pump.id)}
-                            color="primary"
-                            inputProps={{ "aria-label": "toggle pump status" }}
-                          />
-                        </div>
+                        {/* <p className="mr-4">
+                          Mode: <span className="font-medium">{pump.subtopic}</span>
+                        </p> */}
+                        <div className="flex items-center">
+                      <p className="mr-4">
+                        Status:{" "}
+                        <span
+                          className={
+                            pump.value === "1"
+                              ? "text-green-500 font-medium"
+                              : "text-red-500 font-medium"
+                          }
+                        >
+                          {pump.value ==="1" ? "ON" : "OFF"}
+                          {/* {pump.value} */}
+                        </span>
+                      </p>
+                      <Switch
+                        checked={pump.value === "1"}
+                        onChange={handleStatusChangeAndSwitchPump(pump.subtopic)}
+                        color="primary"
+                        inputProps={{ "aria-label": "toggle pump status" }}
+                      />
+                    </div>
+                      </div>
                       </div>
                     </div>
                   ))}
@@ -248,7 +299,7 @@ const SmartFarm = () => {
                       <h4 className="text-lg font-normal mb-2">{valve.device_imei}</h4>
                       <div className="flex items-center">
                         <p className="mr-4">
-                          Mode: <span className="font-medium">{valve.id}</span>
+                          Mode: <span className="font-medium">{valve.subtopic}</span>
                         </p>
                         <div className="flex items-center">
                       <p className="mr-4">
@@ -292,31 +343,39 @@ const SmartFarm = () => {
         </AccordionSummary>
  
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
-                  {pumps.map((pump) => (
+        {pumpsAuto.map((pump) => (
                     <div key={pump.id} className="bg-gray-100 p-4 rounded-lg">
-                      <h4 className="text-lg font-normal mb-2">{pump.name}</h4>
+                      <h4 className="text-lg font-normal mb-2">{pump.device_imei}</h4>
                       <div className="flex items-center">
                         <p className="mr-4">
-                          Mode: <span className="font-medium">{pump.mode}</span>
+                          Subtopic: <span className="font-medium">{pump.subtopic}</span>
                         </p>
                         <div className="flex items-center">
-                          <p className="mr-4">
-                            Status:{" "}
-                            <span
-                              className={
-                                pump.status === "ON"
-                                  ? "text-green-500 font-medium"
-                                  : "text-red-500 font-bold"
-                              }
-                            >
-                              {pump.status}
-                            </span>
-                          </p>
-                         
-                        </div>
-                        <p className="mr-4">
-                      Sensor: <span className="font-medium">{pump.sensor}</span>
-                    </p>
+                        {/* <p className="mr-4">
+                          Mode: <span className="font-medium">{pump.subtopic}</span>
+                        </p> */}
+                        <div className="flex items-center">
+                      <p className="mr-4">
+                        Status:{" "}
+                        <span
+                          className={
+                            pump.value === "1"
+                              ? "text-green-500 font-medium"
+                              : "text-red-500 font-medium"
+                          }
+                        >
+                          {pump.value ==="1" ? "ON" : "OFF"}
+                          {/* {pump.value} */}
+                        </span>
+                      </p>
+                      <Switch
+                        checked={pump.value === "1"}
+                        onChange={handleStatusChangeAndSwitchPumpAuto(pump.subtopic)}
+                        color="primary"
+                        inputProps={{ "aria-label": "toggle pump status" }}
+                      />
+                    </div>
+                      </div>
                       </div>
                     </div>
                   ))}

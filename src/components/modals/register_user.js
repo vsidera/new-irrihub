@@ -40,7 +40,8 @@ const RegisterUserModal = ({
         mobile_no: state.mobile_no,
         firstname: state.firstname,
         lastname: state.lastname,
-        pin: state.pin
+        pin: state.pin,
+        type: state.type
       };
   
       const res = userCreate(newUser).then((res) => {
@@ -108,7 +109,7 @@ const RegisterUserModal = ({
           <div style={{ display: "flex", flexDirection: "column" }}>
           <div className="my-2">
           
-            <select id="user-type" name="user-type" onChange={handleChange} className="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <select id="outlined-basic" name="type" onChange={handleChange} className="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
               <option value="CLIENT">CLIENT</option>
               <option value="ADMIN">ADMIN</option>
             </select>
