@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Table from "../../components/table/table"
 import AdminSidebar from "../../components/adminSidebar/adminSidebar";
 import RegisterUserModal from "../../components/modals/register_user";
+import EditUserModal from "../../components/modals/edit_user";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 import { userList } from "../../actions/user/userAction";
@@ -71,6 +72,9 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+
+  const [userId, setUserId] = useState(null)
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10)
@@ -78,6 +82,16 @@ const Users = () => {
   const closeRegisterModal = (e) => {
     e.preventDefault();
     setRegisterModal(false)
+  }
+
+  const closeEditModal = (e) => {
+    e.preventDefault();
+    setEditModal(false)
+  }
+
+  const handleClick2 = (id) => {
+    setUserId(id)
+    setEditModal(true)
   }
 
   const getUsers = () => {
@@ -152,7 +166,7 @@ const Users = () => {
        customBodyRender: (tableMeta, dataIndex, rowIndex) => {
         
         return (
-          <button>
+          <button onClick={() => handleClick2(dataIndex.rowData[0])}>
           <EditIcon />
           </button>
         );
@@ -234,6 +248,7 @@ const Users = () => {
   return (
     <AdminSidebar>
     <RegisterUserModal registerModal={registerModal} closeRegisterModal={closeRegisterModal}/>
+    <EditUserModal editModal={editModal} closeEditModal={closeEditModal} userId={userId}/>
     <h1 className="text-2xl text-black mb-6">Users</h1>
     <h4 className="text-md text-gray-800 font-serif">A list of all the users </h4>
     <div className="flex justify-end">

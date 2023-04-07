@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Table from "../../components/table/table"
 import AdminSidebar from "../../components/adminSidebar/adminSidebar";
 import AddCustomerModal from "../../components/modals/add_customer";
+import EditUserModal from "../../components/modals/edit_user";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import EditIcon from '@mui/icons-material/Edit';
 import { customerList } from "../../actions/customer/customerAction";
@@ -71,6 +72,9 @@ const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [createModal, setCreateModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+
+  const [userId, setUserId] = useState(null)
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10)
@@ -95,11 +99,21 @@ const Customers = () => {
     getCustomers();
     setIsLoaded(true)
 
-  }, [page,limit]);
+  }, [page,limit, editModal]);
 
   const closeCreateModal = (e) => {
     e.preventDefault();
     setCreateModal(false)
+  }
+
+  const closeEditModal = (e) => {
+    e.preventDefault();
+    setEditModal(false)
+  }
+
+  const handleClick2 = (id) => {
+    setUserId(id)
+    setEditModal(true)
   }
 
   const columns = [
@@ -152,7 +166,7 @@ const Customers = () => {
        customBodyRender: (tableMeta, dataIndex, rowIndex) => {
         
         return (
-          <button>
+          <button onClick={() => handleClick2(dataIndex.rowData[0])}>
           <EditIcon />
           </button>
         );
@@ -235,6 +249,7 @@ const Customers = () => {
   return (
     <AdminSidebar>
     <AddCustomerModal createModal={createModal} closeCreateModal={closeCreateModal} />
+    <EditUserModal editModal={editModal} closeEditModal={closeEditModal} userId={userId}/>
     <h1 className="text-2xl text-black mb-6">Customers</h1>
     <h4 className="text-md text-gray-800 font-serif">A list of all the customers </h4>
     {/* <div className="flex justify-end">

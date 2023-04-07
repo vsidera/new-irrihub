@@ -76,8 +76,6 @@ const Devices = () => {
 
   const [selectedImei, SetSelectedImei] = useState(null)
 
-  const imei = 863576044816911
-
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10)
   const [attachCustomerModal, setAttachCustomerModal] = useState(false);
@@ -112,8 +110,6 @@ const Devices = () => {
     SetSelectedImei(imei)
     setAttachCustomerModal(true)
   }
-
-  console.log("THE SELECTED IMEI IS!!!!", selectedImei)
 
   useEffect(() => {
     getDevices();
@@ -244,7 +240,7 @@ const Devices = () => {
 
   return (
     <AdminSidebar>
-    <AttachCustomerModal attachCustomerModal={attachCustomerModal} closeAttachCustomerModal={closeAttachUserModal} imei={imei}/>
+    <AttachCustomerModal attachCustomerModal={attachCustomerModal} closeAttachCustomerModal={closeAttachUserModal} imei={selectedImei}/>
     <CreateDeviceModal deviceModal={deviceModal} closeDeviceModal={closeDeviceModal}/>
     <h1 className="text-2xl text-black mb-6">Devices</h1>
     <h4 className="text-md text-gray-800 font-serif">A list of all the devices </h4>

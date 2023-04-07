@@ -73,6 +73,8 @@ const SmartFarm = () => {
           const valvesAuto = res.data.filter(obj => ['v1_l', 'v2_l', 'v3_l', 'v4_l','v5_l','v6_l','v7_l','v8_l','v9_l','v10_l',].includes(obj.subtopic));
           const pumps = res.data.filter(obj => ['p_s'].includes(obj.subtopic));
           const pumpsAuto = res.data.filter(obj => ['p_m'].includes(obj.subtopic));
+
+          console.log("PUMPS MODE!!!!", pumps)
           setValves(valvesManual);
           setValvesAuto(valvesAuto)
           setPumps(pumps)
