@@ -230,6 +230,9 @@ const SmartFarm = () => {
           }
         })
         .catch((err) => console.error(err));
+        setTimeout(() => {
+          window.location.reload(); // reload the page after a 2-second delay
+        }, 2000);
     }
   };
        
