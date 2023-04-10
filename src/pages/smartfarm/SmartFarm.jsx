@@ -227,6 +227,43 @@ const SmartFarm = () => {
     }
 };
 
+const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
+  const isChecked = event.target.checked;
+  const newStatus = isChecked ? "1" : "0";
+  const valve = autoValves.find((valve) => valve.valveName === subtopic);
+
+  console.log("THIS IS VALVE!!!!", valve)
+
+  if (valve && valve.status !== newStatus) {
+    setAutoValves(
+      autoValves.map((b) =>
+        b.valveName === subtopic ? { ...b, status: newStatus } : b
+      )
+    );
+
+    const cmdBody = {
+      imei: imei,
+      command: subtopic+`${`_s`}`,
+      value: newStatus.toString(),
+    };
+    sendCommand(cmdBody)
+      .then((res) => {
+        if (res.status === 200) {
+          setEventType("success");
+          setEventMessage("Command Successfully Sent");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType("fail");
+          setEventMessage("COMMAND NOT SENT");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        }
+      })
+      .catch((err) => console.error(err));
+  }
+};
+
 
   const handleStatusChangeAndSwitchPump = (subtopic) => (event) => {
     const isChecked = event.target.checked;
@@ -507,12 +544,12 @@ const SmartFarm = () => {
                             Status:{" "}
                             <span
                               className={
-                                valve.status === 1
+                                valve.status === "1"
                                   ? "text-green-500 font-medium"
                                   : "text-red-500 font-medium"
                               }
                             >
-                              {valve.status === 1 ? "ON" : "OFF"}
+                              {valve.status === "1" ? "ON" : "OFF"}
               
                             </span>
                           </p>
@@ -686,7 +723,7 @@ const SmartFarm = () => {
                   {autoValves && autoValves.map((valve) => (
                     <div key={valve.valveName} className="bg-gray-100 p-4 rounded-lg">
                       <h4 className="text-lg font-normal mb-2">
-                        {valve.device_imei}
+                        {valve.valveName}
                       </h4>
                       <p className="mr-4">
                         Subtopic:{" "}
@@ -698,19 +735,19 @@ const SmartFarm = () => {
                             Status:{" "}
                             <span
                               className={
-                                valve.value === "1"
+                                valve.status === "1"
                                   ? "text-green-500 font-medium"
                                   : "text-red-500 font-medium"
                               }
                             >
-                              {valve.value === "1" ? "ON" : "OFF"}
-                              {/* {valve.value} */}
+                              {valve.status === "1" ? "ON" : "OFF"}
+              
                             </span>
                           </p>
                           <Switch
-                            checked={valve.value === "1"}
-                            onChange={handleStatusChangeAndSwitchValve(
-                              valve.subtopic
+                            checked={valve.status === "1"}
+                            onChange={handleStatusChangeAndSwitchAutoValve(
+                              valve.valveName
                             )}
                             color="primary"
                             inputProps={{ "aria-label": "toggle valve status" }}
@@ -720,13 +757,14 @@ const SmartFarm = () => {
                           <p className="mr-4">
                             Mode:{" "}
                             <span className="font-medium">
-                              {valve.mode === "1" ? "Auto" : "Manual"}
+                              {valve.mode === 1 ? "Auto" : "Manual"}
                             </span>
                           </p>
                           <Switch
-                            checked={valve.mode === "1"}
+                            key={valve.valve}
+                            checked={valve.mode === 1}
                             onChange={handleModeChangeAndSwitchValve(
-                              valve.subtopic
+                              valve.valve
                             )}
                             color="primary"
                             inputProps={{ "aria-label": "toggle valve mode" }}
@@ -738,9 +776,7 @@ const SmartFarm = () => {
                 </div>
                 {/* )} */}
 
-                {vauto === false && (
-                  <div className="text-red-600 p-4">VALVES IN MANUAL</div>
-                )}
+              
               </Accordion>
             </>
           )}
