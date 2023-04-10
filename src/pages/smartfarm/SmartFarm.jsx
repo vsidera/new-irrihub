@@ -649,6 +649,7 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                             )}
                             color="primary"
                             inputProps={{ "aria-label": "toggle valve status" }}
+                            disabled={true}
                           />
                         </div>
                         <div className="flex items-center">
