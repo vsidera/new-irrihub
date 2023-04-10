@@ -227,6 +227,86 @@ const SmartFarm = () => {
     }
 };
 
+const handleModeChangeAndSwitchValve = (subtopic) => (event) => {
+  const isChecked = event.target.checked;
+  const newMode = isChecked ? "1" : "0";
+  const valve = manualValves.find((valve) => valve.valveName === subtopic);
+
+  console.log("THIS IS VALVE!!!!", valve)
+
+  if (valve && valve.mode !== newMode) {
+    setManualValves(
+      manualValves.map((b) =>
+        b.valveName === subtopic ? { ...b, mode: newMode } : b
+      )
+    );
+
+    const cmdBody = {
+      imei: imei,
+      command: subtopic+`${`_m`}`,
+      value: newMode.toString(),
+    };
+    sendCommand(cmdBody)
+      .then((res) => {
+        if (res.status === 200) {
+          setEventType("success");
+          setEventMessage("Command Successfully Sent");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType("fail");
+          setEventMessage("COMMAND NOT SENT");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        }
+      })
+      .catch((err) => console.error(err));
+    setTimeout(() => {
+      window.location.reload(); // reload the page after a 2-second delay
+    }, 2000);
+  }
+};
+
+const handleModeChangeAndSwitchAutoValve = (subtopic) => (event) => {
+  const isChecked = event.target.checked;
+  const newMode = isChecked ? "1" : "0";
+  const valve = autoValves.find((valve) => valve.valveName === subtopic);
+
+  console.log("THIS IS VALVE!!!!", valve)
+
+  if (valve && valve.mode !== newMode) {
+    setAutoValves(
+      autoValves.map((b) =>
+        b.valveName === subtopic ? { ...b, mode: newMode } : b
+      )
+    );
+
+    const cmdBody = {
+      imei: imei,
+      command: subtopic+`${`_m`}`,
+      value: newMode.toString(),
+    };
+    sendCommand(cmdBody)
+      .then((res) => {
+        if (res.status === 200) {
+          setEventType("success");
+          setEventMessage("Command Successfully Sent");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType("fail");
+          setEventMessage("COMMAND NOT SENT");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        }
+      })
+      .catch((err) => console.error(err));
+    setTimeout(() => {
+      window.location.reload(); // reload the page after a 2-second delay
+    }, 2000);
+  }
+};
+
 const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
   const isChecked = event.target.checked;
   const newStatus = isChecked ? "1" : "0";
@@ -339,79 +419,8 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
     }
   };
 
-  const handleModeChangeAndSwitchValve = (valve) => (event) => {
-    const newMode = event.target.checked ? 1 : 0;
   
-    if (valve.mode !== newMode) {
-      setValvesArr(
-        valvesArr.map((b) =>
-          b.valve === valve.valve ? { ...b, mode: newMode } : b
-        )
-      );
   
-      const cmdBody = {
-        imei: imei,
-        command: "v1_m",
-        value: newMode.toString(),
-      };
-      sendCommand(cmdBody)
-        .then((res) => {
-          if (res.status === 200) {
-            setEventType("success");
-            setEventMessage("Command Successfully Sent");
-            setEventTitle("SEND COMMAND");
-            setIsSnackBarAlertOpen(true);
-          } else {
-            setEventType("fail");
-            setEventMessage("COMMAND NOT SENT");
-            setEventTitle("SEND COMMAND");
-            setIsSnackBarAlertOpen(true);
-          }
-        })
-        .catch((err) => console.error(err));
-      setTimeout(() => {
-        // window.location.reload(); // reload the page after a 2-second delay
-      }, 2000);
-    }
-  };
-  
-
-
-  const handleStatusChangeAndSwitchvalveAuto = (subtopic) => (event) => {
-    const isChecked = event.target.checked;
-    const newStatus = isChecked ? "ON" : "OFF";
-    const newValue = isChecked ? "1" : "0";
-    const pump = pumpsAuto.find((pump) => pump.subtopic === subtopic);
-
-    if (pump.value !== newValue) {
-      setPumpsAuto(
-        pumpsAuto.map((b) =>
-          b.subtopic === subtopic ? { ...b, value: newValue } : b
-        )
-      );
-
-      const cmdBody = {
-        imei: imei,
-        command: subtopic,
-        value: newValue.toString(),
-      };
-      sendCommand(cmdBody)
-        .then((res) => {
-          if (res.status === 200) {
-            setEventType("success");
-            setEventMessage("Command Successfully Sent");
-            setEventTitle("SEND COMMAND");
-            setIsSnackBarAlertOpen(true);
-          } else {
-            setEventType("fail");
-            setEventMessage("COMMAND NOT SENT");
-            setEventTitle("SEND COMMAND");
-            setIsSnackBarAlertOpen(true);
-          }
-        })
-        .catch((err) => console.error(err));
-    }
-  };
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -566,14 +575,13 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                           <p className="mr-4">
                             Mode:{" "}
                             <span className="font-medium">
-                              {valve.mode === 1 ? "Auto" : "Manual"}
+                              {valve.mode === "1" ? "Auto" : "Manual"}
                             </span>
                           </p>
                           <Switch
-                            key={valve.valve}
-                            checked={valve.mode === 1}
+                            checked={valve.mode === "1"}
                             onChange={handleModeChangeAndSwitchValve(
-                              valve.valve
+                              valve.valveName
                             )}
                             color="primary"
                             inputProps={{ "aria-label": "toggle valve mode" }}
@@ -757,14 +765,13 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                           <p className="mr-4">
                             Mode:{" "}
                             <span className="font-medium">
-                              {valve.mode === 1 ? "Auto" : "Manual"}
+                              {valve.mode === "1" ? "Auto" : "Manual"}
                             </span>
                           </p>
                           <Switch
-                            key={valve.valve}
-                            checked={valve.mode === 1}
-                            onChange={handleModeChangeAndSwitchValve(
-                              valve.valve
+                            checked={valve.mode === "1"}
+                            onChange={handleModeChangeAndSwitchAutoValve(
+                              valve.valveName
                             )}
                             color="primary"
                             inputProps={{ "aria-label": "toggle valve mode" }}
