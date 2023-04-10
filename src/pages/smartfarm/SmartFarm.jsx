@@ -9,10 +9,9 @@ import { deviceDataState } from "../../actions/device/deviceAction";
 import { useParams } from "react-router-dom";
 
 const SmartFarm = () => {
+
   const params = useParams();
-
   const imei = params.id;
-
   const [isLoaded, setIsLoaded] = useState(false);
 
   const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
@@ -21,34 +20,10 @@ const SmartFarm = () => {
   const [eventTitle, setEventTitle] = useState("");
 
   const [auto, setAuto] = useState(false);
-
-  const [vauto, setVauto] = useState(false);
-
-  const [pumpMode, setPumpMode] = useState("0");
-
-  const [valveMode, setValveMode] = useState("0");
-
   const [activeTab, setActiveTab] = useState(0);
 
-  const [pumps, setPumps] = useState([
-    // { id: "p_s", name: "Pump 1", mode: "manual", status: "ON", sensor: "20C" },
-  ]);
-
+  const [pumps, setPumps] = useState([]);
   const [sensors, setSensors] = useState([])
-
-  const [pumpsAuto, setPumpsAuto] = useState([]);
-
-  console.log("PUMPS ARE!!!!!", pumpsAuto);
-
-  const [valves, setValves] = useState([
-  
-  ]);
-
-  const [valvesAuto, setValvesAuto] = useState([
- 
-  ]);
-
-  const [valvesArr, setValvesArr] = useState([]);
 
   const [autoValves, setAutoValves] = useState([]);
   const [manualValves, setManualValves] = useState([]);
@@ -83,48 +58,12 @@ const SmartFarm = () => {
             valve.status = valve.status || "0";
           });
           
-
-          console.log("THE VALVES LIST IS!!!!!!", valveList);
-          
           const manualValves = valveList.filter(valve => valve.mode === "0");
           const autoValves = valveList.filter(valve => valve.mode === "1");
 
           setAutoValves(autoValves)
           setManualValves(manualValves)
           
-          console.log("MANUAL ONES ARE!!!",manualValves);
-          console.log(autoValves);
-          
-        
-
-          const valvesManual = res.data.filter((obj) =>
-            [
-              "v1_s",
-              "v2_s",
-              "v3_s",
-              "v4_s",
-              "v5_s",
-              "v6_s",
-              "v7_s",
-              "v8_s",
-              "v9_s",
-              "v10_s",
-            ].includes(obj.subtopic)
-          );
-          const valvesAuto = res.data.filter((obj) =>
-            [
-              "v1_m",
-              "v2_m",
-              "v3_m",
-              "v4_m",
-              "v5_m",
-              "v6_m",
-              "v7_m",
-              "v8_m",
-              "v9_m",
-              "v10_m",
-            ].includes(obj.subtopic)
-          );
           const pumps = res.data.filter((obj) =>
             ["p_s"].includes(obj.subtopic)
           );
@@ -135,36 +74,17 @@ const SmartFarm = () => {
           const sensors = res.data.filter((obj) =>
             ["m_s_1","m_s_2","m_s_3","m_s_4","m_s_5","m_s_6","m_s_7","m_s_8","m_s_9","m_s_10",].includes(obj.subtopic)
           );
-
-          // console.log("PUMPS MODE!!!!", pumps)
-          setValves(valvesManual);
-          setValvesAuto(valvesAuto);
           setPumps(pumps);
           setSensors(sensors);
-          setPumpsAuto(pumpsAuto);
+
           if (pumpsAuto && pumpsAuto[0] && pumpsAuto[0].value === "1") {
-            console.log("ITS ON AUTO!!!!!", pumpsAuto[0].value);
-            setPumpMode("1");
+
             pumps[0]["mode"] = "1";
             setAuto(true);
           } else {
-            console.log("ITS ON MANUAL!!!!!");
             setAuto(false);
             pumps[0]["mode"] = "0";
-          }
-          for (let i = 0; i < valvesAuto.length; i++) {
-            if (valvesAuto[i] && valvesAuto[i].value === "1") {
-              console.log("ITS ON AUTO!!!!!", valvesAuto[i].value);
-              setValveMode("1");
-              valves["mode"] = "1";
-              setVauto(true);
-            } else {
-              console.log("ITS ON MANUAL!!!!!");
-              setVauto(false);
-              valves["mode"] = "0";
-            }
-          }
-          
+          }          
         }
       })
       .catch((err) => {
@@ -177,25 +97,10 @@ const SmartFarm = () => {
     setIsLoaded(true);
   }, []);
 
-  console.log("auto is!!!!!", valves);
-
-  const handleValveStatusChange = (id) => (event) => {
-    const newStatus = event.target.checked ? "ON" : "OFF";
-    if (pumps.find((valve) => valve.id === id).status !== newStatus) {
-      setPumps(
-        pumps.map((pump) =>
-          pump.id === id ? { ...pump, status: newStatus } : pump
-        )
-      );
-    }
-  };
-
-  const handleStatusChangeAndSwitchValve = (subtopic) => (event) => {
+  const handleStatusChangeAndSwitchManualValve = (subtopic) => (event) => {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? "1" : "0";
     const valve = manualValves.find((valve) => valve.valveName === subtopic);
-
-    console.log("THIS IS VALVE!!!!", valve)
 
     if (valve && valve.status !== newStatus) {
       setManualValves(
@@ -227,12 +132,10 @@ const SmartFarm = () => {
     }
 };
 
-const handleModeChangeAndSwitchValve = (subtopic) => (event) => {
+const handleModeChangeAndSwitchManualValve = (subtopic) => (event) => {
   const isChecked = event.target.checked;
   const newMode = isChecked ? "1" : "0";
   const valve = manualValves.find((valve) => valve.valveName === subtopic);
-
-  console.log("THIS IS VALVE!!!!", valve)
 
   if (valve && valve.mode !== newMode) {
     setManualValves(
@@ -272,8 +175,6 @@ const handleModeChangeAndSwitchAutoValve = (subtopic) => (event) => {
   const newMode = isChecked ? "1" : "0";
   const valve = autoValves.find((valve) => valve.valveName === subtopic);
 
-  console.log("THIS IS VALVE!!!!", valve)
-
   if (valve && valve.mode !== newMode) {
     setAutoValves(
       autoValves.map((b) =>
@@ -312,8 +213,6 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
   const newStatus = isChecked ? "1" : "0";
   const valve = autoValves.find((valve) => valve.valveName === subtopic);
 
-  console.log("THIS IS VALVE!!!!", valve)
-
   if (valve && valve.status !== newStatus) {
     setAutoValves(
       autoValves.map((b) =>
@@ -343,7 +242,6 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
       .catch((err) => console.error(err));
   }
 };
-
 
   const handleStatusChangeAndSwitchPump = (subtopic) => (event) => {
     const isChecked = event.target.checked;
@@ -418,9 +316,6 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
       }, 2000);
     }
   };
-
-  
-  
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -536,7 +431,6 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                 >
                   <span className="text-lg font-medium"> VALVES</span>
                 </AccordionSummary>
-                {/* {vauto === false && ( */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
                   {manualValves && manualValves.map((valve) => (
                     <div key={valve.valveName} className="bg-gray-100 p-4 rounded-lg">
@@ -564,7 +458,7 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                           </p>
                           <Switch
                             checked={valve.status === "1"}
-                            onChange={handleStatusChangeAndSwitchValve(
+                            onChange={handleStatusChangeAndSwitchManualValve(
                               valve.valveName
                             )}
                             color="primary"
@@ -580,7 +474,7 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                           </p>
                           <Switch
                             checked={valve.mode === "1"}
-                            onChange={handleModeChangeAndSwitchValve(
+                            onChange={handleModeChangeAndSwitchManualValve(
                               valve.valveName
                             )}
                             color="primary"
@@ -591,11 +485,7 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                     </div>
                   ))}
                 </div>
-                {/* )} */}
 
-                {/* {vauto === true && (
-                  <div className="text-red-600 p-4">VALVE IN AUTO</div>
-                )} */}
               </Accordion>
               <Accordion>
                 <AccordionSummary
@@ -781,9 +671,6 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                     </div>
                   ))}
                 </div>
-                {/* )} */}
-
-              
               </Accordion>
             </>
           )}
@@ -796,67 +683,3 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
 export default SmartFarm;
 
 
-
-
-
-// const data = [
-//     {
-//         "id": 306593,
-//         "subtopic": "v1_m",
-//         "value": "0",
-       
-//     },
-//     {
-//         "id": 306591,
-//         "subtopic": "v1_s",
-//         "value": "0",
-     
-//     },
-//     {
-//         "id": 306555,
-//         "subtopic": "v2_m",
-//         "value": "0",
-     
-//     },
-//     {
-//         "id": 306573,
-//         "subtopic": "v2_s",
-//         "value": "1",
-     
-//     },
-//     {
-//         "id": 306594,
-//         "subtopic": "v5_s",
-//         "value": "1",
-      
-//     },
-//     {
-//         "id": 306566,
-//         "subtopic": "v7_s",
-//         "value": "0",
-     
-//     }
-// ];
-
-// const data = [
-//   {
-//     "valve": "v1",
-//     "mode": 0,
-//     "status": 0
-//   },
-//   {
-//     "valve": "v2",
-//     "mode": 0,
-//     "status": 1
-//   },
-//   {
-//     "valve": "v5",
-//     "mode": 0,
-//     "status": 1
-//   },
-//   {
-//     "valve": "v7",
-//     "mode": 0,
-//     "status": 0
-//   },
-// ]
