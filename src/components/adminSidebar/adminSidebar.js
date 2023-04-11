@@ -8,7 +8,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminSidebar({ children }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(window.innerWidth < 768 ? true : false);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
