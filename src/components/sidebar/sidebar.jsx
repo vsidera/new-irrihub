@@ -15,7 +15,7 @@ export default function Sidebar({children}) {
 
     const handleLogout = (e) => {
         localStorage.clear();
-        navigate("/login");
+        navigate("/");
       };
 
       const logoUrl = `${process.env.PUBLIC_URL}/images/irri.jpeg`;
