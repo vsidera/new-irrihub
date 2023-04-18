@@ -1,0 +1,31 @@
+@media (min-width: 640px) {
+    .grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .water-tank {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .water-level {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #5BE12C;
+    transition: height 0.5s ease;
+  }
+  
+  .water-icon {
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    color: white;
+    font-size: 20px;
+  }
+  
+  

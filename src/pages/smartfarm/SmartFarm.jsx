@@ -7,6 +7,7 @@ import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
 import { deviceDataState } from "../../actions/device/deviceAction";
 import { useParams } from "react-router-dom";
+import ValveSlider from "../../components/utils/slider";
 
 const SmartFarm = () => {
 
@@ -317,8 +318,14 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
     }
   };
 
+  const [sliderValue, setSliderValue] = useState(50);
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
+  };
+
+  const handleChange = (event) => {
+    setSliderValue(event.target.value);
   };
 
   return (
@@ -620,9 +627,7 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
                   {autoValves && autoValves.map((valve) => (
                     <div key={valve.valveName} className="bg-gray-100 p-4 rounded-lg">
-                      <h4 className="text-lg font-normal mb-2">
-                        {valve.valveName}
-                      </h4>
+    
                       <p className="mr-4">
                         Subtopic:{" "}
                         <span className="font-medium">{valve.valveName}</span>
@@ -669,6 +674,9 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                           />
                         </div>
                       </div>
+                      <div>
+                        <ValveSlider/>
+    </div>
                     </div>
                   ))}
                 </div>
