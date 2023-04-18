@@ -10,7 +10,6 @@ import { useParams } from "react-router-dom";
 import ValveSlider from "../../components/utils/slider";
 
 const SmartFarm = () => {
-
   const params = useParams();
   const imei = params.id;
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,7 +23,7 @@ const SmartFarm = () => {
   const [activeTab, setActiveTab] = useState(0);
 
   const [pumps, setPumps] = useState([]);
-  const [sensors, setSensors] = useState([])
+  const [sensors, setSensors] = useState([]);
 
   const [autoValves, setAutoValves] = useState([]);
   const [manualValves, setManualValves] = useState([]);
@@ -35,13 +34,14 @@ const SmartFarm = () => {
         if (res.errors) {
           console.log("AN ERROR HAS OCCURED");
         } else {
-
-          const valveObjects = res.data.filter(obj => /^v\d+/.test(obj.subtopic));
+          const valveObjects = res.data.filter((obj) =>
+            /^v\d+/.test(obj.subtopic)
+          );
 
           const valveList = valveObjects.reduce((result, obj) => {
             const valveName = obj.subtopic.match(/^v\d+/)[0];
             const subtopicType = obj.subtopic.substr(valveName.length + 1);
-            let valveObject = result.find(v => v.valveName === valveName);
+            let valveObject = result.find((v) => v.valveName === valveName);
             if (!valveObject) {
               valveObject = { valveName, mode: null, status: null };
               result.push(valveObject);
@@ -53,18 +53,18 @@ const SmartFarm = () => {
             }
             return result;
           }, []);
-          
-          valveList.forEach(valve => {
+
+          valveList.forEach((valve) => {
             valve.mode = valve.mode || "0";
             valve.status = valve.status || "0";
           });
-          
-          const manualValves = valveList.filter(valve => valve.mode === "0");
-          const autoValves = valveList.filter(valve => valve.mode === "1");
 
-          setAutoValves(autoValves)
-          setManualValves(manualValves)
-          
+          const manualValves = valveList.filter((valve) => valve.mode === "0");
+          const autoValves = valveList.filter((valve) => valve.mode === "1");
+
+          setAutoValves(autoValves);
+          setManualValves(manualValves);
+
           const pumps = res.data.filter((obj) =>
             ["p_s"].includes(obj.subtopic)
           );
@@ -73,19 +73,29 @@ const SmartFarm = () => {
           );
 
           const sensors = res.data.filter((obj) =>
-            ["m_s_1","m_s_2","m_s_3","m_s_4","m_s_5","m_s_6","m_s_7","m_s_8","m_s_9","m_s_10",].includes(obj.subtopic)
+            [
+              "m_s_1",
+              "m_s_2",
+              "m_s_3",
+              "m_s_4",
+              "m_s_5",
+              "m_s_6",
+              "m_s_7",
+              "m_s_8",
+              "m_s_9",
+              "m_s_10",
+            ].includes(obj.subtopic)
           );
           setPumps(pumps);
           setSensors(sensors);
 
           if (pumpsAuto && pumpsAuto[0] && pumpsAuto[0].value === "1") {
-
             pumps[0]["mode"] = "1";
             setAuto(true);
           } else {
             setAuto(false);
             pumps[0]["mode"] = "0";
-          }          
+          }
         }
       })
       .catch((err) => {
@@ -112,7 +122,7 @@ const SmartFarm = () => {
 
       const cmdBody = {
         imei: imei,
-        command: subtopic+`${`_s`}`,
+        command: subtopic + `${`_s`}`,
         value: newStatus.toString(),
       };
       sendCommand(cmdBody)
@@ -131,118 +141,118 @@ const SmartFarm = () => {
         })
         .catch((err) => console.error(err));
     }
-};
+  };
 
-const handleModeChangeAndSwitchManualValve = (subtopic) => (event) => {
-  const isChecked = event.target.checked;
-  const newMode = isChecked ? "1" : "0";
-  const valve = manualValves.find((valve) => valve.valveName === subtopic);
+  const handleModeChangeAndSwitchManualValve = (subtopic) => (event) => {
+    const isChecked = event.target.checked;
+    const newMode = isChecked ? "1" : "0";
+    const valve = manualValves.find((valve) => valve.valveName === subtopic);
 
-  if (valve && valve.mode !== newMode) {
-    setManualValves(
-      manualValves.map((b) =>
-        b.valveName === subtopic ? { ...b, mode: newMode } : b
-      )
-    );
+    if (valve && valve.mode !== newMode) {
+      setManualValves(
+        manualValves.map((b) =>
+          b.valveName === subtopic ? { ...b, mode: newMode } : b
+        )
+      );
 
-    const cmdBody = {
-      imei: imei,
-      command: subtopic+`${`_m`}`,
-      value: newMode.toString(),
-    };
-    sendCommand(cmdBody)
-      .then((res) => {
-        if (res.status === 200) {
-          setEventType("success");
-          setEventMessage("Command Successfully Sent");
-          setEventTitle("SEND COMMAND");
-          setIsSnackBarAlertOpen(true);
-        } else {
-          setEventType("fail");
-          setEventMessage("COMMAND NOT SENT");
-          setEventTitle("SEND COMMAND");
-          setIsSnackBarAlertOpen(true);
-        }
-      })
-      .catch((err) => console.error(err));
-    setTimeout(() => {
-      window.location.reload(); // reload the page after a 2-second delay
-    }, 2000);
-  }
-};
+      const cmdBody = {
+        imei: imei,
+        command: subtopic + `${`_m`}`,
+        value: newMode.toString(),
+      };
+      sendCommand(cmdBody)
+        .then((res) => {
+          if (res.status === 200) {
+            setEventType("success");
+            setEventMessage("Command Successfully Sent");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          } else {
+            setEventType("fail");
+            setEventMessage("COMMAND NOT SENT");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          }
+        })
+        .catch((err) => console.error(err));
+      setTimeout(() => {
+        window.location.reload(); // reload the page after a 2-second delay
+      }, 2000);
+    }
+  };
 
-const handleModeChangeAndSwitchAutoValve = (subtopic) => (event) => {
-  const isChecked = event.target.checked;
-  const newMode = isChecked ? "1" : "0";
-  const valve = autoValves.find((valve) => valve.valveName === subtopic);
+  const handleModeChangeAndSwitchAutoValve = (subtopic) => (event) => {
+    const isChecked = event.target.checked;
+    const newMode = isChecked ? "1" : "0";
+    const valve = autoValves.find((valve) => valve.valveName === subtopic);
 
-  if (valve && valve.mode !== newMode) {
-    setAutoValves(
-      autoValves.map((b) =>
-        b.valveName === subtopic ? { ...b, mode: newMode } : b
-      )
-    );
+    if (valve && valve.mode !== newMode) {
+      setAutoValves(
+        autoValves.map((b) =>
+          b.valveName === subtopic ? { ...b, mode: newMode } : b
+        )
+      );
 
-    const cmdBody = {
-      imei: imei,
-      command: subtopic+`${`_m`}`,
-      value: newMode.toString(),
-    };
-    sendCommand(cmdBody)
-      .then((res) => {
-        if (res.status === 200) {
-          setEventType("success");
-          setEventMessage("Command Successfully Sent");
-          setEventTitle("SEND COMMAND");
-          setIsSnackBarAlertOpen(true);
-        } else {
-          setEventType("fail");
-          setEventMessage("COMMAND NOT SENT");
-          setEventTitle("SEND COMMAND");
-          setIsSnackBarAlertOpen(true);
-        }
-      })
-      .catch((err) => console.error(err));
-    setTimeout(() => {
-      window.location.reload(); // reload the page after a 2-second delay
-    }, 2000);
-  }
-};
+      const cmdBody = {
+        imei: imei,
+        command: subtopic + `${`_m`}`,
+        value: newMode.toString(),
+      };
+      sendCommand(cmdBody)
+        .then((res) => {
+          if (res.status === 200) {
+            setEventType("success");
+            setEventMessage("Command Successfully Sent");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          } else {
+            setEventType("fail");
+            setEventMessage("COMMAND NOT SENT");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          }
+        })
+        .catch((err) => console.error(err));
+      setTimeout(() => {
+        window.location.reload(); // reload the page after a 2-second delay
+      }, 2000);
+    }
+  };
 
-const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
-  const isChecked = event.target.checked;
-  const newStatus = isChecked ? "1" : "0";
-  const valve = autoValves.find((valve) => valve.valveName === subtopic);
+  const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
+    const isChecked = event.target.checked;
+    const newStatus = isChecked ? "1" : "0";
+    const valve = autoValves.find((valve) => valve.valveName === subtopic);
 
-  if (valve && valve.status !== newStatus) {
-    setAutoValves(
-      autoValves.map((b) =>
-        b.valveName === subtopic ? { ...b, status: newStatus } : b
-      )
-    );
+    if (valve && valve.status !== newStatus) {
+      setAutoValves(
+        autoValves.map((b) =>
+          b.valveName === subtopic ? { ...b, status: newStatus } : b
+        )
+      );
 
-    const cmdBody = {
-      imei: imei,
-      command: subtopic+`${`_s`}`,
-      value: newStatus.toString(),
-    };
-    sendCommand(cmdBody)
-      .then((res) => {
-        if (res.status === 200) {
-          setEventType("success");
-          setEventMessage("Command Successfully Sent");
-          setEventTitle("SEND COMMAND");
-          setIsSnackBarAlertOpen(true);
-        } else {
-          setEventType("fail");
-          setEventMessage("COMMAND NOT SENT");
-          setEventTitle("SEND COMMAND");
-          setIsSnackBarAlertOpen(true);
-        }
-      })
-      .catch((err) => console.error(err));
-  }
-};
+      const cmdBody = {
+        imei: imei,
+        command: subtopic + `${`_s`}`,
+        value: newStatus.toString(),
+      };
+      sendCommand(cmdBody)
+        .then((res) => {
+          if (res.status === 200) {
+            setEventType("success");
+            setEventMessage("Command Successfully Sent");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          } else {
+            setEventType("fail");
+            setEventMessage("COMMAND NOT SENT");
+            setEventTitle("SEND COMMAND");
+            setIsSnackBarAlertOpen(true);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  };
 
   const handleStatusChangeAndSwitchPump = (subtopic) => (event) => {
     const isChecked = event.target.checked;
@@ -318,15 +328,11 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
     }
   };
 
-  const [sliderValue, setSliderValue] = useState(50);
-
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  const handleChange = (event) => {
-    setSliderValue(event.target.value);
-  };
+  console.log("SENSORS & VALVES!!!!!!!", sensors, autoValves);
 
   return (
     <>
@@ -439,60 +445,64 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                   <span className="text-lg font-medium"> VALVES</span>
                 </AccordionSummary>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
-                  {manualValves && manualValves.map((valve) => (
-                    <div key={valve.valveName} className="bg-gray-100 p-4 rounded-lg">
-                      <h4 className="text-lg font-normal mb-2">
-                        {valve.device_imei}
-                      </h4>
-                      <p className="mr-4">
-                        Subtopic:{" "}
-                        <span className="font-medium">{valve.valveName}</span>
-                      </p>
-                      <div className="flex items-center">
+                  {manualValves &&
+                    manualValves.map((valve) => (
+                      <div
+                        key={valve.valveName}
+                        className="bg-gray-100 p-4 rounded-lg"
+                      >
+                        <h4 className="text-lg font-normal mb-2">
+                          {valve.device_imei}
+                        </h4>
+                        <p className="mr-4">
+                          Subtopic:{" "}
+                          <span className="font-medium">{valve.valveName}</span>
+                        </p>
                         <div className="flex items-center">
-                          <p className="mr-4">
-                            Status:{" "}
-                            <span
-                              className={
-                                valve.status === "1"
-                                  ? "text-green-500 font-medium"
-                                  : "text-red-500 font-medium"
-                              }
-                            >
-                              {valve.status === "1" ? "ON" : "OFF"}
-              
-                            </span>
-                          </p>
-                          <Switch
-                            checked={valve.status === "1"}
-                            onChange={handleStatusChangeAndSwitchManualValve(
-                              valve.valveName
-                            )}
-                            color="primary"
-                            inputProps={{ "aria-label": "toggle valve status" }}
-                          />
-                        </div>
-                        <div className="flex items-center">
-                          <p className="mr-4">
-                            Mode:{" "}
-                            <span className="font-medium">
-                              {valve.mode === "1" ? "Auto" : "Manual"}
-                            </span>
-                          </p>
-                          <Switch
-                            checked={valve.mode === "1"}
-                            onChange={handleModeChangeAndSwitchManualValve(
-                              valve.valveName
-                            )}
-                            color="primary"
-                            inputProps={{ "aria-label": "toggle valve mode" }}
-                          />
+                          <div className="flex items-center">
+                            <p className="mr-4">
+                              Status:{" "}
+                              <span
+                                className={
+                                  valve.status === "1"
+                                    ? "text-green-500 font-medium"
+                                    : "text-red-500 font-medium"
+                                }
+                              >
+                                {valve.status === "1" ? "ON" : "OFF"}
+                              </span>
+                            </p>
+                            <Switch
+                              checked={valve.status === "1"}
+                              onChange={handleStatusChangeAndSwitchManualValve(
+                                valve.valveName
+                              )}
+                              color="primary"
+                              inputProps={{
+                                "aria-label": "toggle valve status",
+                              }}
+                            />
+                          </div>
+                          <div className="flex items-center">
+                            <p className="mr-4">
+                              Mode:{" "}
+                              <span className="font-medium">
+                                {valve.mode === "1" ? "Auto" : "Manual"}
+                              </span>
+                            </p>
+                            <Switch
+                              checked={valve.mode === "1"}
+                              onChange={handleModeChangeAndSwitchManualValve(
+                                valve.valveName
+                              )}
+                              color="primary"
+                              inputProps={{ "aria-label": "toggle valve mode" }}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
-
               </Accordion>
               <Accordion>
                 <AccordionSummary
@@ -516,16 +526,12 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                         <div className="flex items-center">
                           <p className="mr-4">
                             Readings:{" "}
-                            <span
-                              className="text-green-500 font-medium"
-                            >
+                            <span className="text-green-500 font-medium">
                               {valve.value}
                               {/* {valve.value} */}
                             </span>
                           </p>
-                   
                         </div>
-                       
                       </div>
                     </div>
                   ))}
@@ -625,61 +631,33 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
                 </AccordionSummary>
                 {/* {vauto === true && ( */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
-                  {autoValves && autoValves.map((valve) => (
-                    <div key={valve.valveName} className="bg-gray-100 p-4 rounded-lg">
-    
-                      <p className="mr-4">
-                        Subtopic:{" "}
-                        <span className="font-medium">{valve.valveName}</span>
-                      </p>
-                      <div className="flex items-center">
-                        <div className="flex items-center">
-                          <p className="mr-4">
-                            Status:{" "}
-                            <span
-                              className={
-                                valve.status === "1"
-                                  ? "text-green-500 font-medium"
-                                  : "text-red-500 font-medium"
-                              }
-                            >
-                              {valve.status === "1" ? "ON" : "OFF"}
-              
-                            </span>
-                          </p>
-                          <Switch
-                            checked={valve.status === "1"}
-                            onChange={handleStatusChangeAndSwitchAutoValve(
-                              valve.valveName
-                            )}
-                            color="primary"
-                            inputProps={{ "aria-label": "toggle valve status" }}
-                            disabled={true}
-                          />
-                        </div>
-                        <div className="flex items-center">
-                          <p className="mr-4">
-                            Mode:{" "}
-                            <span className="font-medium">
-                              {valve.mode === "1" ? "Auto" : "Manual"}
-                            </span>
-                          </p>
-                          <Switch
-                            checked={valve.mode === "1"}
-                            onChange={handleModeChangeAndSwitchAutoValve(
-                              valve.valveName
-                            )}
-                            color="primary"
-                            inputProps={{ "aria-label": "toggle valve mode" }}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <ValveSlider/>
-    </div>
-                    </div>
-                  ))}
-                </div>
+  {autoValves &&
+    autoValves.map((valve) => {
+      const valveNumber = valve.valveName.match(/\d+/)[0];
+      const sensor = sensors.find(
+        (s) => s.subtopic === `m_s_${valveNumber}`
+      );
+      const sensorValue = sensor ? sensor.value : null;
+      return (
+        <div key={valve.valveName} className="bg-gray-100 p-4 rounded-lg">
+          {/* Valve card content */}
+          <p className="mr-4">
+            Subtopic: <span className="font-medium">{valve.valveName}</span>
+          </p>
+          {/* ... */}
+          <div>
+            <ValveSlider />
+            {sensorValue && (
+              <p>
+                Sensor value: <span className="font-medium">{sensorValue}</span>
+              </p>
+            )}
+          </div>
+        </div>
+      );
+    })}
+</div>
+
               </Accordion>
             </>
           )}
@@ -690,5 +668,3 @@ const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
 };
 
 export default SmartFarm;
-
-
