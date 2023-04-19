@@ -16,6 +16,8 @@ import { Pool, Opacity, Waves } from "@material-ui/icons";
 import GaugeChart from "react-gauge-chart";
 import ValveSlider from "../../components/utils/slider";
 import "./profile.css";
+import { sendCommand } from "../../actions/device/deviceAction";
+import SnackbarAlert from "../../components/utils/snackbar";
 
 const getMuiTheme = () =>
   createTheme({
@@ -79,6 +81,13 @@ const Profile = () => {
   const params = useParams();
   const [activeTab, setActiveTab] = useState(0);
 
+  const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
+  const [eventType, setEventType] = useState("");
+  const [eventMessage, setEventMessage] = useState("");
+  const [eventTitle, setEventTitle] = useState("");
+
+  const [heartbeat, setHeartbeat] = useState("...");
+
   const [isLoaded, setIsLoaded] = useState(false);
 
   const firstname = JSON.parse(localStorage.getItem("firstname"));
@@ -121,6 +130,7 @@ const Profile = () => {
                 break;
               case "h_b":
                 extractedData.heartbeat = obj.value;
+                setHeartbeat(extractedData.heartbeat)
               case "d_t":
                 extractedData.humidity = obj.value;
                 break;
@@ -143,12 +153,47 @@ const Profile = () => {
             }
           });
 
+          setIsLoaded(true)
+
           console.log("THE EXTRACTED DATA IS!!!!!!!!!", extractedData);
         }
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  console.log("THE EXTRACTED DATA IS!!!!!!!!!", extractedData);
+
+  const [tankDepth, setTankDepth] = useState('');
+
+  const handleTankDepthChange = (event) => {
+    setTankDepth(event.target.value);
+  };
+
+  const handleSetPumpTrigger = () => {
+
+    const cmdBody = {
+      imei: imei,
+      command: "t_d",
+      value: tankDepth.toString(),
+    };
+    sendCommand(cmdBody)
+      .then((res) => {
+        if (res.status === 200) {
+          setEventType("success");
+          setEventMessage("Command Successfully Sent");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType("fail");
+          setEventMessage("COMMAND NOT SENT");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        }
+      })
+      .catch((err) => console.error(err));
+
   };
 
   const solar_perc = (parseInt(extractedData.solar_voltage)/100)*100
@@ -293,6 +338,15 @@ const Profile = () => {
   };
 
   return (
+    <>
+    <SnackbarAlert
+        open={isSnackBarAlertOpen}
+        type={eventType}
+        message={eventMessage}
+        handleClose={() => setIsSnackBarAlertOpen(false)}
+        title={eventTitle}
+      />
+   
     <Sidebar>
       <h1 className="text-2xl text-black mb-6">Profile</h1>
       <h4 className="text-md text-blue-900 font-serif">
@@ -344,7 +398,7 @@ const Profile = () => {
                   <div className="flex items-center mb-4">
                     <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
                       <p className="font-normal mb-2">
-                        HEARTBEAT: <span className="text-gray-700 ml-2">{extractedData.heartbeat}</span>
+                        HEARTBEAT: <span className="text-gray-700 ml-2">{heartbeat}</span>
                       </p>
                       <p className="font-normal mb-2">
                         SIGNAL QUALITY:{" "}
@@ -370,28 +424,47 @@ const Profile = () => {
             <div className="w-full px-4">
               <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
                 <div className="flex justify-center">
-                  <Card>
-                    <div className="water-tank">
-                      <div
-                        className="water-level"
-                        style={{ height: `${extractedData.water_level}%` }}
-                      >
-                        <Icon className="water-icon">
-                          <Pool />
-                        </Icon>
-                        <Icon className="water-icon">
-                          <Opacity />
-                        </Icon>
-                        <Icon className="water-icon">
-                          <Waves />
-                        </Icon>
+                <Card>
+                    <div className="flex flex-wrap">
+                      <div className="w-2/3">
+                        <div className="flex justify-center">
+                          <div className="water-tank mt-8">
+                            <div className="water-level" style={{ height: `${80}%` }}>
+                              <Icon className="water-icon">
+                                <Pool />
+                              </Icon>
+                              <Icon className="water-icon">
+                                <Opacity />
+                              </Icon>
+                              <Icon className="water-icon">
+                                <Waves />
+                              </Icon>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-center mt-4">
+                          <h2 className="text-lg font-medium">Water Level</h2>
+                          <p className="text-gray-500">{80}%</p>
+                        </div>
+                      </div>
+                      <div className="w-1/3 flex items-center">
+                        <div className="m-1">
+                          <p className="m-1">Set tank depth</p>
+                          <input
+                            value={tankDepth} onChange={handleTankDepthChange}
+                            className="w-2/3 border rounded px-2 py-1 m-1"
+                            type="number"
+                            placeholder="Enter tank value"
+                          />
+                          <button onClick={handleSetPumpTrigger} className="bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-1 m-1">
+                            Set
+                          </button>
+                        </div>
                       </div>
                     </div>
-                    <div className="text-center mt-4">
-                      <h2 className="text-lg font-medium">Water Level</h2>
-                      <p className="text-gray-500">{80}%</p>
-                    </div>
                   </Card>
+
+
                 </div>
                 <div className="flex justify-center">
                   <Card>
@@ -400,6 +473,7 @@ const Profile = () => {
                       nrOfLevels={420}
                       arcsLength={[0.3, 0.5, 0.2]}
                       colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+                      textColor="#4145E8"
                       percent={0.37}
                       arcPadding={0.02}
                     />
@@ -413,9 +487,10 @@ const Profile = () => {
                   <Card>
                     <GaugeChart
                       id="temperature"
-                      nrOfLevels={420}
+                      nrOfLevels={100}
                       arcsLength={[0.3, 0.5, 0.2]}
                       colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+                      textColor="#4145E8"
                       percent={0.37}
                       arcPadding={0.02}
                     />
@@ -432,6 +507,7 @@ const Profile = () => {
                       nrOfLevels={420}
                       arcsLength={[0.3, 0.5, 0.2]}
                       colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+                      textColor="#4145E8"
                       percent={0.37}
                       arcPadding={0.02}
                     />
@@ -478,6 +554,7 @@ const Profile = () => {
         </div>
       </div>
     </Sidebar>
+    </>
   );
 };
 

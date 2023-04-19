@@ -609,8 +609,8 @@ const SmartFarm = () => {
                             </div>
                           </div>
                           <div className="flex items-center">
-                            <p>Tank level trigger</p>
-                            <input value={tankValue} onChange={handleTankValueChange} className="w-1/3 p-1 m-3" type="number" placeholder="Enter tank value" />
+                            <p>Set tank level trigger</p>
+                            <input value={tankValue} onChange={handleTankValueChange} className="w-1/4 p-1 m-3" type="number" placeholder="Enter tank value" />
                             <button  onClick={handleSetPumpTrigger} className="py-1 px-5 bg-blue-800 hover:bg-green-600 text-white rounded-lg">Set</button>
                           </div>
                         </div>
@@ -704,6 +704,7 @@ const SmartFarm = () => {
                         </div>
                       </div>
                           <div>
+                            <p>Set soil moisture trigger</p>
                             <ValveSlider imei={imei} subtopic={valve.valveName}/>
                      
                           </div>
