@@ -631,33 +631,83 @@ const SmartFarm = () => {
                 </AccordionSummary>
                 {/* {vauto === true && ( */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
-  {autoValves &&
-    autoValves.map((valve) => {
-      const valveNumber = valve.valveName.match(/\d+/)[0];
-      const sensor = sensors.find(
-        (s) => s.subtopic === `m_s_${valveNumber}`
-      );
-      const sensorValue = sensor ? sensor.value : null;
-      return (
-        <div key={valve.valveName} className="bg-gray-100 p-4 rounded-lg">
-          {/* Valve card content */}
-          <p className="mr-4">
-            Subtopic: <span className="font-medium">{valve.valveName}</span>
-          </p>
-          {/* ... */}
-          <div>
-            <ValveSlider />
-            {sensorValue && (
-              <p>
-                Sensor value: <span className="font-medium">{sensorValue}</span>
-              </p>
-            )}
-          </div>
-        </div>
-      );
-    })}
-</div>
-
+                  {autoValves &&
+                    autoValves.map((valve) => {
+                      const valveNumber = valve.valveName.match(/\d+/)[0];
+                      const sensor = sensors.find(
+                        (s) => s.subtopic === `m_s_${valveNumber}`
+                      );
+                      const sensorValue = sensor ? sensor.value : null;
+                      return (
+                        <div
+                          key={valve.valveName}
+                          className="bg-gray-100 p-4 rounded-lg"
+                        >
+                          {/* Valve card content */}
+                          <p className="mr-4">
+                            Subtopic:{" "}
+                            <span className="font-medium">
+                              {valve.valveName}
+                            </span>
+                          </p>
+                          {/* ... */}
+                          <div className="flex items-center">
+                        <div className="flex items-center">
+                          <p className="mr-4">
+                            Status:{" "}
+                            <span
+                              className={
+                                valve.status === "1"
+                                  ? "text-green-500 font-medium"
+                                  : "text-red-500 font-medium"
+                              }
+                            >
+                              {valve.status === "1" ? "ON" : "OFF"}
+              
+                            </span>
+                          </p>
+                          <Switch
+                            checked={valve.status === "1"}
+                            onChange={handleStatusChangeAndSwitchAutoValve(
+                              valve.valveName
+                            )}
+                            color="primary"
+                            inputProps={{ "aria-label": "toggle valve status" }}
+                            disabled={true}
+                          />
+                        </div>
+                        <div className="flex items-center">
+                          <p className="mr-4">
+                            Mode:{" "}
+                            <span className="font-medium">
+                              {valve.mode === "1" ? "Auto" : "Manual"}
+                            </span>
+                          </p>
+                          <Switch
+                            checked={valve.mode === "1"}
+                            onChange={handleModeChangeAndSwitchAutoValve(
+                              valve.valveName
+                            )}
+                            color="primary"
+                            inputProps={{ "aria-label": "toggle valve mode" }}
+                          />
+                        </div>
+                      </div>
+                          <div>
+                            <ValveSlider />
+                            {sensorValue && (
+                              <p>
+                                Sensor value:{" "}
+                                <span className="font-medium">
+                                  {sensorValue}
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
               </Accordion>
             </>
           )}
