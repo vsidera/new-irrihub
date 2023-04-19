@@ -332,7 +332,36 @@ const SmartFarm = () => {
     setActiveTab(newValue);
   };
 
-  console.log("SENSORS & VALVES!!!!!!!", sensors, autoValves);
+  const [tankValue, setTankValue] = useState('');
+
+  const handleTankValueChange = (event) => {
+    setTankValue(event.target.value);
+  };
+
+  const handleSetPumpTrigger = () => {
+
+    const cmdBody = {
+      imei: imei,
+      command: "t_l",
+      value: tankValue.toString(),
+    };
+    sendCommand(cmdBody)
+      .then((res) => {
+        if (res.status === 200) {
+          setEventType("success");
+          setEventMessage("Command Successfully Sent");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType("fail");
+          setEventMessage("COMMAND NOT SENT");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        }
+      })
+      .catch((err) => console.error(err));
+
+  };
 
   return (
     <>
@@ -526,9 +555,6 @@ const SmartFarm = () => {
                           key={pump.id}
                           className="bg-gray-100 p-4 rounded-lg"
                         >
-                          <h4 className="text-lg font-normal mb-2">
-                            {pump.device_imei}
-                          </h4>
                           <p className="mr-4">
                             Subtopic:{" "}
                             <span className="font-medium">{pump.subtopic}</span>
@@ -577,8 +603,15 @@ const SmartFarm = () => {
                                     "aria-label": "toggle pump mode",
                                   }}
                                 />
+                                
                               </div>
+                              
                             </div>
+                          </div>
+                          <div className="flex items-center">
+                            <p>Tank level trigger</p>
+                            <input value={tankValue} onChange={handleTankValueChange} className="w-1/3 p-1 m-3" type="number" placeholder="Enter tank value" />
+                            <button  onClick={handleSetPumpTrigger} className="py-1 px-5 bg-blue-800 hover:bg-green-600 text-white rounded-lg">Set</button>
                           </div>
                         </div>
                       ))}

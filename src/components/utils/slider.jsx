@@ -66,7 +66,7 @@ function ValveSlider(formValues) {
         }
       })
       .catch((err) => console.error(err));
-    console.log(value); // You can replace this with your own logic to submit the value
+
   };
 
   return (
