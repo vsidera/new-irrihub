@@ -504,39 +504,7 @@ const SmartFarm = () => {
                     ))}
                 </div>
               </Accordion>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="valves-content"
-                  id="valves-header"
-                >
-                  <span className="text-lg font-medium"> SENSORS</span>
-                </AccordionSummary>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
-                  {sensors.map((valve) => (
-                    <div key={valve.id} className="bg-gray-100 p-4 rounded-lg">
-                      <h4 className="text-lg font-normal mb-2">
-                        {valve.device_imei}
-                      </h4>
-                      <p className="mr-4">
-                        Subtopic:{" "}
-                        <span className="font-medium">{valve.subtopic}</span>
-                      </p>
-                      <div className="flex items-center">
-                        <div className="flex items-center">
-                          <p className="mr-4">
-                            Readings:{" "}
-                            <span className="text-green-500 font-medium">
-                              {valve.value}
-                              {/* {valve.value} */}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </Accordion>
+
             </>
           )}
           {activeTab === 1 && (
