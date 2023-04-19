@@ -643,14 +643,23 @@ const SmartFarm = () => {
                           key={valve.valveName}
                           className="bg-gray-100 p-4 rounded-lg"
                         >
-                          {/* Valve card content */}
+                         <div className="flex items-center justify-between">
                           <p className="mr-4">
                             Subtopic:{" "}
                             <span className="font-medium">
                               {valve.valveName}
                             </span>
                           </p>
-                          {/* ... */}
+                         
+                          {sensorValue && (
+                              <p>
+                                Sensor value:{" "}
+                                <span className="font-medium text-green-500">
+                                  {sensorValue}
+                                </span>
+                              </p>
+                            )}
+                       </div>
                           <div className="flex items-center">
                         <div className="flex items-center">
                           <p className="mr-4">
@@ -694,15 +703,8 @@ const SmartFarm = () => {
                         </div>
                       </div>
                           <div>
-                            <ValveSlider />
-                            {sensorValue && (
-                              <p>
-                                Sensor value:{" "}
-                                <span className="font-medium">
-                                  {sensorValue}
-                                </span>
-                              </p>
-                            )}
+                            <ValveSlider imei={imei} subtopic={valve.valveName}/>
+                     
                           </div>
                         </div>
                       );

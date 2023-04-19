@@ -87,8 +87,6 @@ const Profile = () => {
   const mobile_no = JSON.parse(localStorage.getItem("mobile_no"));
   const id = JSON.parse(localStorage.getItem("id"));
 
-  const [waterLevel, setWaterLevel] = useState(80); // 50% full
-
   const imei = params.id;
 
   const [dataLogs, setDataLogs] = useState([]);
@@ -152,6 +150,10 @@ const Profile = () => {
         console.log(err);
       });
   };
+
+  const solar_perc = (parseInt(extractedData.solar_voltage)/100)*100
+
+  const bat_perc = (parseInt(extractedData.battery_voltage)/50)*100
 
   const getDataLogs = () => {
     deviceDataLogs(imei)
@@ -290,12 +292,6 @@ const Profile = () => {
     },
   };
 
-  const cards = [
-    { title: "Card 1", content: "Lorem ipsum dolor sit amet." },
-    { title: "Card 2", content: "Consectetur adipiscing elit." },
-    { title: "Card 3", content: "Sed do eiusmod tempor incididunt ut labore." },
-  ];
-
   return (
     <Sidebar>
       <h1 className="text-2xl text-black mb-6">Profile</h1>
@@ -333,7 +329,7 @@ const Profile = () => {
                       
                       <p className="font-normal mb-2">
                         DEVICE_TYPE:{" "}
-                        <span className="text-gray-700 ml-4">2</span>
+                        <span className="text-gray-700 ml-4">{extractedData.device_type}</span>
                       </p>
                     </div>
                   </div>
@@ -348,56 +344,28 @@ const Profile = () => {
                   <div className="flex items-center mb-4">
                     <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
                       <p className="font-normal mb-2">
-                        HEARTBEAT: <span className="text-gray-700 ml-2">8</span>
+                        HEARTBEAT: <span className="text-gray-700 ml-2">{extractedData.heartbeat}</span>
                       </p>
                       <p className="font-normal mb-2">
                         SIGNAL QUALITY:{" "}
-                        <span className="text-gray-700 ml-2">8</span>
+                        <span className="text-gray-700 ml-2">{extractedData.gpsSignalQuality}</span>
                       </p>
                       
                     </div>
                     <div className="w-1/2 pl-2 pr-1">
                     <p className="font-normal mb-2">
                         Firmware Ver:{" "}
-                        <span className="text-gray-700 ml-4">12</span>
+                        <span className="text-gray-700 ml-4">{extractedData.firmwareVersion}</span>
                       </p>
                       <p className="font-normal mb-2">
                         Link to Sensor Board:{" "}
-                        <span className="text-gray-700 ml-2">8</span>
+                        <span className="text-gray-700 ml-2">{extractedData.ltsb}</span>
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-{/* 
-            <div className="w-full md:w-1/2 px-4 mb-4">
-              <div className="rounded-lg shadow-lg p-4">
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <h2 className=" font-normal mb-2 ml-4">READINGS</h2>
-                  <div className="flex items-center mb-4">
-          
-                    <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
-                      <p className="font-normal mb-2">
-                        HUMIDITY: <span className="text-gray-700 ml-2">8</span>
-                      </p>
-                      <p className="font-normal mb-2">
-                        TEMPERATURE:{" "}
-                        <span className="text-gray-700 ml-2">8</span>
-                      </p>
-                    </div>
-                    <div className="w-1/2 pl-4">
-                     
-
-                      <p className="font-normal mb-2">
-                        Link to Sensor Board:{" "}
-                        <span className="text-gray-700 ml-2">8</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
 
             <div className="w-full px-4">
               <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
@@ -406,7 +374,7 @@ const Profile = () => {
                     <div className="water-tank">
                       <div
                         className="water-level"
-                        style={{ height: `${waterLevel}%` }}
+                        style={{ height: `${extractedData.water_level}%` }}
                       >
                         <Icon className="water-icon">
                           <Pool />
@@ -421,7 +389,7 @@ const Profile = () => {
                     </div>
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Water Level</h2>
-                      <p className="text-gray-500">{waterLevel}%</p>
+                      <p className="text-gray-500">{80}%</p>
                     </div>
                   </Card>
                 </div>
@@ -437,7 +405,7 @@ const Profile = () => {
                     />
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Solar</h2>
-                      <p className="text-gray-500">37%</p>
+                      <p className="text-gray-500">{solar_perc}</p>
                     </div>
                   </Card>
                 </div>
@@ -453,7 +421,7 @@ const Profile = () => {
                     />
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Temperature</h2>
-                      <p className="text-gray-500">37%</p>
+                      <p className="text-gray-500">{extractedData.temperature}</p>
                     </div>
                   </Card>
                 </div>
@@ -469,7 +437,7 @@ const Profile = () => {
                     />
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Humidity</h2>
-                      <p className="text-gray-500">37%</p>
+                      <p className="text-gray-500">{extractedData.humidity}</p>
                     </div>
                   </Card>
                 </div>
