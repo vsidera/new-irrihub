@@ -167,7 +167,7 @@ const Profile = () => {
               case "rssi":
                 extractedData.rssi = obj.value;
                 setRssi(extractedData.rssi)
-                break;  
+                break;
               case "s_b_v":
                 extractedData.battery_voltage = obj.value;
                 setBat_voltage(extractedData.battery_voltage)
@@ -217,13 +217,13 @@ const Profile = () => {
 
   };
 
-  const solar_perc = solar_voltage/100
+  const solar_perc = solar_voltage / 100
 
-  const bat_perc = bat_voltage/50
+  const bat_perc = bat_voltage / 50
 
-  const hum_perc = humidity/100
+  const hum_perc = humidity / 100
 
-  const temp_perc = temp/100
+  const temp_perc = temp / 100
 
   const getDataLogs = () => {
     deviceDataLogs(imei)
@@ -372,110 +372,112 @@ const Profile = () => {
 
   return (
     <>
-    <SnackbarAlert
+      <SnackbarAlert
         open={isSnackBarAlertOpen}
         type={eventType}
         message={eventMessage}
         handleClose={() => setIsSnackBarAlertOpen(false)}
         title={eventTitle}
       />
-   
-    <Sidebar>
-      <h1 className="text-2xl text-black mb-6">Profile</h1>
-      <h4 className="text-md text-blue-900 font-serif">
-        {" "}
-        Details about the Device and Owner
-      </h4>
-      <div className="mt-4">
-        <div className="container mx-auto mt-4">
+
+      <Sidebar>
+        <h1 className="text-2xl text-black mb-6">Profile</h1>
+        <h4 className="text-md text-blue-900 font-serif">
+          {" "}
+          Details about the Device and Owner
+        </h4>
+        <div className="mt-4">
+          <div className="container mx-auto mt-4">
             {/* <div className="flex flex-wrap -mx-4"> */}
             <div className="grid grid-cols-2 gap-2">
-            <div className="w-full  px-4 mb-4 lg:col-span-1 sm:col-span-2">
-              <div className="rounded-lg shadow-lg p-4">
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <h2 className=" font-normal mb-2 ml-2">PROFILE DETAILS</h2>
-                  <div className="flex items-center mb-4">
-                    <div className="w-1/2 pl-2 pr-1 border-r-2 border-red-500">
-                      <p className="font-normal mb-2">
-                        NAME:{" "}
-                        <span className="text-gray-700 ml-2">
-                          {firstname}
-                          {` `}
-                          {lastname}
-                        </span>
-                      </p>
-                      <p className="font-normal mb-2">
-                        PHONE:{" "}
-                        <span className="text-gray-700 ml-2">{mobile_no}</span>
-                      </p>
-                      
-                    </div>
-                    <div className="w-1/2 pl-4">
-                    <p className="font-normal mb-2">
-                        IMEI: <span className="text-gray-700 ml-4">{imei}</span>
-                      </p>
-                      
-                      <p className="font-normal mb-2">
-                        DEVICE_TYPE:{" "}
-                        <span className="text-gray-700 ml-4">{device_type}</span>
-                      </p>
+              <div className="w-full  px-4 mb-4 lg:col-span-1 sm:col-span-2">
+                <div className="rounded-lg shadow-lg p-4">
+                  <div className="bg-gray-100 rounded-lg p-4">
+                    <h2 className=" font-normal mb-2 ml-2">PROFILE DETAILS</h2>
+                    <div className="flex items-center mb-4">
+                      <div className="w-1/2 pl-2 pr-1 border-r-2 border-red-500">
+                        <p className="font-normal mb-2">
+                          NAME:{" "}
+                          <span className="text-gray-700 ml-2">
+                            {firstname}
+                            {` `}
+                            {lastname}
+                          </span>
+                        </p>
+                        <p className="font-normal mb-2">
+                          PHONE:{" "}
+                          <span className="text-gray-700 ml-2">{mobile_no}</span>
+                        </p>
+
+                      </div>
+                      <div className="w-1/2 pl-4">
+                        <p className="font-normal mb-2">
+                          IMEI: <span className="text-gray-700 ml-4">{imei}</span>
+                        </p>
+
+                        <p className="font-normal mb-2">
+                          DEVICE_TYPE:{" "}
+                          <span className="text-gray-700 ml-4">{device_type}</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="w-full sm:col-span-2 lg:col-span-1 px-4 mb-4">
-              <div className="rounded-lg shadow-lg p-4">
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
-                  <div className="flex items-center mb-4">
-                    <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
-                      <p className="font-normal mb-2">
-                        HEARTBEAT: <span className="text-gray-700 ml-2">{heartbeat}</span>
-                      </p>
-                      <p className="font-normal mb-2">
-                        SIGNAL QUALITY:{" "}
-                        <span className="text-gray-700 ml-2">{signal_quality}</span>
-                      </p>
-                      
-                    </div>
-                    <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
-                    <p className="font-normal mb-2">
-                        Temperature:{" "}
-                        <span className="text-gray-700 ml-4">{temp}</span>
-                      </p>
-                      <p className="font-normal mb-2">
-                        Rssi:{" "}
-                        <span className="text-gray-700 ml-2">{rssi}</span>
-                      </p>
-                    </div>
-                    <div className="w-1/3 pl-2 pr-1">
-                    <p className="font-normal mb-2">
-                        Firmware Ver:{" "}
-                        <span className="text-gray-700 ml-4">{fw_version}</span>
-                      </p>
-                      <p className="font-normal mb-2">
-                        Link to Sensor Board:{" "}
-                        <span className={`ml-2 ${ltsb ? 'text-green-500' : 'text-red-500'}`}>
-                        {ltsb ? 'True' : 'False'}
-                      </span>
+              <div className="w-full sm:col-span-2 lg:col-span-1 px-4 mb-4">
+                <div className="rounded-lg shadow-lg p-4">
+                  <div className="bg-gray-100 rounded-lg p-4">
+                    <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
+                    <div className="flex items-center mb-4">
+                      <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
+                        <p className="font-normal mb-2">
+                          HEARTBEAT: <span className="text-gray-700 ml-2">{heartbeat}</span>
+                        </p>
+                        <p className="font-normal mb-2">
+                          SIGNAL QUALITY:{" "}
+                          <span className="text-gray-700 ml-2">{signal_quality}</span>
+                        </p>
 
-                      </p>
+                      </div>
+                      <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
+                        <p className="font-normal mb-2">
+                          Temperature:{" "}
+                          <span className="text-gray-700 ml-4">{temp}</span>
+                        </p>
+                        <p className="font-normal mb-2">
+                          Rssi:{" "}
+                          <span className="text-gray-700 ml-2">{rssi}</span>
+                        </p>
+                      </div>
+                      <div className="w-1/3 pl-2 pr-1">
+                        <p className="font-normal mb-2">
+                          Firmware Ver:{" "}
+                          <span className="text-gray-700 ml-4">{fw_version}</span>
+                        </p>
+                        <p className="font-normal mb-2">
+                          Link to Sensor Board:{" "}
+                          <span className={`ml-2 ${ltsb ? 'text-green-500' : 'text-red-500'}`}>
+                            {ltsb ? 'True' : 'False'}
+                          </span>
+
+                        </p>
+                      </div>
+
                     </div>
-                    
                   </div>
                 </div>
               </div>
-            </div>
             </div>
 
             {/* <div className="w-full px-4"> */}
-            <div className="grid gap-4 grid-cols-4 lg:grid-cols-4 sm:grid-cols-2">
-                <div className=" lg:col-span-1 sm:col-span-4">
-                <Card>
-                    <div className="flex flex-wrap">
-                      <div className="w-2/3">
+            <div className='grid grid-cols-2 gap-4 mx-4'>
+              <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4  ">
+                <div className="w-full h-full">
+                  <div>
+                  <Card>
+                    <div className="grid grid-cols-7">
+                      <div className="col-span-4 flex-col">
                         <div className="flex justify-center">
                           <div className="water-tank mt-12">
                             <div className="water-level" style={{ height: `${80}%` }}>
@@ -498,7 +500,7 @@ const Profile = () => {
                       </div>
                       <div className="w-1/3 flex items-center">
                         <div className="m-1">
-                          <p className="m-1">Set tank depth</p>
+                          <p className="m-1 whitespace-nowrap">Set tank depth</p>
                           <input
                             value={tankDepth} onChange={handleTankDepthChange}
                             className="w-2/3 border rounded px-2 py-1 m-1"
@@ -511,11 +513,11 @@ const Profile = () => {
                         </div>
                       </div>
                     </div>
-                  </Card>
-
-
+                    </Card>
+                    </div>
                 </div>
-                <div className="lg:col-span-1 sm:col-span-4">
+
+                <div className="">
                   <Card>
                     <GaugeChart
                       id="solar"
@@ -532,13 +534,16 @@ const Profile = () => {
                     </div>
                   </Card>
                 </div>
-                <div className="lg:col-span-1 sm:col-span-4">
+              </div>
+
+              <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4">
+                <div className="">
                   <Card>
                     <GaugeChart
                       id="temperature"
                       nrOfLevels={50}
                       arcsLength={[0.2, 0.2, 0.2, 0.2, 0.2]}
-                      colors={["#5BE12C",  "#FF00FF","#F5CD19", "#EA4228", "#0000FF"]}
+                      colors={["#5BE12C", "#FF00FF", "#F5CD19", "#EA4228", "#0000FF"]}
                       textColor="#4145E8"
                       percent={bat_perc}
                       arcPadding={0.02}
@@ -549,7 +554,7 @@ const Profile = () => {
                     </div>
                   </Card>
                 </div>
-                <div className="lg:col-span-1 sm:col-span-4">
+                <div className="">
                   <Card>
                     <GaugeChart
                       id="humidity"
@@ -568,6 +573,9 @@ const Profile = () => {
                   </Card>
                 </div>
               </div>
+            </div>
+
+          
             {/* </div> */}
 
             <div className="w-full px-4">
@@ -600,10 +608,10 @@ const Profile = () => {
                 )}
               </div>
             </div>
-          {/* </div> */}
+            {/* </div> */}
+          </div>
         </div>
-      </div>
-    </Sidebar>
+      </Sidebar>
     </>
   );
 };
