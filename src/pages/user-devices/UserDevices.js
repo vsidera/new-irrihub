@@ -32,9 +32,9 @@ const UserDevices = () => {
 
   return (
     <>
-    {isLoaded ? <div className="flex justify-center h-screen bg-gray-100 shadow-2xl shadow-top rounded-lg mb-4 m-16">
+    {isLoaded ? <div className="flex justify-center h-screen bg-gray-100 shadow-2xl shadow-top rounded-lg ">
   <div
-    className="flex flex-col justify-center items-center mt-6 mx-auto"
+          className="flex flex-col justify-center items-center mt-6 mx-auto p-8"
     style={{ width: "60vw" }}
   >
      <h4 className="text-lg text-primary flex justify-center mb-6 font-serif">
@@ -44,7 +44,7 @@ const UserDevices = () => {
       <Link
         to={`/${app.imei}/profile`}
         key={index}
-        className="bg-white rounded-lg shadow-md p-4 m-2 w-2/4 h-24 flex flex-col justify-center items-center"
+        className="bg-white rounded-lg shadow-md p-4 m-2 w-3/4 h-24 flex flex-col justify-center items-center"
       >
         <AppsCard key={index} {...app} />
       </Link>
