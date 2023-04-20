@@ -477,7 +477,7 @@ const Profile = () => {
                     <div className="flex flex-wrap">
                       <div className="w-2/3">
                         <div className="flex justify-center">
-                          <div className="water-tank mt-8">
+                          <div className="water-tank mt-12">
                             <div className="water-level" style={{ height: `${80}%` }}>
                               <Icon className="water-icon">
                                 <Pool />
