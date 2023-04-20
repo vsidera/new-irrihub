@@ -371,8 +371,9 @@ const Profile = () => {
       </h4>
       <div className="mt-4">
         <div className="container mx-auto mt-4">
-          <div className="flex flex-wrap -mx-4">
-            <div className="w-full md:w-1/2 px-4 mb-4">
+            {/* <div className="flex flex-wrap -mx-4"> */}
+            <div className="grid grid-cols-2 gap-2">
+            <div className="w-full  px-4 mb-4 lg:col-span-1 sm:col-span-2">
               <div className="rounded-lg shadow-lg p-4">
                 <div className="bg-gray-100 rounded-lg p-4">
                   <h2 className=" font-normal mb-2 ml-2">PROFILE DETAILS</h2>
@@ -407,7 +408,7 @@ const Profile = () => {
               </div>
             </div>
 
-            <div className="w-full md:w-1/2 px-4 mb-4">
+            <div className="w-full sm:col-span-2 lg:col-span-1 px-4 mb-4">
               <div className="rounded-lg shadow-lg p-4">
                 <div className="bg-gray-100 rounded-lg p-4">
                   <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
@@ -436,10 +437,11 @@ const Profile = () => {
                 </div>
               </div>
             </div>
+            </div>
 
-            <div className="w-full px-4">
-              <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
-                <div className="flex justify-center">
+            {/* <div className="w-full px-4"> */}
+            <div className="grid gap-4 grid-cols-4 lg:grid-cols-4 sm:grid-cols-2">
+                <div className=" lg:col-span-1 sm:col-span-4">
                 <Card>
                     <div className="flex flex-wrap">
                       <div className="w-2/3">
@@ -482,7 +484,7 @@ const Profile = () => {
 
 
                 </div>
-                <div className="flex justify-center">
+                <div className="lg:col-span-1 sm:col-span-4">
                   <Card>
                     <GaugeChart
                       id="solar"
@@ -499,7 +501,7 @@ const Profile = () => {
                     </div>
                   </Card>
                 </div>
-                <div className="flex justify-center">
+                <div className="lg:col-span-1 sm:col-span-4">
                   <Card>
                     <GaugeChart
                       id="temperature"
@@ -516,7 +518,7 @@ const Profile = () => {
                     </div>
                   </Card>
                 </div>
-                <div className="flex justify-center">
+                <div className="lg:col-span-1 sm:col-span-4">
                   <Card>
                     <GaugeChart
                       id="humidity"
@@ -530,11 +532,12 @@ const Profile = () => {
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Humidity</h2>
                       <p className="text-gray-500">{humidity}</p>
+
                     </div>
                   </Card>
                 </div>
               </div>
-            </div>
+            {/* </div> */}
 
             <div className="w-full px-4">
               <div className="bg-white rounded-lg shadow-xl p-6">
@@ -566,7 +569,7 @@ const Profile = () => {
                 )}
               </div>
             </div>
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </Sidebar>
