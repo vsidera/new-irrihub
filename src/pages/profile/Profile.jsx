@@ -495,7 +495,7 @@ const Profile = () => {
                     />
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Solar</h2>
-                      <p className="text-gray-500">{solar_perc}</p>
+                      <p className="text-gray-500">{solar_voltage}</p>
                     </div>
                   </Card>
                 </div>
@@ -512,7 +512,7 @@ const Profile = () => {
                     />
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Temperature</h2>
-                      <p className="text-gray-500">{extractedData.temperature}</p>
+                      <p className="text-gray-500">{temp}</p>
                     </div>
                   </Card>
                 </div>
@@ -529,7 +529,7 @@ const Profile = () => {
                     />
                     <div className="text-center mt-4">
                       <h2 className="text-lg font-medium">Humidity</h2>
-                      <p className="text-gray-500">{extractedData.humidity}</p>
+                      <p className="text-gray-500">{humidity}</p>
                     </div>
                   </Card>
                 </div>
