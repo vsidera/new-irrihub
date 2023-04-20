@@ -96,6 +96,7 @@ const Profile = () => {
   const [waterLevel, setWaterLevel] = useState("...");
   const [ltsb, setLtsb] = useState("...");
   const [humidity, setHumidity] = useState("...");
+  const [rssi, setRssi] = useState("...");
 
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -135,7 +136,7 @@ const Profile = () => {
                 break;
               case "f_w":
                 extractedData.firmwareVersion = obj.value;
-                setFw_version(extractedData.fw_version)
+                setFw_version(extractedData.firmwareVersion)
                 break;
               case "g_s_q":
                 extractedData.gpsSignalQuality = obj.value;
@@ -163,6 +164,10 @@ const Profile = () => {
                 extractedData.solar_voltage = obj.value;
                 setSolar_voltage(extractedData.solar_voltage)
                 break;
+              case "rssi":
+                extractedData.rssi = obj.value;
+                setRssi(extractedData.rssi)
+                break;  
               case "s_b_v":
                 extractedData.battery_voltage = obj.value;
                 setBat_voltage(extractedData.battery_voltage)
@@ -212,9 +217,13 @@ const Profile = () => {
 
   };
 
-  const solar_perc = (parseInt(extractedData.solar_voltage)/100)*100
+  const solar_perc = solar_voltage/100
 
-  const bat_perc = (parseInt(extractedData.battery_voltage)/50)*100
+  const bat_perc = bat_voltage/50
+
+  const hum_perc = humidity/100
+
+  const temp_perc = temp/100
 
   const getDataLogs = () => {
     deviceDataLogs(imei)
@@ -256,6 +265,14 @@ const Profile = () => {
     {
       name: "subtopic",
       label: "SUB TOPIC",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "description",
+      label: "DESCRIPTION",
       options: {
         filter: true,
         sort: false,
@@ -413,7 +430,7 @@ const Profile = () => {
                 <div className="bg-gray-100 rounded-lg p-4">
                   <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
                   <div className="flex items-center mb-4">
-                    <div className="w-1/2 pl-4 pr-2 border-r-2 border-red-500">
+                    <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
                       <p className="font-normal mb-2">
                         HEARTBEAT: <span className="text-gray-700 ml-2">{heartbeat}</span>
                       </p>
@@ -423,16 +440,30 @@ const Profile = () => {
                       </p>
                       
                     </div>
-                    <div className="w-1/2 pl-2 pr-1">
+                    <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
+                    <p className="font-normal mb-2">
+                        Temperature:{" "}
+                        <span className="text-gray-700 ml-4">{temp}</span>
+                      </p>
+                      <p className="font-normal mb-2">
+                        Rssi:{" "}
+                        <span className="text-gray-700 ml-2">{rssi}</span>
+                      </p>
+                    </div>
+                    <div className="w-1/3 pl-2 pr-1">
                     <p className="font-normal mb-2">
                         Firmware Ver:{" "}
                         <span className="text-gray-700 ml-4">{fw_version}</span>
                       </p>
                       <p className="font-normal mb-2">
                         Link to Sensor Board:{" "}
-                        <span className="text-gray-700 ml-2">{ltsb}</span>
+                        <span className={`ml-2 ${ltsb ? 'text-green-500' : 'text-red-500'}`}>
+                        {ltsb ? 'True' : 'False'}
+                      </span>
+
                       </p>
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -462,7 +493,7 @@ const Profile = () => {
                         </div>
                         <div className="text-center mt-4">
                           <h2 className="text-lg font-medium">Water Level</h2>
-                          <p className="text-gray-500">{80}%</p>
+                          <p className="text-gray-500">{80}cm</p>
                         </div>
                       </div>
                       <div className="w-1/3 flex items-center">
@@ -492,12 +523,12 @@ const Profile = () => {
                       arcsLength={[0.3, 0.5, 0.2]}
                       colors={["#5BE12C", "#F5CD19", "#EA4228"]}
                       textColor="#4145E8"
-                      percent={0.37}
+                      percent={solar_perc}
                       arcPadding={0.02}
                     />
                     <div className="text-center mt-4">
-                      <h2 className="text-lg font-medium">Solar</h2>
-                      <p className="text-gray-500">{solar_voltage}</p>
+                      <h2 className="text-lg font-medium">Solar Voltage</h2>
+                      <p className="text-gray-500">{solar_voltage} V</p>
                     </div>
                   </Card>
                 </div>
@@ -509,12 +540,12 @@ const Profile = () => {
                       arcsLength={[0.3, 0.5, 0.2]}
                       colors={["#5BE12C", "#F5CD19", "#EA4228"]}
                       textColor="#4145E8"
-                      percent={0.37}
+                      percent={bat_perc}
                       arcPadding={0.02}
                     />
                     <div className="text-center mt-4">
-                      <h2 className="text-lg font-medium">Temperature</h2>
-                      <p className="text-gray-500">{temp}</p>
+                      <h2 className="text-lg font-medium">Battery Voltage</h2>
+                      <p className="text-gray-500">{temp}V</p>
                     </div>
                   </Card>
                 </div>
@@ -526,7 +557,7 @@ const Profile = () => {
                       arcsLength={[0.3, 0.5, 0.2]}
                       colors={["#5BE12C", "#F5CD19", "#EA4228"]}
                       textColor="#4145E8"
-                      percent={0.37}
+                      percent={hum_perc}
                       arcPadding={0.02}
                     />
                     <div className="text-center mt-4">

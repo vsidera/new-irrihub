@@ -406,8 +406,8 @@ const SmartFarm = () => {
                             {pump.device_imei}
                           </h4>
                           <p className="mr-4">
-                            Subtopic:{" "}
-                            <span className="font-medium">{pump.subtopic}</span>
+                            Name:{" "}
+                            <span className="font-medium">Pump {pump.subtopic}</span>
                           </p>
                           <div className="flex items-center">
                             <div className="flex items-center">
@@ -465,7 +465,7 @@ const SmartFarm = () => {
                 )}
               </Accordion>
 
-              <Accordion>
+              <Accordion defaultExpanded={true}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="valves-content"
@@ -484,8 +484,8 @@ const SmartFarm = () => {
                           {valve.device_imei}
                         </h4>
                         <p className="mr-4">
-                          Subtopic:{" "}
-                          <span className="font-medium">{valve.valveName}</span>
+                          Name:{" "}
+                          <span className="font-medium">Valve {valve.valveName}</span>
                         </p>
                         <div className="flex items-center">
                           <div className="flex items-center">
@@ -556,8 +556,8 @@ const SmartFarm = () => {
                           className="bg-gray-100 p-4 rounded-lg"
                         >
                           <p className="mr-4">
-                            Subtopic:{" "}
-                            <span className="font-medium">{pump.subtopic}</span>
+                            Name:{" "}
+                            <span className="font-medium">Pump {pump.subtopic}</span>
                           </p>
                           <div className="flex items-center">
                             <div className="flex items-center">
@@ -622,7 +622,7 @@ const SmartFarm = () => {
                   <div className="text-red-600 p-4">PUMP IN MANUAL</div>
                 )}
               </Accordion>
-              <Accordion>
+              <Accordion defaultExpanded={true}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="valves-content"
@@ -646,9 +646,9 @@ const SmartFarm = () => {
                         >
                          <div className="flex items-center justify-between">
                           <p className="mr-4">
-                            Subtopic:{" "}
+                            Name:{" "}
                             <span className="font-medium">
-                              {valve.valveName}
+                              Valve {valve.valveName}
                             </span>
                           </p>
                          
