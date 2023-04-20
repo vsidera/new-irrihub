@@ -8,7 +8,7 @@ const Analytics = () => {
     <h1 className="text-2xl text-black mb-6">Analytics</h1>
       <h4 className="text-md text-gray-800 font-serif">
         {" "}
-        Information about Suss & its products
+        Information about Irrihub & its products
       </h4>
     </Sidebar>
   );
