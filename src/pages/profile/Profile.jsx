@@ -87,6 +87,16 @@ const Profile = () => {
   const [eventTitle, setEventTitle] = useState("");
 
   const [heartbeat, setHeartbeat] = useState("...");
+  const [fw_version, setFw_version] = useState("...");
+  const [bat_voltage, setBat_voltage] = useState("...");
+  const [solar_voltage, setSolar_voltage] = useState("...");
+  const [device_type, setDevice_type] = useState("...");
+  const [signal_quality, setSignal_quality] = useState("...");
+  const [temp, setTemp] = useState("...");
+  const [waterLevel, setWaterLevel] = useState("...");
+  const [ltsb, setLtsb] = useState("...");
+  const [humidity, setHumidity] = useState("...");
+
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -121,32 +131,41 @@ const Profile = () => {
             switch (obj.subtopic) {
               case "d_t":
                 extractedData.device_type = obj.value;
+                setDevice_type(extractedData.device_type)
                 break;
               case "f_w":
                 extractedData.firmwareVersion = obj.value;
+                setFw_version(extractedData.fw_version)
                 break;
               case "g_s_q":
                 extractedData.gpsSignalQuality = obj.value;
+                setSignal_quality(extractedData.signal_quality)
                 break;
               case "h_b":
                 extractedData.heartbeat = obj.value;
                 setHeartbeat(extractedData.heartbeat)
-              case "d_t":
+              case "hum":
                 extractedData.humidity = obj.value;
+                setHumidity(extractedData.humidity)
                 break;
               case "l_t_s_b":
                 extractedData.ltsb = obj.value;
+                setLtsb(extractedData.ltsb)
                 break;
               case "temp":
                 extractedData.temperature = obj.value;
+                setTemp(extractedData.temperature)
                 break;
               case "w_t_l":
                 extractedData.water_level = obj.value;
+                setWaterLevel(extractedData.water_level)
               case "s_p_v":
                 extractedData.solar_voltage = obj.value;
+                setSolar_voltage(extractedData.solar_voltage)
                 break;
               case "s_b_v":
                 extractedData.battery_voltage = obj.value;
+                setBat_voltage(extractedData.battery_voltage)
                 break;
               default:
                 break;
@@ -155,15 +174,12 @@ const Profile = () => {
 
           setIsLoaded(true)
 
-          console.log("THE EXTRACTED DATA IS!!!!!!!!!", extractedData);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  console.log("THE EXTRACTED DATA IS!!!!!!!!!", extractedData);
 
   const [tankDepth, setTankDepth] = useState('');
 
