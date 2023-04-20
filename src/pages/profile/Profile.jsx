@@ -399,7 +399,7 @@ const Profile = () => {
                       
                       <p className="font-normal mb-2">
                         DEVICE_TYPE:{" "}
-                        <span className="text-gray-700 ml-4">{extractedData.device_type}</span>
+                        <span className="text-gray-700 ml-4">{device_type}</span>
                       </p>
                     </div>
                   </div>
@@ -418,18 +418,18 @@ const Profile = () => {
                       </p>
                       <p className="font-normal mb-2">
                         SIGNAL QUALITY:{" "}
-                        <span className="text-gray-700 ml-2">{extractedData.gpsSignalQuality}</span>
+                        <span className="text-gray-700 ml-2">{signal_quality}</span>
                       </p>
                       
                     </div>
                     <div className="w-1/2 pl-2 pr-1">
                     <p className="font-normal mb-2">
                         Firmware Ver:{" "}
-                        <span className="text-gray-700 ml-4">{extractedData.firmwareVersion}</span>
+                        <span className="text-gray-700 ml-4">{fw_version}</span>
                       </p>
                       <p className="font-normal mb-2">
                         Link to Sensor Board:{" "}
-                        <span className="text-gray-700 ml-2">{extractedData.ltsb}</span>
+                        <span className="text-gray-700 ml-2">{ltsb}</span>
                       </p>
                     </div>
                   </div>
