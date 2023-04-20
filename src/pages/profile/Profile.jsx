@@ -536,9 +536,9 @@ const Profile = () => {
                   <Card>
                     <GaugeChart
                       id="temperature"
-                      nrOfLevels={100}
-                      arcsLength={[0.3, 0.5, 0.2]}
-                      colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+                      nrOfLevels={50}
+                      arcsLength={[0.2, 0.2, 0.2, 0.2, 0.2]}
+                      colors={["#5BE12C",  "#FF00FF","#F5CD19", "#EA4228", "#0000FF"]}
                       textColor="#4145E8"
                       percent={bat_perc}
                       arcPadding={0.02}
@@ -553,7 +553,7 @@ const Profile = () => {
                   <Card>
                     <GaugeChart
                       id="humidity"
-                      nrOfLevels={420}
+                      nrOfLevels={100}
                       arcsLength={[0.3, 0.5, 0.2]}
                       colors={["#5BE12C", "#F5CD19", "#EA4228"]}
                       textColor="#4145E8"
