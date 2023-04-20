@@ -79,7 +79,7 @@ const Login = () => {
         title={eventTitle}
       />
       <section class="bg-gray-50 dark:bg-gray-900 flex justify-center items-center min-h-screen">
-  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto w-full max-w-md sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+  <div class="flex  px-6 py-8 mx-auto w-3/6 lg:w-3/6 sm:w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700">
     <div class="p-6 space-y-4 md:space-y-6 sm:p-8 w-full">
       <div class="flex items-center justify-center mb-4">
         <img src={logoUrl} alt="Logo" />
