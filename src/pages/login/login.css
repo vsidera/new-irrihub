@@ -1,0 +1,6 @@
+@media (max-width: 640px) {
+    input, label, button, .text-sm {
+      font-size: 18px;
+    }
+  }
+  
