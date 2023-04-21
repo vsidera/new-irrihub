@@ -44,54 +44,59 @@ function Login2() {
   };
 
   return (
-    <form className="mx-auto max-w-md p-6 border rounded-lg shadow-lg">
-      <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
-      <div className="mb-4">
-        <label
-          htmlFor="username"
-          className="block text-gray-700 font-bold mb-2"
-        >
-          Username
-        </label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Enter your username"
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="password"
-          className="block text-gray-700 font-bold mb-2"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Enter your password"
-        />
-      </div>
-      <div className="mb-4 flex items-center">
-        <input
-          type="checkbox"
-          id="rememberMe"
-          name="rememberMe"
-          checked={rememberMe}
-          onChange={(e) => setRememberMe(e.target.checked)}
-          className="mr-2 leading-tight"
-        />
-        <label htmlFor="rememberMe" className="text-gray-700 font-bold">
-          Remember me
-        </label>
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+        </div>
+        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+          <div className="rounded-md shadow-sm">
+            <div className="mt-1 relative rounded-md">
+              <input
+                id="username"
+                name="username"
+                type="text"
+                autoComplete="username"
+                required
+                className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M11.585 12l4.95 4.95-1.414 1.414L10.172 13H2v-2h8.172l4.95-4.95L16.536 4.636 11.585 9.586 11.585 12zm-9-5a1 1 0 012 0v1h1a1 1 0 110 2H5v1a1 1 0 11-2 0V8zm14 5a1 1 0 01-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 112 0v2z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div className="rounded-md shadow-sm">
+            <div className="mt-1 relative rounded-md">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              </div>
+   
       </div>
       <button
         type="submit"
@@ -101,6 +106,8 @@ function Login2() {
         Login
       </button>
     </form>
+    </div>
+    </div>
   );
 }
 
