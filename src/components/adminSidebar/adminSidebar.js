@@ -15,7 +15,7 @@ export default function AdminSidebar({ children }) {
 
   const handleLogout = (e) => {
     localStorage.clear();
-    navigate("/");
+    navigate("/login");
   };
 
   const logoUrl = `${process.env.PUBLIC_URL}/images/irri.jpeg`;
