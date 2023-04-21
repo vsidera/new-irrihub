@@ -37,12 +37,7 @@ const Login = () => {
     };
     loginAction(formValues)
       .then((res) => {
-        if (res.errors) {
-          setEventType("fail");
-          setEventMessage("Login Failed");
-          setEventTitle("LOGIN");
-          setIsSnackBarAlertOpen(true);
-        } else {
+        if (res.status === 200) {
           setEventType("success");
           setEventMessage("Logged In Successfully!");
           setEventTitle("LOGIN");
@@ -57,7 +52,15 @@ const Login = () => {
             }
             // props.history.push('/sidebar');
           }, 1000);
+
+          
+        } else {
+          setEventType("fail");
+          setEventMessage("Login Failed");
+          setEventTitle("LOGIN");
+          setIsSnackBarAlertOpen(true);
         }
+        setIsButtonClicked(false)
       })
       .catch((err) => { });
   };
