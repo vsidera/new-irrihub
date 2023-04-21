@@ -11,13 +11,14 @@ import SmartFarm from "./pages/smartfarm/SmartFarm";
 import Analytics from "./pages/analytics/Analytics";
 import Profile from "./pages/profile/Profile";
 import UserDevices from "./pages/user-devices/UserDevices";
+import Login2 from "./pages/login/Login2";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>      
         <Routes>
-          <Route path='/login' exact element={<Login/>} />
+          <Route path='/login' exact element={<Login2/>} />
           {/* <Route path="my-devices/:id" element={<Home/>} /> */}
           <Route path='users' element={<Users/>} />
           <Route path='customers' element={<Customers/>} />
