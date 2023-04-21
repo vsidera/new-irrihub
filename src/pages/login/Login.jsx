@@ -104,6 +104,7 @@ const Login = () => {
                 </label>
                 <input
                   type="email"
+                  inputmode="numeric"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   name="email"
@@ -123,6 +124,7 @@ const Login = () => {
                 </label>
                 <input
                   type="password"
+                  inputmode="numeric"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   name="password"
@@ -138,6 +140,7 @@ const Login = () => {
                   <div class="flex items-center h-5">
                     <input
                       id="remember"
+                      inputmode="numeric"
                       aria-describedby="remember"
                       type="checkbox"
                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-800 dark:ring-offset-gray-800"
