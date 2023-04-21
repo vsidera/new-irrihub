@@ -8,6 +8,7 @@ import { TextField } from '@material-ui/core';
 import "./login.css";
 import {Helmet} from "react-helmet";
 
+
 const Login = () => {
   const navigate = useNavigate();
   // Init cookies
@@ -141,6 +142,7 @@ const Login = () => {
                       type="checkbox"
                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-800 dark:ring-offset-gray-800"
                       required=""
+                      style={{ touchAction: 'manipulation' }}
                     />
                   </div>
                   <div class="ml-3 text-lg">
