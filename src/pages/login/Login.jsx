@@ -82,9 +82,7 @@ const Login = () => {
         handleClose={() => setIsSnackBarAlertOpen(false)}
         title={eventTitle}
       />
-      <Helmet>
-              <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-        </Helmet>
+     
       <section class="bg-gray-50 dark:bg-gray-900 flex justify-center items-center h-screen">
         <div class="  px-6 py-8 mx-auto w-3/6 lg:w-2/6 sm:w-full xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8 w-full">
