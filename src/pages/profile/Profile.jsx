@@ -243,7 +243,7 @@ const Profile = () => {
     getDataState();
     getDataLogs();
     setIsLoaded(true);
-  }, []);
+  }, [activeTab]);
 
   const columns = [
     {
@@ -254,14 +254,14 @@ const Profile = () => {
         sort: false,
       },
     },
-    {
-      name: "device_imei",
-      label: "IMEI",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
+    // {
+    //   name: "device_imei",
+    //   label: "IMEI",
+    //   options: {
+    //     filter: true,
+    //     sort: false,
+    //   },
+    // },
     {
       name: "subtopic",
       label: "SUB TOPIC",
@@ -292,6 +292,9 @@ const Profile = () => {
       options: {
         filter: true,
         sort: false,
+        customBodyRender: (value) =>
+
+        (new Date(value).toLocaleString('en-US', { timeZone: 'UTC' }, { hour: 'numeric', hour12: true }))
       },
     },
   ];
@@ -478,7 +481,7 @@ const Profile = () => {
                   <Card>
                     <div className="grid grid-cols-7">
                       <div className="col-span-4 flex-col">
-                        <div className="flex justify-center">
+                        <div className="flex justify-center mb-8">
                           <div className="water-tank mt-12">
                             <div className="water-level" style={{ height: `${80}%` }}>
                               <Icon className="water-icon">
@@ -493,21 +496,21 @@ const Profile = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="text-center mt-4">
-                          <h2 className="text-lg font-medium">Water Level</h2>
-                          <p className="text-gray-500">{80}cm</p>
+                        <div className="text-center mt-4 mb-2">
+                          <h2 className="text-lg font-medium mt-4">Water Level</h2>
+                          <p className="text-gray-500">{80} CM</p>
                         </div>
                       </div>
                       <div className="w-1/3 flex items-center">
                         <div className="m-1">
-                          <p className="m-1 whitespace-nowrap">Set tank depth</p>
+                          <p className="m-1 whitespace-nowrap -mt-10">SET TANK DEPTH</p>
                           <input
                             value={tankDepth} onChange={handleTankDepthChange}
-                            className="w-2/3 border rounded px-2 py-1 m-1"
+                            className="w-full border rounded px-2 py-1 m-1"
                             type="number"
-                            placeholder="Enter tank value"
+                            placeholder="depth of tank"
                           />
-                          <button onClick={handleSetPumpTrigger} className="bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-1 m-1">
+                          <button onClick={handleSetPumpTrigger} className=" w-full bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-1 m-1">
                             Set
                           </button>
                         </div>
@@ -528,9 +531,9 @@ const Profile = () => {
                       percent={solar_perc}
                       arcPadding={0.02}
                     />
-                    <div className="text-center mt-4">
+                    <div className="text-center mt-4 mb-2">
                       <h2 className="text-lg font-medium">Solar Voltage</h2>
-                      <p className="text-gray-500">{solar_voltage} V</p>
+                      <p className="text-gray-500 ">{solar_voltage} V</p>
                     </div>
                   </Card>
                 </div>
@@ -542,15 +545,15 @@ const Profile = () => {
                     <GaugeChart
                       id="temperature"
                       nrOfLevels={50}
-                      arcsLength={[0.2, 0.2, 0.2, 0.2, 0.2]}
-                      colors={["#5BE12C", "#FF00FF", "#F5CD19", "#EA4228", "#0000FF"]}
+                      arcsLength={[0.3, 0.2, 0.2, 0.3]}
+                      colors={["#5BE12C", "#F5CD19", "#EA4228", "#0000FF"]}
                       textColor="#4145E8"
                       percent={bat_perc}
                       arcPadding={0.02}
                     />
-                    <div className="text-center mt-4">
+                    <div className="text-center mt-4 mb-2">
                       <h2 className="text-lg font-medium">Battery Voltage</h2>
-                      <p className="text-gray-500">{temp}V</p>
+                      <p className="text-gray-500">{bat_voltage} V</p>
                     </div>
                   </Card>
                 </div>
@@ -560,14 +563,14 @@ const Profile = () => {
                       id="humidity"
                       nrOfLevels={100}
                       arcsLength={[0.3, 0.5, 0.2]}
-                      colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+                      colors={[ "#F5CD19", "#EA4228", "#5BE12C"]}
                       textColor="#4145E8"
                       percent={hum_perc}
                       arcPadding={0.02}
                     />
-                    <div className="text-center mt-4">
+                    <div className="text-center mt-4 mb-2">
                       <h2 className="text-lg font-medium">Humidity</h2>
-                      <p className="text-gray-500">{humidity}</p>
+                      <p className="text-gray-500">{humidity} RH</p>
 
                     </div>
                   </Card>

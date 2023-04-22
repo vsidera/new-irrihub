@@ -35,7 +35,7 @@ export function deviceList(formValues) {
   }
 
   export function deviceDataLogs(imei) {
-    const logsUrl = `${apiUrl.DATA_LOGS}/${imei}`;
+    const logsUrl = `${apiUrl.DATA_LOGS}/${imei}?limit=30&page=1`;
     const config = authHeaders();
   
     return axios
