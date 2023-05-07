@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Table from "../../components/table/table";
-import { Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs, Accordion, AccordionSummary } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Card, CardActions, CardContent, Button } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Sidebar from "../../components/sidebar/sidebar";
@@ -579,7 +580,17 @@ const Profile = () => {
             </div>
 
           
-            {/* </div> */}
+            <div className="m-3 mt-8">
+
+            <Accordion >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="log-tables"
+                  id="log-tables"
+                >
+                  <span className="text-md font-medium"> VIEW DEVICE DATA TABLES</span>
+                </AccordionSummary>
+
 
             <div className="w-full px-4">
               <div className="bg-white rounded-lg shadow-xl p-6">
@@ -611,7 +622,8 @@ const Profile = () => {
                 )}
               </div>
             </div>
-            {/* </div> */}
+            </Accordion>
+          </div>
           </div>
         </div>
       </Sidebar>

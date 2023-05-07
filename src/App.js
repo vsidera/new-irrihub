@@ -8,6 +8,7 @@ import Customers from "./pages/customers/Customers"
 import Devices from "./pages/devices/Devices"
 import SmartHome from "./pages/smarthome/SmartHome";
 import SmartFarm from "./pages/smartfarm/SmartFarm";
+import SmartPan from "./pages/smartpan/SmartPan";
 import Analytics from "./pages/analytics/Analytics";
 import Profile from "./pages/profile/Profile";
 import UserDevices from "./pages/user-devices/UserDevices";
@@ -26,6 +27,7 @@ function App() {
           <Route path='customers' element={<Customers/>} />
           <Route path='devices' element={<Devices/>} />
           <Route path=':id/smartfarm' element={<SmartFarm/>} />
+          <Route path=':id/smartpan' element={<SmartPan/>} />
           <Route path=':id/smarthome' element={<SmartHome/>} />
           <Route path=':id/analytics' element={<Analytics/>} />
           <Route path=':id/profile' element={<Profile/>} />
