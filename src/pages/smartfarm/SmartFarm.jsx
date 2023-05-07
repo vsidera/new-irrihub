@@ -395,12 +395,14 @@ const SmartFarm = () => {
                 </AccordionSummary>
 
                 {auto === false && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
+                  <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
+
                     {pumps &&
                       pumps.map((pump) => (
                         <div
                           key={pump.id}
-                          className="bg-gray-100 p-4 rounded-lg"
+                          className="bg-gray-100 p-4 rounded-lg w-full"
+                          style={{ gridColumn: "span 1" }}
                         >
                           <h4 className="text-lg font-normal mb-2">
                             {pump.device_imei}
@@ -433,6 +435,8 @@ const SmartFarm = () => {
                                   inputProps={{
                                     "aria-label": "toggle pump status",
                                   }}
+                                  size="large"
+                                  
                                 />
                               </div>
                               <div className="flex items-center">
@@ -451,6 +455,7 @@ const SmartFarm = () => {
                                   inputProps={{
                                     "aria-label": "toggle pump mode",
                                   }}
+                                  size="large"
                                 />
                               </div>
                             </div>
@@ -631,7 +636,7 @@ const SmartFarm = () => {
                   <span className="text-lg font-medium"> VALVES</span>
                 </AccordionSummary>
                 {/* {vauto === true && ( */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-1">
                   {autoValves &&
                     autoValves.map((valve) => {
                       const valveNumber = valve.valveName.match(/\d+/)[0];
@@ -642,7 +647,7 @@ const SmartFarm = () => {
                       return (
                         <div
                           key={valve.valveName}
-                          className="bg-gray-100 p-4 rounded-lg"
+                          className="bg-gray-100 p-4 rounded-lg w-full"
                         >
                          <div className="flex items-center justify-between">
                           <p className="mr-4">
