@@ -19,6 +19,10 @@ import ValveSlider from "../../components/utils/slider";
 import "./profile.css";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
+import Thermometer from "../../components/thermometer/thermometer";
+import Visual from "../../components/thermometer/visual";
+import Battery from "../../components/battery/battery";
+import DiscreteSliderMarks from "../../components/thermometer/thermometer";
 
 const getMuiTheme = () =>
   createTheme({
@@ -542,25 +546,23 @@ const Profile = () => {
 
               <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4">
                 <div className="">
-                  <Card>
-                    <GaugeChart
-                      id="temperature"
-                      nrOfLevels={50}
-                      arcsLength={[0.3, 0.2, 0.2, 0.3]}
-                      colors={["#5BE12C", "#F5CD19", "#EA4228", "#0000FF"]}
-                      textColor="#4145E8"
-                      percent={bat_perc}
-                      arcPadding={0.02}
-                    />
-                    <div className="text-center mt-4 mb-2">
-                      <h2 className="text-lg font-medium">Battery Voltage</h2>
+                  <Card className="text-center" >
+                  <div className="d-flex justify-content-center m-8">
+                  <DiscreteSliderMarks />
+                  </div>
+                  
+                    <div className="text-center mt-4 mb-5">
+                      <h2 className="text-lg font-medium">Temperature</h2>
                       <p className="text-gray-500">{bat_voltage} V</p>
                     </div>
                   </Card>
                 </div>
                 <div className="">
                   <Card>
-                    <GaugeChart
+                  <div className="d-flex justify-content-center m-11">
+                    <Battery percentage={60}/>
+                   </div> 
+                    {/* <GaugeChart
                       id="humidity"
                       nrOfLevels={100}
                       arcsLength={[0.3, 0.5, 0.2]}
@@ -568,9 +570,9 @@ const Profile = () => {
                       textColor="#4145E8"
                       percent={hum_perc}
                       arcPadding={0.02}
-                    />
+                    /> */}
                     <div className="text-center mt-4 mb-2">
-                      <h2 className="text-lg font-medium">Humidity</h2>
+                      <h2 className="text-lg font-medium">Battery Voltage</h2>
                       <p className="text-gray-500">{humidity} RH</p>
 
                     </div>
