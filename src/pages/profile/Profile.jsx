@@ -19,6 +19,10 @@ import ValveSlider from "../../components/utils/slider";
 import "./profile.css";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
+import Thermometer from "../../components/thermometer/thermometer";
+import Visual from "../../components/thermometer/visual";
+import Battery from "../../components/battery/battery";
+import DiscreteSliderMarks from "../../components/thermometer/thermometer";
 
 const getMuiTheme = () =>
   createTheme({
@@ -446,8 +450,8 @@ const Profile = () => {
                       </div>
                       <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
                         <p className="font-normal mb-2">
-                          Temperature:{" "}
-                          <span className="text-gray-700 ml-4">{temp}</span>
+                          Humidity:{" "}
+                          <span className="text-gray-700 ml-4">{humidity} RH</span>
                         </p>
                         <p className="font-normal mb-2">
                           Rssi:{" "}
@@ -527,7 +531,7 @@ const Profile = () => {
                       id="solar"
                       nrOfLevels={420}
                       arcsLength={[0.3, 0.5, 0.2]}
-                      colors={["#5BE12C", "#F5CD19", "#EA4228"]}
+                      colors={["#5BE12C", "#1434A4", "#F5CD19"]}
                       textColor="#4145E8"
                       percent={solar_perc}
                       arcPadding={0.02}
@@ -542,39 +546,29 @@ const Profile = () => {
 
               <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4">
                 <div className="">
-                  <Card>
-                    <GaugeChart
-                      id="temperature"
-                      nrOfLevels={50}
-                      arcsLength={[0.3, 0.2, 0.2, 0.3]}
-                      colors={["#5BE12C", "#F5CD19", "#EA4228", "#0000FF"]}
-                      textColor="#4145E8"
-                      percent={bat_perc}
-                      arcPadding={0.02}
-                    />
-                    <div className="text-center mt-4 mb-2">
-                      <h2 className="text-lg font-medium">Battery Voltage</h2>
-                      <p className="text-gray-500">{bat_voltage} V</p>
+                  <Card className="text-center" >
+                  <div className="d-flex justify-content-center m-8">
+                  <DiscreteSliderMarks />
+                  </div>
+                  
+                    <div className="text-center mt-4 mb-5">
+                      <h2 className="text-lg font-medium">Temperature</h2>
+                      <p className="text-gray-500">{temp} °C</p>
                     </div>
                   </Card>
                 </div>
                 <div className="">
-                  <Card>
-                    <GaugeChart
-                      id="humidity"
-                      nrOfLevels={100}
-                      arcsLength={[0.3, 0.5, 0.2]}
-                      colors={[ "#F5CD19", "#EA4228", "#5BE12C"]}
-                      textColor="#4145E8"
-                      percent={hum_perc}
-                      arcPadding={0.02}
-                    />
-                    <div className="text-center mt-4 mb-2">
-                      <h2 className="text-lg font-medium">Humidity</h2>
-                      <p className="text-gray-500">{humidity} RH</p>
+                <Card>
+                <div className="d-flex justify-content-center align-items-center m-11">
+                  <Battery percentage={60} />
+                </div> 
 
-                    </div>
-                  </Card>
+                <div className="text-center mt-4 mb-2">
+                  <h2 className="text-lg font-medium">Battery Voltage</h2>
+                  <p className="text-gray-500">{bat_voltage} V</p>
+                </div>
+              </Card>
+
                 </div>
               </div>
             </div>
