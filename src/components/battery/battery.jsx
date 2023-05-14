@@ -1,7 +1,7 @@
 import React from "react";
 import GaugeBg from "./gauge-bg.png"; 
 
-const gaugeWidth = 200; 
+const gaugeWidth = 250; 
 const gaugeHeight = 70; 
 const gaugeContentWidth = gaugeWidth - 12; 
 const gaugeBarsNb = 10; 
@@ -63,5 +63,5 @@ const styles = {
         <div key={index} 
         style={{ ...styles.bar, ...styles.barFirst }} /> ) : index === gaugeBarsNb - 1 ? ( 
         <div key={index} style={{ ...styles.bar, ...styles.barLast }} /> ) : ( <div key={index} style={{ ...styles.bar }} /> )} </div> ))} </div> 
-        </div> <div style={styles.barText}> Drone Battery - {percentage < lowBattery && ( <span style={styles.red}> {percentage}% </span> )} {percentage >= lowBattery && ( <span style={styles.green}> {percentage}%</span> )} </div> </> ); }; 
+        </div> <div style={styles.barText}> Battery voltage - {percentage < lowBattery && ( <span style={styles.red}> {percentage}% </span> )} {percentage >= lowBattery && ( <span style={styles.green}> {percentage}%</span> )} </div> </> ); }; 
         export default Battery;
