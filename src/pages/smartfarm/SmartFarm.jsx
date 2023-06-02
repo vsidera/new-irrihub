@@ -5,11 +5,165 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Switch } from "@material-ui/core";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
-import { deviceDataState } from "../../actions/device/deviceAction";
+import { deviceDataState, deviceDataLogs } from "../../actions/device/deviceAction";
 import { useParams } from "react-router-dom";
+import { Card} from "@material-ui/core";
+
+import { Icon } from "@material-ui/core";
+import { Pool, Opacity, Waves } from "@material-ui/icons";
+import GaugeChart from "react-gauge-chart";
 import ValveSlider from "../../components/utils/slider";
+import Thermometer from "../../components/thermometer/thermometer";
+import Visual from "../../components/thermometer/visual";
+import Battery from "../../components/battery/battery";
+import DiscreteSliderMarks from "../../components/thermometer/thermometer";
 
 const SmartFarm = () => {
+
+  const [heartbeat, setHeartbeat] = useState("...");
+  const [fw_version, setFw_version] = useState("...");
+  const [bat_voltage, setBat_voltage] = useState("...");
+  const [solar_voltage, setSolar_voltage] = useState("...");
+  const [device_type, setDevice_type] = useState("...");
+  const [signal_quality, setSignal_quality] = useState("...");
+  const [temp, setTemp] = useState("...");
+  const [waterLevel, setWaterLevel] = useState("...");
+  const [ltsb, setLtsb] = useState("...");
+  const [humidity, setHumidity] = useState("...");
+  const [rssi, setRssi] = useState("...");
+
+  const [dataLogs, setDataLogs] = useState([]);
+
+  const [dataState, setDataState] = useState([]);
+
+  const extractedData = {};
+
+  const getDataStateP = () => {
+    deviceDataState(imei)
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setDataState(res.data);
+          const deviceData = res.data;
+
+          deviceData.forEach((obj) => {
+            switch (obj.subtopic) {
+              case "d_t":
+                extractedData.device_type = obj.value;
+                setDevice_type(extractedData.device_type)
+                break;
+              case "f_w":
+                extractedData.firmwareVersion = obj.value;
+                setFw_version(extractedData.firmwareVersion)
+                break;
+              case "g_s_q":
+                extractedData.gpsSignalQuality = obj.value;
+                setSignal_quality(extractedData.signal_quality)
+                break;
+              case "h_b":
+                extractedData.heartbeat = obj.value;
+                setHeartbeat(extractedData.heartbeat)
+              case "hum":
+                extractedData.humidity = obj.value;
+                setHumidity(extractedData.humidity)
+                break;
+              case "l_t_s_b":
+                extractedData.ltsb = obj.value;
+                setLtsb(extractedData.ltsb)
+                break;
+              case "temp":
+                extractedData.temperature = obj.value;
+                setTemp(extractedData.temperature)
+                break;
+              case "w_t_l":
+                extractedData.water_level = obj.value;
+                setWaterLevel(extractedData.water_level)
+              case "s_p_v":
+                extractedData.solar_voltage = obj.value;
+                setSolar_voltage(extractedData.solar_voltage)
+                break;
+              case "rssi":
+                extractedData.rssi = obj.value;
+                setRssi(extractedData.rssi)
+                break;
+              case "s_b_v":
+                extractedData.battery_voltage = obj.value;
+                setBat_voltage(extractedData.battery_voltage)
+                break;
+              default:
+                break;
+            }
+          });
+
+          setIsLoaded(true)
+
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const [tankDepth, setTankDepth] = useState('');
+
+  const handleTankDepthChange = (event) => {
+    setTankDepth(event.target.value);
+  };
+
+  const handleSetPumpTriggerP = () => {
+
+    const cmdBody = {
+      imei: imei,
+      command: "t_d",
+      value: tankDepth.toString(),
+    };
+    sendCommand(cmdBody)
+      .then((res) => {
+        if (res.status === 200) {
+          setEventType("success");
+          setEventMessage("Command Successfully Sent");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        } else {
+          setEventType("fail");
+          setEventMessage("COMMAND NOT SENT");
+          setEventTitle("SEND COMMAND");
+          setIsSnackBarAlertOpen(true);
+        }
+      })
+      .catch((err) => console.error(err));
+
+  };
+
+  const solar_perc = solar_voltage / 100
+
+  const bat_perc = bat_voltage / 50
+
+  const hum_perc = humidity / 100
+
+  const temp_perc = temp / 100
+
+  const getDataLogs = () => {
+    deviceDataLogs(imei)
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setDataLogs(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getDataStateP();
+    getDataLogs();
+    setIsLoaded(true);
+  }, []);
+
   const params = useParams();
   const imei = params.id;
   const [isLoaded, setIsLoaded] = useState(false);
@@ -378,6 +532,101 @@ const SmartFarm = () => {
           {" "}
           The Smartest Farm in Africa
         </h4>
+<div className="mt-16">
+<div className='grid grid-cols-2 gap-4 mx-4'>
+              <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4  ">
+                <div className="w-full h-full">
+                  <div>
+                  <Card>
+                    <div className="grid grid-cols-7">
+                      <div className="col-span-4 flex-col">
+                        <div className="flex justify-center mb-8">
+                          <div className="water-tank mt-12">
+                            <div className="water-level" style={{ height: `${80}%` }}>
+                              <Icon className="water-icon">
+                                <Pool />
+                              </Icon>
+                              <Icon className="water-icon">
+                                <Opacity />
+                              </Icon>
+                              <Icon className="water-icon">
+                                <Waves />
+                              </Icon>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-center mt-4 mb-2">
+                          <h2 className="text-lg font-medium mt-4">Water Level</h2>
+                          <p className="text-gray-500">{80} CM</p>
+                        </div>
+                      </div>
+                      <div className="w-1/3 flex items-center">
+                        <div className="m-1">
+                          <p className="m-1 whitespace-nowrap -mt-10">SET TANK DEPTH</p>
+                          <input
+                            value={tankDepth} onChange={handleTankDepthChange}
+                            className="w-full border rounded px-2 py-1 m-1"
+                            type="number"
+                            placeholder="depth of tank"
+                          />
+                          <button onClick={handleSetPumpTriggerP} className=" w-full bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-1 m-1">
+                            Set
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    </Card>
+                    </div>
+                </div>
+
+                <div className="">
+                  <Card>
+                    <GaugeChart
+                      id="solar"
+                      nrOfLevels={420}
+                      arcsLength={[0.3, 0.5, 0.2]}
+                      colors={["#5BE12C", "#1434A4", "#F5CD19"]}
+                      textColor="#4145E8"
+                      percent={solar_perc}
+                      arcPadding={0.02}
+                    />
+                    <div className="text-center mt-4 mb-2">
+                      <h2 className="text-lg font-medium">Solar Voltage</h2>
+                      <p className="text-gray-500 ">{solar_voltage} V</p>
+                    </div>
+                  </Card>
+                </div>
+              </div>
+
+              <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4">
+                <div className="">
+                  <Card className="text-center" >
+                  <div className="d-flex justify-content-center m-8">
+                  <DiscreteSliderMarks />
+                  </div>
+                  
+                    <div className="text-center mt-4 mb-5">
+                      <h2 className="text-lg font-medium">Temperature</h2>
+                      <p className="text-gray-500">{temp} °C</p>
+                    </div>
+                  </Card>
+                </div>
+                <div className="">
+                <Card>
+                <div className="d-flex justify-content-center align-items-center m-11">
+                  <Battery percentage={60} />
+                </div> 
+
+                <div className="text-center mt-4 mb-2">
+                  <h2 className="text-lg font-medium">Battery Voltage</h2>
+                  <p className="text-gray-500">{bat_voltage} V</p>
+                </div>
+              </Card>
+
+                </div>
+              </div>
+            </div>
+            </div>
         <div className="mt-4">
           <Tabs value={activeTab} onChange={handleTabChange}>
             <Tab label="Manual" />
@@ -720,6 +969,7 @@ const SmartFarm = () => {
               </Accordion>
             </>
           )}
+
         </div>
       </Sidebar>
     </>

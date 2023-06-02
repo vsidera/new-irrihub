@@ -22,7 +22,7 @@ export default function Sidebar({children}) {
 
     return (
         <div className="flex">
-            <div
+            {/* <div
                 className={` ${
                     open ? "w-40" : "w-60 "
                 } flex flex-col h-screen p-3 bg-gray-800 shadow-2xl duration-300`}
@@ -210,7 +210,7 @@ export default function Sidebar({children}) {
                     </div>
     
                 </div>
-            </div>
+            </div> */}
             <div className="container mx-auto mt-12">
                 {children}
             </div>
