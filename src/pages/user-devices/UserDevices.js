@@ -9,9 +9,7 @@ const UserDevices = () => {
   const [clientDevices, setUserDevices] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem("id"));
-
-  const userId = 2
+  const userId = JSON.parse(localStorage.getItem("id"));
 
   const getUserDevices = () => {
     userDevices({userId})
@@ -44,7 +42,7 @@ const UserDevices = () => {
             SELECT A PRODUCT
           </h4>
           <Link
-           to={`/${user}/profile`}
+           to={`/${userId}/profile`}
            className="bg-white rounded-lg shadow-md p-4 m-2 w-3/4 sm:w-full h-24 sm:h-32 flex flex-col justify-center items-center"
          >
           <h2 className="text-lg text-blue-800">PROFILE</h2>

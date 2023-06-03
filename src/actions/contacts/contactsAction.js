@@ -68,6 +68,72 @@ export function contactCreate(formValues) {
       });
   }  
 
+  export function groupCreate(formValues) {
+    
+    const groupCreateUrl = apiUrl.GROUP_CREATE;
+    const config = authHeaders();
+  
+    return axios
+      .post(groupCreateUrl, formValues.newGroup, config)
+      .then((res) => {
+      
+        if (res.data && res.status === 200) {
+
+            console.log("THE RESPONSE IS !!!!!!!",res)
+          
+        }
+        return res;
+      })
+      .catch((error) => {
+        if (error.response) {
+        
+          return {
+            errors: {
+              _error: 'The app could not be created.',
+            },
+          };
+        }   
+        return {
+          errors: {
+            _error: 'Network error. Please try again.',
+          },
+        };
+      });
+  }  
+
+  export function attachDevicetoGroup(formValues) {
+    
+    const attachDevicetoGroupUrl = `${apiUrl.ATTACH_DEVICE_GROUP}/${formValues.user_device_id}/${formValues.group_id}`;
+    const config = authHeaders();
+  
+    return axios
+      .post(attachDevicetoGroupUrl, formValues.attachDetails, config)
+      .then((res) => {
+      
+        if (res.data && res.status === 200) {
+
+            console.log("THE RESPONSE IS !!!!!!!",res)
+          
+        }
+        return res;
+      })
+      .catch((error) => {
+        if (error.response) {
+        
+          return {
+            errors: {
+              _error: 'The app could not be created.',
+            },
+          };
+        }   
+        return {
+          errors: {
+            _error: 'Network error. Please try again.',
+          },
+        };
+      });
+  }  
+
 export function contactsUpload(formValues) {
     console.log("FORMVALUES!!!!!!", formValues)
     const uploadContactsUrl = `${apiUrl.UPLOAD_CONTACTS}/${formValues.app_id}/upload`;

@@ -8,21 +8,15 @@ import Sidebar from "../../components/sidebar/sidebar";
 import {
   deviceDataState,
   deviceDataLogs,
+  userDevices
 } from "../../actions/device/deviceAction";
 import { useParams } from "react-router-dom";
-import CardGrid from "../../components/cards/CardGrid";
-// import Card from "../../components/cards/Card";
-import { Icon } from "@material-ui/core";
-import { Pool, Opacity, Waves } from "@material-ui/icons";
-import GaugeChart from "react-gauge-chart";
-import ValveSlider from "../../components/utils/slider";
+import AddGroupModal from "../../components/modals/add_group";
 import "./profile.css";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
-import Thermometer from "../../components/thermometer/thermometer";
-import Visual from "../../components/thermometer/visual";
-import Battery from "../../components/battery/battery";
-import DiscreteSliderMarks from "../../components/thermometer/thermometer";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+
 
 const getMuiTheme = () =>
   createTheme({
@@ -103,6 +97,8 @@ const Profile = () => {
   const [humidity, setHumidity] = useState("...");
   const [rssi, setRssi] = useState("...");
 
+  const [groupCreateModal, setGroupCreateModal] = useState(false);
+
 
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -118,9 +114,37 @@ const Profile = () => {
 
   const [dataState, setDataState] = useState([]);
 
+  const [clientDevices, setUserDevices] = useState([]);
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
+
+  const closeGroupCreateModal = (e) => {
+    e.preventDefault();
+    setGroupCreateModal(false)
+  }
+
+  const userId = JSON.parse(localStorage.getItem("id"));
+
+  const getUserDevices = () => {
+    userDevices({userId})
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setUserDevices(res.data);
+          setIsLoaded(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getUserDevices();
+  }, []);
 
   const extractedData = {};
 
@@ -261,15 +285,15 @@ const Profile = () => {
     },
 
     {
-      name: "subtopic",
-      label: "SUB TOPIC",
+      name: "imei_code",
+      label: "IMEI",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "description",
+      name: "status_description",
       label: "DESCRIPTION",
       options: {
         filter: true,
@@ -277,8 +301,8 @@ const Profile = () => {
       },
     },
     {
-      name: "value",
-      label: "STATUS",
+      name: "device_type_id",
+      label: "TYPE",
       options: {
         filter: true,
         sort: false,
@@ -380,6 +404,7 @@ const Profile = () => {
         handleClose={() => setIsSnackBarAlertOpen(false)}
         title={eventTitle}
       />
+      <AddGroupModal groupCreateModal={groupCreateModal} closeGroupCreateModal={closeGroupCreateModal}/>
 
       <Sidebar>
         <h1 className="text-2xl text-black mb-6">Profile</h1>
@@ -390,7 +415,7 @@ const Profile = () => {
         <div className="mt-4">
           <div className="container mx-auto mt-4">
             {/* <div className="flex flex-wrap -mx-4"> */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid gap-2">
               <div className="w-full  px-4 mb-4 lg:col-span-1 sm:col-span-2">
                 <div className="rounded-lg shadow-lg p-4">
                   <div className="bg-gray-100 rounded-lg p-4">
@@ -426,146 +451,7 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className="w-full sm:col-span-2 lg:col-span-1 px-4 mb-4">
-                <div className="rounded-lg shadow-lg p-4">
-                  <div className="bg-gray-100 rounded-lg p-4">
-                    <h2 className=" font-normal mb-2 ml-4">DEVICE DETAILS</h2>
-                    <div className="flex items-center mb-4">
-                      <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
-                        <p className="font-normal mb-2">
-                          HEARTBEAT: <span className="text-gray-700 ml-2">{heartbeat}</span>
-                        </p>
-                        <p className="font-normal mb-2">
-                          SIGNAL QUALITY:{" "}
-                          <span className="text-gray-700 ml-2">{signal_quality}</span>
-                        </p>
-
-                      </div>
-                      <div className="w-1/3 pl-4 pr-2 border-r-2 border-red-500">
-                        <p className="font-normal mb-2">
-                          Humidity:{" "}
-                          <span className="text-gray-700 ml-4">{humidity} RH</span>
-                        </p>
-                        <p className="font-normal mb-2">
-                          Rssi:{" "}
-                          <span className="text-gray-700 ml-2">{rssi}</span>
-                        </p>
-                      </div>
-                      <div className="w-1/3 pl-2 pr-1">
-                        <p className="font-normal mb-2">
-                          Firmware Ver:{" "}
-                          <span className="text-gray-700 ml-4">{fw_version}</span>
-                        </p>
-                        <p className="font-normal mb-2">
-                          Link to Sensor Board:{" "}
-                          <span className={`ml-2 ${ltsb ? 'text-green-500' : 'text-red-500'}`}>
-                            {ltsb ? 'True' : 'False'}
-                          </span>
-
-                        </p>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-
-            {/* <div className="w-full px-4"> */}
-            <div className='grid grid-cols-2 gap-4 mx-4'>
-              <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4  ">
-                <div className="w-full h-full">
-                  <div>
-                  <Card>
-                    <div className="grid grid-cols-7">
-                      <div className="col-span-4 flex-col">
-                        <div className="flex justify-center mb-8">
-                          <div className="water-tank mt-12">
-                            <div className="water-level" style={{ height: `${80}%` }}>
-                              <Icon className="water-icon">
-                                <Pool />
-                              </Icon>
-                              <Icon className="water-icon">
-                                <Opacity />
-                              </Icon>
-                              <Icon className="water-icon">
-                                <Waves />
-                              </Icon>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-center mt-4 mb-2">
-                          <h2 className="text-lg font-medium mt-4">Water Level</h2>
-                          <p className="text-gray-500">{80} CM</p>
-                        </div>
-                      </div>
-                      <div className="w-1/3 flex items-center">
-                        <div className="m-1">
-                          <p className="m-1 whitespace-nowrap -mt-10">SET TANK DEPTH</p>
-                          <input
-                            value={tankDepth} onChange={handleTankDepthChange}
-                            className="w-full border rounded px-2 py-1 m-1"
-                            type="number"
-                            placeholder="depth of tank"
-                          />
-                          <button onClick={handleSetPumpTrigger} className=" w-full bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-1 m-1">
-                            Set
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    </Card>
-                    </div>
-                </div>
-
-                <div className="">
-                  <Card>
-                    <GaugeChart
-                      id="solar"
-                      nrOfLevels={420}
-                      arcsLength={[0.3, 0.5, 0.2]}
-                      colors={["#5BE12C", "#1434A4", "#F5CD19"]}
-                      textColor="#4145E8"
-                      percent={solar_perc}
-                      arcPadding={0.02}
-                    />
-                    <div className="text-center mt-4 mb-2">
-                      <h2 className="text-lg font-medium">Solar Voltage</h2>
-                      <p className="text-gray-500 ">{solar_voltage} V</p>
-                    </div>
-                  </Card>
-                </div>
-              </div>
-
-              <div className="sm:col-span-2 lg:col-span-1 grid grid-cols-2 gap-4">
-                <div className="">
-                  <Card className="text-center" >
-                  <div className="d-flex justify-content-center m-8">
-                  <DiscreteSliderMarks />
-                  </div>
-                  
-                    <div className="text-center mt-4 mb-5">
-                      <h2 className="text-lg font-medium">Temperature</h2>
-                      <p className="text-gray-500">{temp} °C</p>
-                    </div>
-                  </Card>
-                </div>
-                <div className="">
-                <Card>
-                <div className="d-flex justify-content-center align-items-center m-11">
-                  <Battery percentage={60} />
-                </div> 
-
-                <div className="text-center mt-4 mb-2">
-                  <h2 className="text-lg font-medium">Battery Voltage</h2>
-                  <p className="text-gray-500">{bat_voltage} V</p>
-                </div>
-              </Card>
-
-                </div>
-              </div>
-            </div>
-
           
             <div className="m-3 mt-8">
 
@@ -575,15 +461,15 @@ const Profile = () => {
                   aria-controls="log-tables"
                   id="log-tables"
                 >
-                  <span className="text-md font-medium"> VIEW DEVICE DATA TABLES</span>
+                  <span className="text-md font-medium"> VIEW GROUPS & DEVICES</span>
                 </AccordionSummary>
-
+               
 
             <div className="w-full px-4">
               <div className="bg-white rounded-lg shadow-xl p-6">
                 <Tabs value={activeTab} onChange={handleTabChange}>
-                  <Tab label="Device Data Logs" />
-                  <Tab label="Device Current State" />
+                  <Tab label="My Devices" />
+                  <Tab label="My Groups" />
                 </Tabs>
                 {activeTab === 0 && (
                   <div>
@@ -591,12 +477,23 @@ const Profile = () => {
                       <Table
                         columns={columns}
                         options={options}
-                        data={dataLogs}
+                        data={clientDevices}
                       />
                     </ThemeProvider>
                   </div>
                 )}
                 {activeTab === 1 && (
+                  <>
+                   <div className="flex justify-end">
+                   <button
+                     type="button"
+                     className="text-white w-40 bg-blue-900 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-2 py-2 mt-4 flex items-center mr-2"
+                     onClick={() =>setGroupCreateModal(true)}
+                   >
+                     <PersonAddAlt1Icon />
+                     <p className="ml-4">Add Group</p>
+                   </button>
+                 </div> 
                   <div>
                     <ThemeProvider theme={getMuiTheme()}>
                       <Table
@@ -606,6 +503,7 @@ const Profile = () => {
                       />
                     </ThemeProvider>
                   </div>
+                  </>
                 )}
               </div>
             </div>

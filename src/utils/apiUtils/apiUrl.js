@@ -17,9 +17,11 @@ export default {
     CREATE_IMEI: `${REACT_APP_IRRIHUB_URL}/api/v1/imei/add`,
 
     DEVICE_CREATE: `${REACT_APP_IRRIHUB_URL}/api/v1/device/create`,
+    GROUP_CREATE: `${REACT_APP_IRRIHUB_URL}/api/v1/group/create`,
 
-    LIST_CONTACTS: `${REACT_APP_SUSS_URL}/api/v1/contact`,
-    CREATE_CONTACT: `${REACT_APP_SUSS_URL}/api/v1/contact`,
+    ATTACH_DEVICE_GROUP: `${REACT_APP_IRRIHUB_URL}/api/v1/group/attach/user/device`,
+
+
     
     BROADCAST_MESSAGE: `${REACT_APP_SUSS_URL}/api/v1/message/:sid/broadcast/send`,
     UPLOAD_CONTACTS: `${REACT_APP_SUSS_URL}api/v1/contact`,
