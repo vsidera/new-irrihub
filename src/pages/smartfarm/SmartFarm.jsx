@@ -131,11 +131,13 @@ const SmartFarm = () => {
   };
 
   const handleSetPumpTriggerP = () => {
+
     const cmdBody = {
-      imei: imei,
-      command: "t_d",
+      device_id: parseInt(imei),
+      subtopic_code: "t_d",
       value: tankDepth.toString(),
-    };
+  }
+    
     sendCommand(cmdBody)
       .then((res) => {
         if (res.status === 200) {
@@ -178,8 +180,10 @@ const SmartFarm = () => {
           setDataState(res.data);
           const deviceData = res.data;
 
+
+
           deviceData.forEach((obj) => {
-            switch (obj.subtopic) {
+            switch (obj.subtopic_code) {
               case "d_t":
                 extractedData.device_type = obj.value;
                 setDevice_type(extractedData.device_type);
@@ -228,12 +232,12 @@ const SmartFarm = () => {
           });
 
           const valveObjects = res.data.filter((obj) =>
-            /^v\d+/.test(obj.subtopic)
+            /^v\d+/.test(obj.subtopic_code)
           );
 
           const valveList = valveObjects.reduce((result, obj) => {
-            const valveName = obj.subtopic.match(/^v\d+/)[0];
-            const subtopicType = obj.subtopic.substr(valveName.length + 1);
+            const valveName = obj.subtopic_code.match(/^v\d+/)[0];
+            const subtopicType = obj.subtopic_code.substr(valveName.length + 1);
             let valveObject = result.find((v) => v.valveName === valveName);
             if (!valveObject) {
               valveObject = { valveName, mode: null, status: null };
@@ -259,10 +263,10 @@ const SmartFarm = () => {
           setManualValves(manualValves);
 
           const pumps = res.data.filter((obj) =>
-            ["p_s"].includes(obj.subtopic)
+            ["p_s"].includes(obj.subtopic_code)
           );
           const pumpsAuto = res.data.filter((obj) =>
-            ["p_m"].includes(obj.subtopic)
+            ["p_m"].includes(obj.subtopic_code)
           );
 
           const sensors = res.data.filter((obj) =>
@@ -277,7 +281,7 @@ const SmartFarm = () => {
               "m_s_8",
               "m_s_9",
               "m_s_10",
-            ].includes(obj.subtopic)
+            ].includes(obj.subtopic_code)
           );
           setPumps(pumps);
           setSensors(sensors);
@@ -298,23 +302,24 @@ const SmartFarm = () => {
 
 
 
-  const handleStatusChangeAndSwitchManualValve = (subtopic) => (event) => {
+  const handleStatusChangeAndSwitchManualValve = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? "1" : "0";
-    const valve = manualValves.find((valve) => valve.valveName === subtopic);
+    const valve = manualValves.find((valve) => valve.valveName === subtopic_code);
 
     if (valve && valve.status !== newStatus) {
       setManualValves(
         manualValves.map((b) =>
-          b.valveName === subtopic ? { ...b, status: newStatus } : b
+          b.valveName === subtopic_code ? { ...b, status: newStatus } : b
         )
       );
 
       const cmdBody = {
-        imei: imei,
-        command: subtopic + `${`_s`}`,
+        device_id: parseInt(imei),
+        subtopic_code: subtopic_code + `${`_s`}`,
         value: newStatus.toString(),
-      };
+    }
+
       sendCommand(cmdBody)
         .then((res) => {
           if (res.status === 200) {
@@ -333,23 +338,24 @@ const SmartFarm = () => {
     }
   };
 
-  const handleModeChangeAndSwitchManualValve = (subtopic) => (event) => {
+  const handleModeChangeAndSwitchManualValve = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;
     const newMode = isChecked ? "1" : "0";
-    const valve = manualValves.find((valve) => valve.valveName === subtopic);
+    const valve = manualValves.find((valve) => valve.valveName === subtopic_code);
 
     if (valve && valve.mode !== newMode) {
       setManualValves(
         manualValves.map((b) =>
-          b.valveName === subtopic ? { ...b, mode: newMode } : b
+          b.valveName === subtopic_code ? { ...b, mode: newMode } : b
         )
       );
 
       const cmdBody = {
-        imei: imei,
-        command: subtopic + `${`_m`}`,
+        device_id: parseInt(imei),
+        subtopic_code: subtopic_code + `${`_m`}`,
         value: newMode.toString(),
-      };
+    }
+
       sendCommand(cmdBody)
         .then((res) => {
           if (res.status === 200) {
@@ -371,23 +377,24 @@ const SmartFarm = () => {
     }
   };
 
-  const handleModeChangeAndSwitchAutoValve = (subtopic) => (event) => {
+  const handleModeChangeAndSwitchAutoValve = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;
     const newMode = isChecked ? "1" : "0";
-    const valve = autoValves.find((valve) => valve.valveName === subtopic);
+    const valve = autoValves.find((valve) => valve.valveName === subtopic_code);
 
     if (valve && valve.mode !== newMode) {
       setAutoValves(
         autoValves.map((b) =>
-          b.valveName === subtopic ? { ...b, mode: newMode } : b
+          b.valveName === subtopic_code ? { ...b, mode: newMode } : b
         )
       );
 
       const cmdBody = {
-        imei: imei,
-        command: subtopic + `${`_m`}`,
+        device_id: parseInt(imei),
+        subtopic_code: subtopic_code + `${`_m`}`,
         value: newMode.toString(),
-      };
+    }
+
       sendCommand(cmdBody)
         .then((res) => {
           if (res.status === 200) {
@@ -409,23 +416,24 @@ const SmartFarm = () => {
     }
   };
 
-  const handleStatusChangeAndSwitchAutoValve = (subtopic) => (event) => {
+  const handleStatusChangeAndSwitchAutoValve = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? "1" : "0";
-    const valve = autoValves.find((valve) => valve.valveName === subtopic);
+    const valve = autoValves.find((valve) => valve.valveName === subtopic_code);
 
     if (valve && valve.status !== newStatus) {
       setAutoValves(
         autoValves.map((b) =>
-          b.valveName === subtopic ? { ...b, status: newStatus } : b
+          b.valveName === subtopic_code ? { ...b, status: newStatus } : b
         )
       );
 
       const cmdBody = {
-        imei: imei,
-        command: subtopic + `${`_s`}`,
+        device_id: parseInt(imei),
+        subtopic_code: subtopic_code + `${`_s`}`,
         value: newStatus.toString(),
-      };
+    }
+
       sendCommand(cmdBody)
         .then((res) => {
           if (res.status === 200) {
@@ -444,24 +452,25 @@ const SmartFarm = () => {
     }
   };
 
-  const handleStatusChangeAndSwitchPump = (subtopic) => (event) => {
+  const handleStatusChangeAndSwitchPump = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? "ON" : "OFF";
     const newValue = isChecked ? "1" : "0";
-    const pump = pumps.find((pump) => pump.subtopic === subtopic);
+    const pump = pumps.find((pump) => pump.subtopic_code === subtopic_code);
 
     if (pump.value !== newValue) {
       setPumps(
         pumps.map((b) =>
-          b.subtopic === subtopic ? { ...b, value: newValue } : b
+          b.subtopic_code === subtopic_code ? { ...b, value: newValue } : b
         )
       );
 
       const cmdBody = {
-        imei: imei,
-        command: subtopic,
+        device_id: parseInt(imei),
+        subtopic_code: subtopic_code,
         value: newValue.toString(),
-      };
+    }
+
       sendCommand(cmdBody)
         .then((res) => {
           if (res.status === 200) {
@@ -480,23 +489,23 @@ const SmartFarm = () => {
     }
   };
 
-  const handleModeChangeAndSwitchPump = (subtopic) => (event) => {
+  const handleModeChangeAndSwitchPump = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;
     const newMode = isChecked ? "1" : "0";
-    const pump = pumps.find((pump) => pump.subtopic === subtopic);
+    const pump = pumps.find((pump) => pump.subtopic_code === subtopic_code);
 
     if (pump.mode !== newMode) {
       setPumps(
         pumps.map((b) =>
-          b.subtopic === subtopic ? { ...b, mode: newMode } : b
+          b.subtopic_code === subtopic_code ? { ...b, mode: newMode } : b
         )
       );
 
       const cmdBody = {
-        imei: imei,
-        command: "p_m",
+        device_id: parseInt(imei),
+        subtopic_code: "p_m",
         value: newMode.toString(),
-      };
+    }
       sendCommand(cmdBody)
         .then((res) => {
           if (res.status === 200) {
@@ -529,11 +538,13 @@ const SmartFarm = () => {
   };
 
   const handleSetPumpTrigger = () => {
+
     const cmdBody = {
-      imei: imei,
-      command: "t_l",
+      device_id: parseInt(imei),
+      subtopic_code: "t_l",
       value: tankValue.toString(),
-    };
+  }
+    
     sendCommand(cmdBody)
       .then((res) => {
         if (res.status === 200) {
@@ -562,7 +573,7 @@ const SmartFarm = () => {
     },
 
     {
-      name: "subtopic",
+      name: "subtopic_code",
       label: "SUB TOPIC",
       options: {
         filter: true,
@@ -878,7 +889,7 @@ const SmartFarm = () => {
                           <p className="mr-4">
                             Name:{" "}
                             <span className="font-medium">
-                              Pump {pump.subtopic}
+                              Pump {pump.subtopic_code}
                             </span>
                           </p>
                           <div className="flex items-center">
@@ -899,7 +910,7 @@ const SmartFarm = () => {
                                 <Switch
                                   checked={pump.value === "1"}
                                   onChange={handleStatusChangeAndSwitchPump(
-                                    pump.subtopic
+                                    pump.subtopic_code
                                   )}
                                   color="primary"
                                   inputProps={{
@@ -918,7 +929,7 @@ const SmartFarm = () => {
                                 <Switch
                                   checked={pump.mode === "1"}
                                   onChange={handleModeChangeAndSwitchPump(
-                                    pump.subtopic
+                                    pump.subtopic_code
                                   )}
                                   color="primary"
                                   inputProps={{
@@ -1033,7 +1044,7 @@ const SmartFarm = () => {
                           <p className="mr-4">
                             Name:{" "}
                             <span className="font-medium">
-                              Pump {pump.subtopic}
+                              Pump {pump.subtopic_code}
                             </span>
                           </p>
                           <div className="flex items-center">
@@ -1054,7 +1065,7 @@ const SmartFarm = () => {
                                 <Switch
                                   checked={pump.value === "1"}
                                   onChange={handleStatusChangeAndSwitchPump(
-                                    pump.subtopic
+                                    pump.subtopic_code
                                   )}
                                   color="primary"
                                   inputProps={{
@@ -1073,7 +1084,7 @@ const SmartFarm = () => {
                                 <Switch
                                   checked={pump.mode === "1"}
                                   onChange={handleModeChangeAndSwitchPump(
-                                    pump.subtopic
+                                    pump.subtopic_code
                                   )}
                                   color="primary"
                                   inputProps={{
@@ -1122,7 +1133,7 @@ const SmartFarm = () => {
                     autoValves.map((valve) => {
                       const valveNumber = valve.valveName.match(/\d+/)[0];
                       const sensor = sensors.find(
-                        (s) => s.subtopic === `m_s_${valveNumber}`
+                        (s) => s.subtopic_code === `m_s_${valveNumber}`
                       );
                       const sensorValue = sensor ? sensor.value : null;
                       return (
@@ -1196,7 +1207,7 @@ const SmartFarm = () => {
                             <p>Set soil moisture trigger</p>
                             <ValveSlider
                               imei={imei}
-                              subtopic={valve.valveName}
+                              subtopic_code={valve.valveName}
                             />
                           </div>
                         </div>
