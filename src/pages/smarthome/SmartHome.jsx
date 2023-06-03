@@ -5,8 +5,68 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Switch } from "@material-ui/core";
 import { sendCommand } from "../../actions/device/deviceAction";
 import SnackbarAlert from "../../components/utils/snackbar";
-import { deviceDataState } from "../../actions/device/deviceAction";
+import { deviceDataState, deviceDataLogs } from "../../actions/device/deviceAction";
 import {useParams} from 'react-router-dom';
+import Table from "../../components/table/table";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const getMuiTheme = () =>
+  createTheme({
+    components: {
+      MuiTableCell: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "#FFFFFF",
+            fontFamily: "Ubuntu",
+            fontWeight: "inherit",
+          },
+          footer: {
+            border: 0,
+          },
+        },
+      },
+
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            // fontFamily: 'Ubuntu',
+            color: "black",
+            justifyContent: "center",
+            // fontWeight: 'bold',
+          },
+        },
+      },
+
+      MUIDataTableSelectCell: {
+        styleOverrides: {
+          headerCell: {
+            backgroundColor: "#5f6062",
+            color: "wh",
+          },
+        },
+      },
+
+      MUIDataTable: {
+        styleOverrides: {
+          responsiveBase: {
+            position: "relative",
+            height: "auto",
+            borderRadius: "18px",
+            border: "1px solid #f2f2f2",
+            boxShadow: "0 0 6px 4px #efefef",
+          },
+        },
+      },
+      MUIDataTablePagination: {
+        styleOverrides: {
+          navContainer: {
+            border: 0,
+            boxShadow: "0 ",
+          },
+        },
+      },
+    },
+  });
 
 const SmartFarm = () => {
 
@@ -14,6 +74,7 @@ const SmartFarm = () => {
   const params = useParams();
 
   const imei = params.id
+  const [activeTab, setActiveTab] = useState(0);
 
   const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
   const [eventType, setEventType] = useState('');
@@ -22,15 +83,11 @@ const SmartFarm = () => {
 
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const [bulbs, setBulbs] = useState([
-    // { id: "b1", name: "Bulb 1", uuid:"b1", mode: "manual", status: "", sensor: "20C", subtopic: "", value: "" , device_imei: ""},
-    // { id: "b2", name: "Bulb 2", uuid:"b2", mode: "manual", status: "" ,sensor: "20C", subtopic: "", value:"",  device_imei: ""},
-    // { id: "b3", name: "Bulb 3", uuid:"b3", mode: "manual", status: "", sensor: "20C", subtopic: "" , value: "",  device_imei: ""},
-    // { id: "b4", name: "Bulb 4", uuid:"b4", mode: "manual", status: "",sensor: "20C", subtopic: "", value: "",  device_imei: "" },
-  ]);
+  const [bulbs, setBulbs] = useState([]);
 
-  // console.log("SUBTOPICS IS!!!!!!!!", bulbs[0].value)
+  const [dataLogs, setDataLogs] = useState([]);
 
+  const [dataState, setDataState] = useState([]);
 
   const handleStatusChangeAndSwitch = (subtopic) => (event) => {
     const isChecked = event.target.checked;
@@ -65,7 +122,25 @@ const SmartFarm = () => {
         .catch((err) => console.error(err));
     }
   };
+
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
   
+  const getDataLogs = () => {
+    deviceDataLogs(imei)
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setDataLogs(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const getDataState = () => {
 
@@ -74,6 +149,7 @@ const SmartFarm = () => {
         if (res.errors) {
           console.log("AN ERROR HAS OCCURED");
         } else {
+          setDataState(res.data);
           const filteredData = res.data.filter(obj => ['b1', 'b2', 'b3', 'b4'].includes(obj.subtopic));
           setBulbs(filteredData);
   
@@ -87,11 +163,131 @@ const SmartFarm = () => {
 
   useEffect(() => {
     getDataState();
+    getDataLogs();
     setIsLoaded(true)
 
-  }, []);
+  }, [activeTab]);
 
+  const columns = [
+    {
+      name: "id",
+      label: "ID",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
 
+    {
+      name: "subtopic",
+      label: "SUB TOPIC",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "description",
+      label: "DESCRIPTION",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "value",
+      label: "STATUS",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "createdat",
+      label: "CREATED",
+      options: {
+        filter: true,
+        sort: false,
+        customBodyRender: (value) =>
+
+        (new Date(value).toLocaleString('en-US', { timeZone: 'UTC' }, { hour: 'numeric', hour12: true }))
+      },
+    },
+  ];
+
+  const options = {
+    filter: false,
+    filterType: "textField",
+    responsive: "standard",
+    print: false,
+    tableId: "03009226196169874",
+    fixedHeader: true,
+    fontFamily: "Ubuntu",
+    viewColumns: false,
+    selectableRows: "none",
+    fixedSelectColumn: true,
+    tableBodyHeight: "auto",
+    enableNestedDataAccess: ".",
+    elevation: 0,
+    count: 30,
+    rowsPerPageOptions: [10, 20, 50],
+    downloadOptions: {
+      separator: ",",
+      filename: "Customers Summary.csv",
+      filterOptions: {
+        useDisplayedColumnsOnly: false, // it was true
+        useDisplayedRowsOnly: false, // it was true
+      },
+    },
+    downloadFile: true,
+    onDownload: (buildHead, buildBody, columns, data) => {
+      let val = `${buildHead(columns)}${buildBody(data)}`
+        .replace(/[^\x00-\x7F]/g, "")
+        .toString()
+        .trim();
+      return val;
+    },
+
+    textLabels: {
+      body: {
+        noMatch: isLoaded ? (
+          "Sorry, no matching records exist in Irrihub"
+        ) : (
+          <div>......</div>
+        ),
+        toolTip: "Sort",
+      },
+      pagination: {
+        next: "Next Page",
+        previous: "Previous Page",
+        rowsPerPage: "Rows per page:",
+        displayRows: "of",
+      },
+      toolbar: {
+        search: "Search A/C Number,Name or Payplans",
+        downloadCsv: "Download User Excel List",
+        print: "Print customers",
+        viewColumns: "View Columns",
+        filterTable: "Filter Table",
+      },
+      setFilterChipProps: () => {
+        return {
+          color: "primary",
+          variant: "outlined",
+          className: "testClass123",
+        };
+      },
+      viewColumns: {
+        title: "Show Columns",
+        titleAria: "Show/Hide Table Columns",
+      },
+      selectedRows: {
+        text: "record(s) selected",
+        delete: "Delete",
+        deleteAria: "Delete Selected Records",
+      },
+    },
+  };
 
 
   return (
@@ -159,6 +355,50 @@ const SmartFarm = () => {
           </Accordion>
         
       </div>
+      <div className=" mt-8">
+
+            <Accordion >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="log-tables"
+                  id="log-tables"
+                >
+                  <span className="text-md font-medium"> VIEW DEVICE DATA TABLES</span>
+                </AccordionSummary>
+
+
+            <div className="w-full px-4">
+              <div className="bg-white rounded-lg shadow-xl p-6">
+                <Tabs value={activeTab} onChange={handleTabChange}>
+                  <Tab label="Device Data Logs" />
+                  <Tab label="Device Current State" />
+                </Tabs>
+                {activeTab === 0 && (
+                  <div>
+                    <ThemeProvider theme={getMuiTheme()}>
+                      <Table
+                        columns={columns}
+                        options={options}
+                        data={dataLogs}
+                      />
+                    </ThemeProvider>
+                  </div>
+                )}
+                {activeTab === 1 && (
+                  <div>
+                    <ThemeProvider theme={getMuiTheme()}>
+                      <Table
+                        columns={columns}
+                        options={options}
+                        data={dataState}
+                      />
+                    </ThemeProvider>
+                  </div>
+                )}
+              </div>
+            </div>
+            </Accordion>
+          </div>
     </Sidebar>
     </>
   );

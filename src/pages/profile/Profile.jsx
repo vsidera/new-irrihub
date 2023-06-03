@@ -259,14 +259,7 @@ const Profile = () => {
         sort: false,
       },
     },
-    // {
-    //   name: "device_imei",
-    //   label: "IMEI",
-    //   options: {
-    //     filter: true,
-    //     sort: false,
-    //   },
-    // },
+
     {
       name: "subtopic",
       label: "SUB TOPIC",

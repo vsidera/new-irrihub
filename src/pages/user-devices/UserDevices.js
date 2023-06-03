@@ -53,7 +53,7 @@ const UserDevices = () => {
     
           {clientDevices.map((app, index) => (
            <Link
-           to={`/${app.id}/${app.device_type_id === 1 ? 'smarthome' : app.device_type_id === 2 ? 'smartfarm' : 'smartpan'}`}
+           to={`/${app.id}/${app.device_type_id === 1 ? 'smarthome' : app.device_type_id === 0 ? 'smartfarm' : 'smartpan'}`}
            key={index}
            className="bg-white rounded-lg shadow-md p-4 m-2 w-3/4 sm:w-full h-24 sm:h-32 flex flex-col justify-center items-center"
          >
