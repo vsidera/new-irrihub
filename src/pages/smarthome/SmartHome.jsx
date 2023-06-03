@@ -89,22 +89,23 @@ const SmartFarm = () => {
 
   const [dataState, setDataState] = useState([]);
 
-  const handleStatusChangeAndSwitch = (subtopic) => (event) => {
+  const handleStatusChangeAndSwitch = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;
     const newStatus = isChecked ? "ON" : "OFF";
     const newValue = isChecked ? "1" : "0";
-    const bulb = bulbs.find((bulb) => bulb.subtopic === subtopic);
+    const bulb = bulbs.find((bulb) => bulb.subtopic_code === subtopic_code);
   
     if (bulb.value !== newValue) {
       setBulbs(
-        bulbs.map((b) => (b.subtopic === subtopic ? { ...b, value: newValue } : b))
+        bulbs.map((b) => (b.subtopic_code === subtopic_code ? { ...b, value: newValue } : b))
       );
-  
+
       const cmdBody = {
-        imei: imei,
-        command: subtopic,
+        device_id: parseInt(imei),
+        subtopic_code: subtopic_code,
         value: newValue.toString(),
-      };
+    }
+
       sendCommand(cmdBody)
         .then((res) => {
           if (res.status === 200) {
@@ -150,7 +151,7 @@ const SmartFarm = () => {
           console.log("AN ERROR HAS OCCURED");
         } else {
           setDataState(res.data);
-          const filteredData = res.data.filter(obj => ['b1', 'b2', 'b3', 'b4'].includes(obj.subtopic));
+          const filteredData = res.data.filter(obj => ['b1', 'b2', 'b3', 'b4'].includes(obj.subtopic_code));
           setBulbs(filteredData);
   
          
@@ -179,7 +180,7 @@ const SmartFarm = () => {
     },
 
     {
-      name: "subtopic",
+      name: "subtopic_code",
       label: "SUB TOPIC",
       options: {
         filter: true,
@@ -325,7 +326,7 @@ const SmartFarm = () => {
                   <h4 className="text-lg font-normal mb-2">{bulb.device_imei}</h4>
                   <div className="flex items-center">
                     <p className="mr-4">
-                      SUB TOPIC: <span className="font-medium">{bulb.subtopic}</span>
+                      SUB TOPIC: <span className="font-medium">{bulb.subtopic_code}</span>
                     </p>
                     <div className="flex items-center">
                       <p className="mr-4">
@@ -343,7 +344,7 @@ const SmartFarm = () => {
                       </p>
                       <Switch
                         checked={bulb.value === "1"}
-                        onChange={handleStatusChangeAndSwitch(bulb.subtopic)}
+                        onChange={handleStatusChangeAndSwitch(bulb.subtopic_code)}
                         color="primary"
                         inputProps={{ "aria-label": "toggle bulb status" }}
                       />

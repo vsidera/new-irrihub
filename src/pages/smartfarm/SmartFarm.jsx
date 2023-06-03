@@ -17,8 +17,6 @@ import { Icon } from "@material-ui/core";
 import { Pool, Opacity, Waves } from "@material-ui/icons";
 import GaugeChart from "react-gauge-chart";
 import ValveSlider from "../../components/utils/slider";
-import Thermometer from "../../components/thermometer/thermometer";
-import Visual from "../../components/thermometer/visual";
 import Battery from "../../components/battery/battery";
 import DiscreteSliderMarks from "../../components/thermometer/thermometer";
 import Table from "../../components/table/table";
