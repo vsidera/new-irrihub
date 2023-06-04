@@ -101,13 +101,15 @@ export function contactCreate(formValues) {
       });
   }  
 
-  export function attachDevicetoGroup(formValues) {
+  export function attachDevicetoGroup(attachDetails) {
+
+    console.log("BEHOLD, FROMVALUES!!!!!", attachDetails)
     
-    const attachDevicetoGroupUrl = `${apiUrl.ATTACH_DEVICE_GROUP}/${formValues.user_device_id}/${formValues.group_id}`;
+    const attachDevicetoGroupUrl = `${apiUrl.ATTACH_DEVICE_GROUP}/${attachDetails.user_device_id}/${attachDetails.group_id}`;
     const config = authHeaders();
   
     return axios
-      .post(attachDevicetoGroupUrl, formValues.attachDetails, config)
+      .put(attachDevicetoGroupUrl, config)
       .then((res) => {
       
         if (res.data && res.status === 200) {
@@ -134,45 +136,3 @@ export function contactCreate(formValues) {
       });
   }  
 
-export function contactsUpload(formValues) {
-    console.log("FORMVALUES!!!!!!", formValues)
-    const uploadContactsUrl = `${apiUrl.UPLOAD_CONTACTS}/${formValues.app_id}/upload`;
-    const selectedFile = formValues.data
-    // const config = authHeaders();
-
-    const config = {
-      method: "post",
-      url: uploadContactsUrl,
-      headers: {
-        Authorization: authHeaders(),
-        ...selectedFile.getHeaders(),
-      },
-      data: selectedFile,
-    };
-  
-    return axios(config)
-      .then((res) => {
-      
-        if (res.data && res.status === 200) {
-
-            console.log("THE RESPONSE IS !!!!!!!",res)
-          
-        }
-        return res;
-      })
-      .catch((error) => {
-        if (error.response) {
-        
-          return {
-            errors: {
-              _error: 'The contacts could not be returned.',
-            },
-          };
-        }   
-        return {
-          errors: {
-            _error: 'Network error. Please try again.',
-          },
-        };
-      });
-  }

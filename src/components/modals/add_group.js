@@ -22,7 +22,6 @@ const AddGroupModal = ({
     name: '',
     description: '',
     user_device_id: '',
-    group_id
   });
 
   const handleChange = (e) => {
@@ -43,13 +42,14 @@ const AddGroupModal = ({
 
     const attachDetails = {
         user_device_id: state.user_device_id,
-        group_id: state.group_id,
+        group_id: group_id,
       };
   
 
     const res = groupCreate({newGroup}).then((res) => {
       if (res.status === 201) {
-        attachDevicetoGroup({attachDetails}).then((rez) =>{
+        setGroup_id(res.data.id)
+        attachDevicetoGroup(attachDetails).then((rez) =>{
             if(rez.status === 200){
                 setEventType('success');
                 setEventMessage('Group Successfully Created & Attached');
@@ -129,8 +129,8 @@ const AddGroupModal = ({
                 label="Name"
                 variant="outlined"
                 className="w-full"
-                type="number"
-                value={state.mobile_no}
+                type="text"
+                value={state.name}
                 onChange={handleChange}
               />
             </div>
@@ -142,19 +142,19 @@ const AddGroupModal = ({
                 label="Description"
                 variant="outlined"
                 className="w-full"
-                value={state.firstname}
+                value={state.description}
                 onChange={handleChange}
               />
             </div>
             <div className="my-2">
               <TextField
                 id="outlined-basic"
-                name="device"
+                name="user_device_id"
                 label="Device"
                 variant="outlined"
                 className="w-full"
                 type="number"
-                value={state.device_id}
+                value={state.user_device_id}
                 onChange={handleChange}
               />
             </div>
