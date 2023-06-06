@@ -71,10 +71,10 @@ export function deviceList(formValues) {
     const config = authHeaders();
   
     return axios
-      .put(imeiCreateUrl, config)
+      .put(imeiCreateUrl, imei, config)
       .then((res) => {
       
-        if (res.data && res.status === 201) {
+        if (res.data && res.status === 200) {
 
             console.log("THE RESPONSE IS !!!!!!!",res)
           

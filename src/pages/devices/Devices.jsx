@@ -9,6 +9,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import QueueIcon from '@mui/icons-material/Queue';
 import { deviceList, imeiCreate } from "../../actions/device/deviceAction";
 import AttachCustomerModal from "../../components/modals/attach_customer";
+import SnackbarAlert from "../../components/utils/snackbar";
 
 const getMuiTheme = () =>
   createTheme({
@@ -267,6 +268,13 @@ const Devices = () => {
 
   return (
     <AdminSidebar>
+          <SnackbarAlert
+        open={isSnackBarAlertOpen}
+        type={eventType}
+        message={eventMessage}
+        handleClose={() => setIsSnackBarAlertOpen(false)}
+        title={eventTitle}
+      />
     <AttachCustomerModal attachCustomerModal={attachCustomerModal} closeAttachCustomerModal={closeAttachUserModal} imei={selectedImei}/>
     <CreateDeviceModal deviceModal={deviceModal} closeDeviceModal={closeDeviceModal}/>
     <h1 className="text-2xl text-black mb-6">Devices</h1>
