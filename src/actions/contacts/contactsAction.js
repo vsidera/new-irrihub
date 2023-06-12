@@ -109,7 +109,7 @@ export function contactCreate(formValues) {
     const config = authHeaders();
   
     return axios
-      .put(attachDevicetoGroupUrl, config)
+      .put(attachDevicetoGroupUrl, attachDetails, config)
       .then((res) => {
       
         if (res.data && res.status === 200) {

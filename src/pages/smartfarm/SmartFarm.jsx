@@ -370,10 +370,12 @@ const SmartFarm = () => {
         })
         .catch((err) => console.error(err));
       setTimeout(() => {
-        window.location.reload(); // reload the page after a 2-second delay
+        window.location.reload(); 
       }, 2000);
     }
   };
+
+  console.log("IMEI CODE IS!!!!!!", imei)
 
   const handleModeChangeAndSwitchAutoValve = (subtopic_code) => (event) => {
     const isChecked = event.target.checked;

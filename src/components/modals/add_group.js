@@ -47,8 +47,15 @@ const AddGroupModal = ({
   
 
     const res = groupCreate({newGroup}).then((res) => {
+      setGroup_id(res.data.id)
       if (res.status === 201) {
-        setGroup_id(res.data.id)
+
+        const attachDetails = {
+          user_device_id: state.user_device_id,
+          group_id: res.data.id,
+        };
+        
+        console.log("ATTACH DETAILS ARE!!!!!!", attachDetails)
         attachDevicetoGroup(attachDetails).then((rez) =>{
             if(rez.status === 200){
                 setEventType('success');
@@ -64,7 +71,8 @@ const AddGroupModal = ({
 
             }
         })
-        
+
+      setGroup_id(null)
       } else {
         setEventType('fail');
         setEventMessage('Group NOT Created');
