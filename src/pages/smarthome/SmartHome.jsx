@@ -74,6 +74,7 @@ const SmartFarm = () => {
   const params = useParams();
 
   const imei = params.id
+  const imei_code = params.imei
   const [activeTab, setActiveTab] = useState(0);
 
   const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
@@ -101,7 +102,7 @@ const SmartFarm = () => {
       );
 
       const cmdBody = {
-        device_id: parseInt(imei),
+        imei: imei_code,
         subtopic_code: subtopic_code,
         value: newValue.toString(),
     }
