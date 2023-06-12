@@ -455,7 +455,7 @@ const Profile = () => {
           
             <div className="m-3 mt-8">
 
-            <Accordion >
+            <Accordion defaultExpanded>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="log-tables"
