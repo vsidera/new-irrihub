@@ -26,9 +26,9 @@ function App() {
           <Route path='users' element={<Users/>} />
           <Route path='customers' element={<Customers/>} />
           <Route path='devices' element={<Devices/>} />
-          <Route path=':id/smartfarm' element={<SmartFarm/>} />
-          <Route path=':id/smartpan' element={<SmartPan/>} />
-          <Route path=':id/smarthome' element={<SmartHome/>} />
+          <Route path=':id/smartfarm/:imei' element={<SmartFarm/>} />
+          <Route path=':id/smartpan/:imei' element={<SmartPan/>} />
+          <Route path=':id/smarthome/:imei' element={<SmartHome/>} />
           <Route path=':id/analytics' element={<Analytics/>} />
           <Route path=':id/profile' element={<Profile/>} />
           <Route path='my-devices' element={<UserDevices/>} />

@@ -100,7 +100,10 @@ const SmartFarm = () => {
 
   const params = useParams();
   const imei = params.id;
+  const imei_code = params.imei
   const [isLoaded, setIsLoaded] = useState(false);
+
+  console.log("PARAMS ARE!!!!!!!!!",imei_code)
 
   const [isSnackBarAlertOpen, setIsSnackBarAlertOpen] = useState(false);
   const [eventType, setEventType] = useState("");
@@ -131,7 +134,7 @@ const SmartFarm = () => {
   const handleSetPumpTriggerP = () => {
 
     const cmdBody = {
-      device_id: parseInt(imei),
+      imei: imei_code,
       subtopic_code: "t_d",
       value: tankDepth.toString(),
   }
@@ -313,7 +316,7 @@ const SmartFarm = () => {
       );
 
       const cmdBody = {
-        device_id: parseInt(imei),
+        imei: imei_code,
         subtopic_code: subtopic_code + `${`_s`}`,
         value: newStatus.toString(),
     }
@@ -349,7 +352,7 @@ const SmartFarm = () => {
       );
 
       const cmdBody = {
-        device_id: parseInt(imei),
+        imei: imei_code,
         subtopic_code: subtopic_code + `${`_m`}`,
         value: newMode.toString(),
     }
@@ -370,7 +373,7 @@ const SmartFarm = () => {
         })
         .catch((err) => console.error(err));
       setTimeout(() => {
-        window.location.reload(); 
+        // window.location.reload(); 
       }, 2000);
     }
   };
@@ -390,7 +393,7 @@ const SmartFarm = () => {
       );
 
       const cmdBody = {
-        device_id: parseInt(imei),
+        imei: imei_code,
         subtopic_code: subtopic_code + `${`_m`}`,
         value: newMode.toString(),
     }
@@ -429,7 +432,7 @@ const SmartFarm = () => {
       );
 
       const cmdBody = {
-        device_id: parseInt(imei),
+        imei: imei_code,
         subtopic_code: subtopic_code + `${`_s`}`,
         value: newStatus.toString(),
     }
@@ -466,7 +469,7 @@ const SmartFarm = () => {
       );
 
       const cmdBody = {
-        device_id: parseInt(imei),
+        imei: imei_code,
         subtopic_code: subtopic_code,
         value: newValue.toString(),
     }
@@ -502,7 +505,7 @@ const SmartFarm = () => {
       );
 
       const cmdBody = {
-        device_id: parseInt(imei),
+        imei: imei_code,
         subtopic_code: "p_m",
         value: newMode.toString(),
     }
@@ -540,7 +543,7 @@ const SmartFarm = () => {
   const handleSetPumpTrigger = () => {
 
     const cmdBody = {
-      device_id: parseInt(imei),
+      imei: imei_code,
       subtopic_code: "t_l",
       value: tankValue.toString(),
   }
