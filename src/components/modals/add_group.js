@@ -1,9 +1,10 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
-import { Box, CardContent, TextField } from '@mui/material';
+import { Box, CardContent, TextField, Select, MenuItem } from '@mui/material';
 import SnackbarAlert from "../utils/snackbar";
 import { groupCreate, attachDevicetoGroup } from "../../actions/contacts/contactsAction";
+import { userDevices } from "../../actions/device/deviceAction";
 
 const AddGroupModal = ({
   groupCreateModal,
@@ -24,6 +25,33 @@ const AddGroupModal = ({
     user_device_id: '',
   });
 
+  const [clientDevices, setUserDevices] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const userId = JSON.parse(localStorage.getItem("id"));
+
+  const getUserDevices = () => {
+    userDevices({userId})
+      .then((res) => {
+        if (res.errors) {
+          console.log("AN ERROR HAS OCCURED");
+        } else {
+          setUserDevices(res.data);
+          setIsLoaded(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getUserDevices();
+  }, []);
+
+  console.log("CLIENT DEVICES!!!!!!!", clientDevices)
+
+
   const handleChange = (e) => {
     const value = e.target.value;
     setState({
@@ -39,12 +67,6 @@ const AddGroupModal = ({
       name: state.name,
       description: state.description,
     };
-
-    const attachDetails = {
-        user_device_id: state.user_device_id,
-        group_id: group_id,
-      };
-  
 
     const res = groupCreate({newGroup}).then((res) => {
       setGroup_id(res.data.id)
@@ -155,25 +177,26 @@ const AddGroupModal = ({
               />
             </div>
             <div className="my-2">
-              <TextField
+            <Select
                 id="outlined-basic"
                 name="user_device_id"
                 label="Device"
                 variant="outlined"
                 className="w-full"
-                type="number"
-                value={state.user_device_id}
+                value={state.id}
                 onChange={handleChange}
-              />
+              >
+                {clientDevices.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.imei_code}
+                  </MenuItem>
+                ))}
+              </Select>
             </div>
+            
 
             <button
                     className="bg-blue-900 text-white font-normal py-1.5 px-5 rounded text-[14px] w-full"
-                    style={{
-                      marginTop: "2rem",
-                      alignSelf: "center",
-                      ...(isButtonClicked ? greenButton : {}),
-                    }}
                     onClick={(e) => {
                       handleSubmit(e);
                     }}
